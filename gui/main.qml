@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 
+
 ApplicationWindow {
     id: app
     width: 640
@@ -12,7 +13,7 @@ ApplicationWindow {
     //
     // 'Pointer' to UI object
     //
-    //property UI ui: null
+    property UI ui: null
 
     //
     // Global properties
@@ -38,4 +39,21 @@ ApplicationWindow {
     palette.buttonText: app.foregroundColor
     palette.windowText: app.foregroundColor
     palette.window: app.windowBackgroundColor
+
+
+    //
+    // UI content
+    //
+    Loader {
+        id: loader
+        asynchronous: true
+        anchors.fill: parent
+        sourceComponent: UI {
+            anchors.fill: parent
+            Component.onCompleted: {
+                //app.ui = this
+                app.displayWindow()
+            }
+        }
+    }
 }
