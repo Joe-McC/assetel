@@ -1,14 +1,20 @@
-name: CMake
+#--------------------------------------------------------------------------------
+# Workflow configuration
+#--------------------------------------------------------------------------------
 
+name: Deploy
 on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+  push:               # Run on push
+    paths-ignore:     # File patterns to ignore
+    - '**.md'         # Ignore changes to *.md files
 
-env:
+  pull_request:       # Run on pull-request
+    paths-ignore:     # File-patterns to ignore
+    - '**.md'         # Ignore changes to *.md files
+
+#env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  #BUILD_TYPE: Release
 
 jobs:
   build:
