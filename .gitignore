@@ -1,5 +1,6 @@
 build-gui-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/
 gui/CMakeLists.txt.user
+*_back*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
