@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 
 
 int main(int argc, char *argv[])
@@ -10,6 +11,20 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    //auto utilities = &Misc::Utilities::getInstance();
+
+
+    // Automatically re-translate UI
+    //QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
+    //                 &QQmlApplicationEngine::retranslate);
+
+    // Init QML interface
+    auto c = engine.rootContext();
+    QQuickStyle::setStyle("Fusion");
+    //c->setContextProperty("Cpp_Misc_Utilities", utilities);
+
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
