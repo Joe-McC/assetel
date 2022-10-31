@@ -61,3 +61,5 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(gui)
     qt_finalize_executable(gui)
 endif()
+
+add_subdirectory(misc)

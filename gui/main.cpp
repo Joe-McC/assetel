@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
-
+#include <misc/utilities.h>
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     // Init QML interface
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
-    //c->setContextProperty("Cpp_Misc_Utilities", utilities);
+    c->setContextProperty("Cpp_Misc_Utilities", utilities);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
