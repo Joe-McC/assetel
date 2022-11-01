@@ -1,6 +1,8 @@
+#include <QtQml>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+
 #include <misc/utilities.h>
 
 int main(int argc, char *argv[])
@@ -12,8 +14,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    //auto utilities = &Misc::Utilities::getInstance();
+    auto utilities = &Misc::Utilities::getInstance();
 
+    // Configure dark UI
+    Misc::Utilities::configureDarkUi();
 
     // Automatically re-translate UI
     //QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
