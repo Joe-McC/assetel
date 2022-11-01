@@ -1,7 +1,9 @@
+#include <QtQml>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 
+#include <misc/utilities.h>
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +14,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    //auto utilities = &Misc::Utilities::getInstance();
+    auto utilities = &Misc::Utilities::getInstance();
 
+    // Configure dark UI
+    Misc::Utilities::configureDarkUi();
 
     // Automatically re-translate UI
     //QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
@@ -22,7 +26,7 @@ int main(int argc, char *argv[])
     // Init QML interface
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
-    //c->setContextProperty("Cpp_Misc_Utilities", utilities);
+    c->setContextProperty("Cpp_Misc_Utilities", utilities);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
