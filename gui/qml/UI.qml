@@ -75,7 +75,7 @@ Page {
 
             ComboBox {
                 Layout.alignment: Qt.AlignVCenter
-                model: Cpp_Misc_Translator.availableLanguages
+                //model: Cpp_Misc_Translator.availableLanguages
                 onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
             }
         }
@@ -96,7 +96,7 @@ Page {
         anchors.centerIn: parent
 
         Image {
-            source: Cpp_AppIcon
+            //source: "qml/images/icon.svg" -- add logo here.
             sourceSize: Qt.size(256, 188)
             Layout.alignment: Qt.AlignHCenter
         }
@@ -109,7 +109,7 @@ Page {
             font.bold: true
             font.pixelSize: 24
             Layout.alignment: Qt.AlignHCenter
-            text: qsTr("Hello World")
+            text: qsTr("assetel")
         }
 
         Label {

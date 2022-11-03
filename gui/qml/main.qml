@@ -8,7 +8,7 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("assetel")
 
     //
     // 'Pointer' to UI object
@@ -52,7 +52,7 @@ ApplicationWindow {
             anchors.fill: parent
             Component.onCompleted: {
                 //app.ui = this
-                app.displayWindow()
+                //app.displayWindow()
             }
         }
     }
