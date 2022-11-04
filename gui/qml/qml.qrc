@@ -6,5 +6,6 @@
         <file>icons/close.svg</file>
         <file>icons/update.svg</file>
         <file>icons/website.svg</file>
+        <file>icons/icon.png</file>
     </qresource>
 </RCC>

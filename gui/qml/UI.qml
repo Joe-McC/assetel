@@ -76,7 +76,7 @@ Page {
             ComboBox {
                 Layout.alignment: Qt.AlignVCenter
                 //model: Cpp_Misc_Translator.availableLanguages
-                onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
+                //onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
             }
         }
     }
@@ -96,8 +96,9 @@ Page {
         anchors.centerIn: parent
 
         Image {
-            //source: "qml/images/icon.svg" -- add logo here.
-            sourceSize: Qt.size(256, 188)
+            source: "qrc:/icons/icon.png" //-- add logo here.
+            //sourceSize: Qt.size(app.initWidth, 300)
+            sourceSize: Qt.size(600, 300)
             Layout.alignment: Qt.AlignHCenter
         }
 
