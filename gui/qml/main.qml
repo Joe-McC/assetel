@@ -18,6 +18,7 @@ ApplicationWindow {
     //
     // Global properties
     //
+    //readonly property int initWidth: 1280
     readonly property int spacing: 8
     readonly property color foregroundColor: "#ffffff"
     readonly property color windowBackgroundColor: "#121920"

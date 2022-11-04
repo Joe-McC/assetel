@@ -97,6 +97,10 @@ void Misc::Utilities::aboutQt()
  */
 void Misc::Utilities::openLogFile()
 {
+    /*
+     * STUB
+     *
+    */
     //revealFile(LOG_FILE);
 }
 
