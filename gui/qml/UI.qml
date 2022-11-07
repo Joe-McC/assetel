@@ -106,17 +106,21 @@ Page {
             Layout.minimumHeight: app.spacing
         }
 
-        Label {
-            font.bold: true
-            font.pixelSize: 24
+        Button {
+            icon.color: palette.text
+            Layout.minimumWidth: 156
             Layout.alignment: Qt.AlignHCenter
-            text: qsTr("assetel")
+            //icon.source: "qrc:/icons/newfile.png"
+            text: qsTr("Create New Project")
+            onClicked: Cpp_Misc_Utilities.createProject() //app.close()
         }
-
-        Label {
-            font.pixelSize: 18
+        Button {
+            icon.color: palette.text
+            Layout.minimumWidth: 156
             Layout.alignment: Qt.AlignHCenter
-            text: qsTr("Click on any button")
+            icon.source: "qrc:/icons/openfolder.png"
+            text: qsTr("Open Existing Project")
+            onClicked: Cpp_Misc_Utilities.openProject()
         }
 
         Item {
