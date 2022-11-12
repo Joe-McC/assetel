@@ -7,5 +7,6 @@
         <file>icons/update.svg</file>
         <file>icons/website.svg</file>
         <file>icons/icon.png</file>
+        <file>folderview.qml</file>
     </qresource>
 </RCC>

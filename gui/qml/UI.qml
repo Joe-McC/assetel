@@ -106,13 +106,28 @@ Page {
             Layout.minimumHeight: app.spacing
         }
 
+
+        //Loader{
+        //    id: folderviewloader
+        //    asynchronous: true
+        //    anchors.fill: parent
+        //    active: false
+        //    source: "folderview.qml"
+        //    focus: true
+        //}
+
         Button {
             icon.color: palette.text
             Layout.minimumWidth: 156
             Layout.alignment: Qt.AlignHCenter
             //icon.source: "qrc:/icons/newfile.png"
             text: qsTr("Create New Project")
-            onClicked: Cpp_Misc_Utilities.createProject() //app.close()
+            //onClicked: folderviewloader.source = "folderview.qml"
+            onClicked:{
+                var component = Qt.createComponent("folderview.qml")
+                var window = component.createObject(this)
+                window.show()
+            }
         }
         Button {
             icon.color: palette.text
@@ -120,7 +135,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             icon.source: "qrc:/icons/openfolder.png"
             text: qsTr("Open Existing Project")
-            onClicked: Cpp_Misc_Utilities.openProject()
+            //onClicked: folderviewloader.source = "folderview.qml"
         }
 
         Item {
@@ -146,3 +161,5 @@ Page {
         }
     }
 }
+
+

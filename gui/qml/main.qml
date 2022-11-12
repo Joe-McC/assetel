@@ -14,6 +14,8 @@ ApplicationWindow {
     // 'Pointer' to UI object
     //
     property UI ui: null
+    //property var folderview: null
+    //property alias folderview: folderview
 
     //
     // Global properties
@@ -41,12 +43,11 @@ ApplicationWindow {
     palette.windowText: app.foregroundColor
     palette.window: app.windowBackgroundColor
 
-
     //
     // UI content
     //
     Loader {
-        id: loader
+        id: uiloader
         asynchronous: true
         anchors.fill: parent
         sourceComponent: UI {

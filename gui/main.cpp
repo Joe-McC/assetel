@@ -4,6 +4,7 @@
 #include <QQuickStyle>
 
 #include <misc/utilities.h>
+#include <misc/folderview.h>
 
 int main(int argc, char *argv[])
 {
@@ -23,10 +24,15 @@ int main(int argc, char *argv[])
     //QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
     //                 &QQmlApplicationEngine::retranslate);
 
+
+    FolderView* folderView = new FolderView();
+    folderView->setSandBoxDetails(QDir::currentPath());   //show current path
+
     // Init QML interface
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
+    c->setContextProperty("folderView", folderView);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
