@@ -3,20 +3,27 @@
 
 #include "folderview.h"
 
-FolderView::FolderView(QObject *parent)
+
+/*Misc::FolderView &Misc::FolderView::getInstance()
+{
+    static FolderView instance;
+    return instance;
+}*/
+
+Misc::FolderView::FolderView(QObject *parent)
     :QStandardItemModel(parent)
 {
     rootItem = this->invisibleRootItem();
 }
 
-FolderView::~FolderView()
+Misc::FolderView::~FolderView()
 {
 }
 
 /*
  Folder locations are parsed from the file which are seperated by new lines.
 */
-void FolderView::setSandBoxDetails(QString names)
+void Misc::FolderView::setSandBoxDetails(QString names)
 {
     populateSandBoxes(names.split("\n"));
 }
@@ -24,7 +31,7 @@ void FolderView::setSandBoxDetails(QString names)
 /*
  method to populate the contents of the sandboxes parsed from the file.
 */
-void FolderView::populateSandBoxes(const QStringList &names)
+void Misc::FolderView::populateSandBoxes(const QStringList &names)
 {
     QString name;
     QStandardItem* parent;
@@ -48,7 +55,7 @@ void FolderView::populateSandBoxes(const QStringList &names)
   child->setAccessibleDescription() is used to set the actual path of the item
   which will be useful.
 */
-void FolderView::createDirectoryItem(QString dirName, QStandardItem *parentItem)
+void Misc::FolderView::createDirectoryItem(QString dirName, QStandardItem *parentItem)
 {
     QDir dir(dirName);
     QFileInfoList subFolders;

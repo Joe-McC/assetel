@@ -4,7 +4,7 @@
 #include <QQuickStyle>
 
 #include <misc/utilities.h>
-#include <misc/folderview.h>
+//#include <misc/folderview.h>
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     auto utilities = &Misc::Utilities::getInstance();
+    //auto folderView = &Misc::FolderView::getInstance();
 
     // Configure dark UI
     Misc::Utilities::configureDarkUi();
@@ -25,14 +26,14 @@ int main(int argc, char *argv[])
     //                 &QQmlApplicationEngine::retranslate);
 
 
-    FolderView* folderView = new FolderView();
-    folderView->setSandBoxDetails(QDir::currentPath());   //show current path
+    //Misc::FolderView* folderView = new Misc::FolderView();
+    //folderView->setSandBoxDetails(QDir::currentPath());   //show current path
 
     // Init QML interface
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
-    c->setContextProperty("folderView", folderView);
+    //c->setContextProperty("folderView", folderView);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

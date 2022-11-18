@@ -1,6 +1,9 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 2.15
+import QtQuick //2.15
+import QtQuick.Controls //2.15
+import QtQuick.Layouts //2.15
+import QtQuick.Dialogs
+import Qt.labs.platform
+import QtQuick.Window
 
 Page {
     id: root
@@ -106,7 +109,7 @@ Page {
             Layout.minimumHeight: app.spacing
         }
 
-
+/*
         //Loader{
         //    id: folderviewloader
         //    asynchronous: true
@@ -116,6 +119,40 @@ Page {
         //    focus: true
         //}
 
+        Window {
+            id: openProjectWindow
+            visible: false
+            width: 480
+            height: 480
+            title: qsTr("QML TreeView")
+            OldControls.TreeView {
+                //TableViewColumn {
+                    //role: "display"
+                //}
+                model: folderView
+            }
+        }
+*/
+
+        FileDialog {
+                id: openDialog
+                fileMode: FileDialog.OpenFile
+                selectedNameFilter.index: 1
+                nameFilters: ["Text files (*.txt)", "HTML files (*.html *.htm)", "Markdown files (*.md *.markdown)"]
+                folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+                onAccepted: document.load(selectedFile)
+            }
+
+        /*FileDialog {
+            id: saveDialog
+            fileMode: FileDialog.SaveFile
+            defaultSuffix: document.fileType
+            nameFilters: openDialog.nameFilters
+            selectedNameFilter.index: document.fileType === "txt" ? 0 : 1
+            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            onAccepted: document.saveAs(selectedFile)
+        }*/
+
         Button {
             icon.color: palette.text
             Layout.minimumWidth: 156
@@ -124,9 +161,11 @@ Page {
             text: qsTr("Create New Project")
             //onClicked: folderviewloader.source = "folderview.qml"
             onClicked:{
-                var component = Qt.createComponent("folderview.qml")
-                var window = component.createObject(this)
-                window.show()
+                //var component = Qt.createComponent("folderview.qml")
+                //var window = component.createObject(this)
+                //window.show()
+                //openProjectWindow.show()
+                openDialog.open()
             }
         }
         Button {
