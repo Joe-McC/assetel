@@ -143,15 +143,15 @@ Page {
                 onAccepted: document.load(selectedFile)
             }
 
-        /*FileDialog {
-            id: saveDialog
+        FileDialog {
+            id: createDialog
             fileMode: FileDialog.SaveFile
             defaultSuffix: document.fileType
             nameFilters: openDialog.nameFilters
             selectedNameFilter.index: document.fileType === "txt" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: document.saveAs(selectedFile)
-        }*/
+        }
 
         Button {
             icon.color: palette.text
@@ -175,6 +175,7 @@ Page {
             icon.source: "qrc:/icons/openfolder.png"
             text: qsTr("Open Existing Project")
             //onClicked: folderviewloader.source = "folderview.qml"
+            onClicked: createDialog.open()
         }
 
         Item {
