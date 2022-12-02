@@ -138,7 +138,7 @@ Page {
                 id: openDialog
                 fileMode: FileDialog.OpenFile
                 selectedNameFilter.index: 1
-                nameFilters: ["Text files (*.txt)", "HTML files (*.html *.htm)", "Markdown files (*.md *.markdown)"]
+                nameFilters: ["Text files (*.xml)"]
                 folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
                 onAccepted: document.load(selectedFile)
             }
@@ -148,7 +148,7 @@ Page {
             fileMode: FileDialog.SaveFile
             defaultSuffix: document.fileType
             nameFilters: openDialog.nameFilters
-            selectedNameFilter.index: document.fileType === "txt" ? 0 : 1
+            selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: document.saveAs(selectedFile)
         }
