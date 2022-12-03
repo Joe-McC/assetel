@@ -4,6 +4,7 @@ import QtQuick.Layouts //2.15
 import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
+import QtQml.XmlListModel
 
 Page {
     id: root
@@ -134,14 +135,34 @@ Page {
         }
 */
 
-        FileDialog {
-                id: openDialog
-                fileMode: FileDialog.OpenFile
-                selectedNameFilter.index: 1
-                nameFilters: ["Text files (*.xml)"]
-                folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-                onAccepted: document.load(selectedFile)
+        XmlListModel {
+            id: xmlModel
+            //source: "https://www.qt.io/blog/rss.xml"
+            query: "/documents/document"
+            // ...
+            XmlListModelRole {
+                name: "pages"
+                elementName: "info/num_pages"
             }
+        }
+
+
+        ListView {
+            anchors.fill: parent
+            model: xmlModel
+            delegate:  Text { text: " num pages= " + pages }
+        }
+
+        FileDialog {
+            id: openDialog
+            fileMode: FileDialog.OpenFile
+            selectedNameFilter.index: 1
+            nameFilters: ["Text files (*.xml)"]
+            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            onAccepted: xmlModel.source = currentFile
+        }
+
+
 
         FileDialog {
             id: createDialog
@@ -151,6 +172,7 @@ Page {
             selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: document.saveAs(selectedFile)
+
         }
 
         Button {
@@ -165,7 +187,8 @@ Page {
                 //var window = component.createObject(this)
                 //window.show()
                 //openProjectWindow.show()
-                openDialog.open()
+                //openDialog.open()
+                createDialog.open()
             }
         }
         Button {
@@ -175,7 +198,7 @@ Page {
             icon.source: "qrc:/icons/openfolder.png"
             text: qsTr("Open Existing Project")
             //onClicked: folderviewloader.source = "folderview.qml"
-            onClicked: createDialog.open()
+            onClicked: openDialog.open()
         }
 
         Item {
