@@ -5,6 +5,7 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
+//import "ProjectViewer"
 
 Page {
     id: root
@@ -135,22 +136,12 @@ Page {
         }
 */
 
-        XmlListModel {
-            id: xmlModel
-            //source: "https://www.qt.io/blog/rss.xml"
-            query: "/documents/document"
-            // ...
-            XmlListModelRole {
-                name: "pages"
-                elementName: "info/num_pages"
-            }
-        }
-
-
-        ListView {
+        Loader {
+            id: pageviewerloader
+            visible: false
+            asynchronous: true
             anchors.fill: parent
-            model: xmlModel
-            delegate:  Text { text: " num pages= " + pages }
+            source: "ProjectViewer.qml"
         }
 
         FileDialog {
@@ -159,7 +150,17 @@ Page {
             selectedNameFilter.index: 1
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            onAccepted: xmlModel.source = currentFile
+            onAccepted:{
+                pageviewerloader.visible = true
+                //visible: false
+                root.visible = false
+                pageviewerloader.data.
+                    //visible: true
+                    //xmlModel.source = currentFile
+
+                //ProjectViewer.visible = true
+
+            }
         }
 
 

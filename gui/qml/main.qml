@@ -46,6 +46,9 @@ ApplicationWindow {
     palette.windowText: app.foregroundColor
     palette.window: app.windowBackgroundColor
 
+
+
+
     //
     // UI content
     //
@@ -61,4 +64,6 @@ ApplicationWindow {
             }
         }
     }
+
+
 }
