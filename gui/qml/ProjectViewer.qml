@@ -9,7 +9,7 @@ import QtQml.XmlListModel
 
 Page {
     id: root
-
+    property string xmlSource: ""
     //
     // Toolbar with buttons
     //

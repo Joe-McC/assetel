@@ -136,13 +136,19 @@ Page {
         }
 */
 
-        Loader {
+        /*Loader {
             id: pageviewerloader
             visible: false
             asynchronous: true
             anchors.fill: parent
             source: "ProjectViewer.qml"
-        }
+        }*/
+
+        /*ProjectViewer {
+            id: projectviewer
+            visible: false
+            xmlSource: openDialog.currentFile
+        }*/
 
         FileDialog {
             id: openDialog
@@ -151,15 +157,12 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted:{
-                pageviewerloader.visible = true
-                //visible: false
-                root.visible = false
-                pageviewerloader.data.
-                    //visible: true
-                    //xmlModel.source = currentFile
-
-                //ProjectViewer.visible = true
-
+                //pageviewerloader.xmlSource
+                //pageviewerloader.visible = true
+                //projectviewer.visible = true
+                //root.visible = false
+                xmlSource: currentFile
+                navigate(projectviewerpage)
             }
         }
 

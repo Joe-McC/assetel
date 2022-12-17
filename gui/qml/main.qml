@@ -16,7 +16,9 @@ ApplicationWindow {
     //
     // 'Pointer' to UI object
     //
-    property UI ui: null
+    //property UI ui: null
+    property string xmlSource: ""
+    //property bool projviewer: false
     //property var folderview: null
     //property alias folderview: folderview
 
@@ -49,21 +51,76 @@ ApplicationWindow {
 
 
 
+
+
     //
     // UI content
     //
-    Loader {
-        id: uiloader
-        asynchronous: true
-        anchors.fill: parent
-        sourceComponent: UI {
-            anchors.fill: parent
-            Component.onCompleted: {
-                //app.ui = this
+    //Loader {
+    //    id: uiloader
+    //    asynchronous: true
+    //    anchors.fill: parent
+    //    sourceComponent: UI {
+    //        anchors.fill: parent
+    //        Component.onCompleted: {
+    //            //app.ui = this
                 //app.displayWindow()
-            }
+    //        }
+    //    }
+    //}
+
+    function navigate(page) {
+        //loader.source =  page + ".qml";
+        loader.sourceComponent = page;
+    }
+
+    Component {
+        id: uipage
+        UI {
+            id: ui
+            anchors.fill: parent
         }
     }
+
+    Component {
+        id: projectviewerpage
+        ProjectViewer {
+            id: projectviewer
+            anchors.fill: parent
+            xmlSource: xmlSource
+        }
+    }
+
+
+
+    Loader {
+        id: loader
+        anchors.fill: parent
+        sourceComponent: uipage
+    }
+
+    //
+    // Project Viewer content
+    //
+    //Loader {
+    //    id: projectviwerloader
+    //    anchors.fill: parent
+    //    source: visible ? "ProjectViewer.qml" : ""
+    //}
+
+    //Loader {
+    //    id: projectviwerloader
+    //    visible: false
+    //    asynchronous: true
+    //    anchors.fill: parent
+    //    sourceComponent: ProjectViewer {
+    //        anchors.fill: parent
+    //        Component.onCompleted: {
+    //           //app.ui = this
+    //            //app.displayWindow()
+    //        }
+    //    }
+    //}
 
 
 }
