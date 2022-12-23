@@ -161,7 +161,8 @@ Page {
                 //pageviewerloader.visible = true
                 //projectviewer.visible = true
                 //root.visible = false
-                xmlSource: currentFile
+                app.xmlSource = currentFile
+
                 navigate(projectviewerpage)
             }
         }

@@ -87,7 +87,7 @@ ApplicationWindow {
         ProjectViewer {
             id: projectviewer
             anchors.fill: parent
-            xmlSource: xmlSource
+            //xmlSource: xmlSource
         }
     }
 

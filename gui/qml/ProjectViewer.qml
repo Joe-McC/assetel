@@ -9,7 +9,6 @@ import QtQml.XmlListModel
 
 Page {
     id: root
-    property string xmlSource: ""
     //
     // Toolbar with buttons
     //
@@ -22,6 +21,15 @@ Page {
         Rectangle {
             border.width: 1
             border.color: palette.midlight
+
+
+            Text {
+                text: "TEST"
+            }
+            Text {
+                text: app.xmlSource
+            }
+
 
             gradient: Gradient {
                 GradientStop { position: 0; color: "#21373f" }
@@ -88,6 +96,7 @@ Page {
 
     XmlListModel {
         id: xmlModel
+        source: app.xmlSource
         query: "/documents/document"
         // ...
         XmlListModelRole {
