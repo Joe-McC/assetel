@@ -8,8 +8,8 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     id: app
-    width: 640
-    height: 480
+    width: 2560
+    height: 1600
     visible: true
     title: qsTr("assetel")
 
