@@ -111,45 +111,6 @@ Page {
             Layout.minimumHeight: app.spacing
         }
 
-/*
-        //Loader{
-        //    id: folderviewloader
-        //    asynchronous: true
-        //    anchors.fill: parent
-        //    active: false
-        //    source: "folderview.qml"
-        //    focus: true
-        //}
-
-        Window {
-            id: openProjectWindow
-            visible: false
-            width: 480
-            height: 480
-            title: qsTr("QML TreeView")
-            OldControls.TreeView {
-                //TableViewColumn {
-                    //role: "display"
-                //}
-                model: folderView
-            }
-        }
-*/
-
-        /*Loader {
-            id: pageviewerloader
-            visible: false
-            asynchronous: true
-            anchors.fill: parent
-            source: "ProjectViewer.qml"
-        }*/
-
-        /*ProjectViewer {
-            id: projectviewer
-            visible: false
-            xmlSource: openDialog.currentFile
-        }*/
-
         FileDialog {
             id: openDialog
             fileMode: FileDialog.OpenFile
@@ -157,10 +118,6 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted:{
-                //pageviewerloader.xmlSource
-                //pageviewerloader.visible = true
-                //projectviewer.visible = true
-                //root.visible = false
                 app.xmlSource = currentFile
 
                 navigate(projectviewerpage)
@@ -168,15 +125,20 @@ Page {
         }
 
 
+        // look at https://askubuntu.com/questions/446710/qml-simplest-way-to-write-to-a-text-file
+        MyDocument {
+            id: document
+            //fileType: fileDialog.selectedNameFilter.extensions[0]
+        }
 
         FileDialog {
             id: createDialog
             fileMode: FileDialog.SaveFile
-            defaultSuffix: document.fileType
+            //defaultSuffix: //document.fileType
             nameFilters: openDialog.nameFilters
             selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            onAccepted: document.saveAs(selectedFile)
+            onAccepted: document.write(currentFile, app.xmlcontent)
 
         }
 

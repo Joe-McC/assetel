@@ -94,6 +94,8 @@ Page {
         }
     }
 
+    // WRITE TO XML HERE ALSO
+
     XmlListModel {
         id: xmlModel
         source: app.xmlSource

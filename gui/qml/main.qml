@@ -18,6 +18,7 @@ ApplicationWindow {
     //
     //property UI ui: null
     property string xmlSource: ""
+    property string xmlContent: ""
     //property bool projviewer: false
     //property var folderview: null
     //property alias folderview: folderview

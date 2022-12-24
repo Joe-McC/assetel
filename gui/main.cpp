@@ -4,6 +4,7 @@
 #include <QQuickStyle>
 
 #include <misc/utilities.h>
+#include <misc/mydocument.h>
 //#include <misc/folderview.h>
 
 int main(int argc, char *argv[])
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     auto utilities = &Misc::Utilities::getInstance();
+    //MyDocument::
     //auto folderView = &Misc::FolderView::getInstance();
 
     // Configure dark UI
