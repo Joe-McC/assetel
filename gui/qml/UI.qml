@@ -126,10 +126,10 @@ Page {
 
 
         // look at https://askubuntu.com/questions/446710/qml-simplest-way-to-write-to-a-text-file
-        MyDocument {
+        /*MyDocument {
             id: document
             //fileType: fileDialog.selectedNameFilter.extensions[0]
-        }
+        }*/
 
         FileDialog {
             id: createDialog
@@ -138,7 +138,7 @@ Page {
             nameFilters: openDialog.nameFilters
             selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            onAccepted: document.write(currentFile, app.xmlcontent)
+            onAccepted: Cpp_Misc_My_Document.write(currentFile, "")
 
         }
 

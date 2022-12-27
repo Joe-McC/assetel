@@ -4,8 +4,6 @@ import QtQuick.Controls //2.15
 import QtQuick.Dialogs
 import QtQuick.Layouts
 
-
-
 ApplicationWindow {
     id: app
     width: 2560

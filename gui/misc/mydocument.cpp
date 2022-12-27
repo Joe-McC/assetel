@@ -1,13 +1,23 @@
 #include "mydocument.h"
 
-MyDocument::MyDocument(QObject *parent)
+/*Misc::MyDocument::MyDocument(QObject *parent)
     : QObject{parent}
 {
 
+}*/
+
+/**
+ * Returns the only instance of the class, this is to be used by the QML interface
+ */
+
+Misc::MyDocument &Misc::MyDocument::getInstance()
+{
+    static MyDocument instance;
+    return instance;
 }
 
 
-void MyDocument::write(const QString &filename, const QString &inputXml)
+void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
 {
     QFile file(filename);
     if (file.open(QIODevice::ReadWrite))

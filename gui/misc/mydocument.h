@@ -5,13 +5,16 @@
 #include <QFile>
 #include <QTextStream>
 
+namespace Misc
+{
 class MyDocument : public QObject
 {
     Q_OBJECT
     //Q_PROPERTY???
 
 public:
-    explicit MyDocument(QObject *parent = nullptr);
+    static MyDocument &getInstance();
+    //explicit MyDocument(QObject *parent = nullptr);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
 
@@ -26,5 +29,6 @@ protected:
 
 
 };
-
+}
 #endif // MYDOCUMENT_H
+

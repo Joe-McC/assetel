@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     auto utilities = &Misc::Utilities::getInstance();
+    auto my_document = &Misc::MyDocument::getInstance();
     //MyDocument::
     //auto folderView = &Misc::FolderView::getInstance();
 
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
+    c->setContextProperty("Cpp_Misc_My_Document", my_document);
     //c->setContextProperty("folderView", folderView);
 
 
