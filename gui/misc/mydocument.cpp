@@ -16,14 +16,29 @@ Misc::MyDocument &Misc::MyDocument::getInstance()
     return instance;
 }
 
-
-void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
+/*void Misc::MyDocument::create(const QString &filename)
 {
     QFile file(filename);
     if (file.open(QIODevice::ReadWrite))
     {
         QTextStream stream(&file);
         stream << inputXml << Qt::endl;
+    }
+    return;
+}*/
+
+void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
+{
+    QFile file;
+    file.setFileName(filename);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        stream << inputXml << Qt::endl;
+    }
+    else
+    {
+        qDebug("File not opened!");
     }
     return;
 }

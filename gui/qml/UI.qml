@@ -136,7 +136,7 @@ Page {
             fileMode: FileDialog.SaveFile
             //defaultSuffix: //document.fileType
             nameFilters: openDialog.nameFilters
-            selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
+            //selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: Cpp_Misc_My_Document.write(currentFile, "")
 

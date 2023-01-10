@@ -94,6 +94,31 @@ Page {
         }
     }
 
+
+    /*Rectangle {
+        anchors.left: parent
+        color: "#e6dddd"
+        border.color: "#00bb7b7b"
+        //fillWidth: true
+        //minimumWidth: 50
+        //preferredWidth: 100
+        width:100
+        height: 150
+        //maximumWidth: 300
+        //minimumHeight: 150
+        Text {
+            anchors.centerIn: parent
+            text: parent.width + 'x' + parent.height
+        }
+    }*/
+
+
+
+
+
+    // ---------------------------------------------------------------------------------------------------
+    // XML Section
+
     // WRITE TO XML HERE ALSO
 
     XmlListModel {
@@ -107,11 +132,28 @@ Page {
         }
     }
 
-
-    ListView {
+    Rectangle {
+        anchors.centerIn: parent
+        color: "#e6dddd"
+        border.color: "#00bb7b7b"
+        //fillWidth: true
+        //minimumWidth: 50
+        //preferredWidth: 100
+        width:100
+        height: 150
+        //maximumWidth: 300
+        //minimumHeight: 150
+        ListView {
+            anchors.fill: parent
+            model: xmlModel
+            delegate:  Text { text: " num pages= " + pages }
+        }
+    }
+    // Test
+    /*ListView {
         anchors.fill: parent
         model: xmlModel
         delegate:  Text { text: " num pages= " + pages }
-    }
+    }*/
 
 }
