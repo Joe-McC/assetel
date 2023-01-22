@@ -15,7 +15,7 @@
 //#include <AppInfo.h>
 
 /**
- * Returns the onlt instance of the class, this is to be used by the QML interface
+ * Returns the only instance of the class, this is to be used by the QML interface
  */
 Misc::Utilities &Misc::Utilities::getInstance()
 {
@@ -97,6 +97,10 @@ void Misc::Utilities::aboutQt()
  */
 void Misc::Utilities::openLogFile()
 {
+    /*
+     * STUB
+     *
+    */
     //revealFile(LOG_FILE);
 }
 

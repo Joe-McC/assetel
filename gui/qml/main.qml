@@ -1,23 +1,31 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
+import QtQuick //2.15
+import QtQuick.Window //2.15
+import QtQuick.Controls //2.15
+import QtQuick.Dialogs
+import QtQuick.Layouts
 
 
 ApplicationWindow {
     id: app
-    width: 640
-    height: 480
+    width: 2560
+    height: 1600
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("assetel")
 
     //
     // 'Pointer' to UI object
     //
-    property UI ui: null
+    //property UI ui: null
+    property string xmlSource: ""
+    property string xmlContent: ""
+    //property bool projviewer: false
+    //property var folderview: null
+    //property alias folderview: folderview
 
     //
     // Global properties
     //
+    //readonly property int initWidth: 1280
     readonly property int spacing: 8
     readonly property color foregroundColor: "#ffffff"
     readonly property color windowBackgroundColor: "#121920"
@@ -41,19 +49,78 @@ ApplicationWindow {
     palette.window: app.windowBackgroundColor
 
 
+
+
+
+
     //
     // UI content
     //
-    Loader {
-        id: loader
-        asynchronous: true
-        anchors.fill: parent
-        sourceComponent: UI {
+    //Loader {
+    //    id: uiloader
+    //    asynchronous: true
+    //    anchors.fill: parent
+    //    sourceComponent: UI {
+    //        anchors.fill: parent
+    //        Component.onCompleted: {
+    //            //app.ui = this
+                //app.displayWindow()
+    //        }
+    //    }
+    //}
+
+    function navigate(page) {
+        //loader.source =  page + ".qml";
+        loader.sourceComponent = page;
+    }
+
+    Component {
+        id: uipage
+        UI {
+            id: ui
             anchors.fill: parent
-            Component.onCompleted: {
-                //app.ui = this
-                app.displayWindow()
-            }
         }
     }
+
+    Component {
+        id: projectviewerpage
+        ProjectViewer {
+            id: projectviewer
+            anchors.fill: parent
+            //xmlSource: xmlSource
+        }
+    }
+
+
+
+    Loader {
+        id: loader
+        anchors.fill: parent
+        sourceComponent: uipage
+    }
+
+    //
+    // Project Viewer content
+    //
+    //Loader {
+    //    id: projectviwerloader
+    //    anchors.fill: parent
+    //    source: visible ? "ProjectViewer.qml" : ""
+    //}
+
+    //Loader {
+    //    id: projectviwerloader
+    //    visible: false
+    //    asynchronous: true
+    //    anchors.fill: parent
+    //    sourceComponent: ProjectViewer {
+    //        anchors.fill: parent
+    //        Component.onCompleted: {
+    //           //app.ui = this
+    //            //app.displayWindow()
+    //        }
+    //    }
+    //}
+
+
 }
