@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     auto utilities = &Misc::Utilities::getInstance();
     auto my_document = &Misc::MyDocument::getInstance();
     auto xml_doc = &Misc::XMLWriter::getInstance();
+
     //MyDocument::
     //auto folderView = &Misc::FolderView::getInstance();
 

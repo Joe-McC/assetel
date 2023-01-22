@@ -2,12 +2,16 @@
 #define XMLWRITER_H
 
 #include <QObject>
+#include <qqml.h>
+#include <QtQml/qqmlregistration.h>
 #include <QFile>
 #include <QTextStream>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
+
+
+#include <xmlnode.h>
+#include <xmlelement.h>
+#include <nodeconnector.h>
+
 
 namespace Misc
 {
@@ -15,7 +19,18 @@ class XMLWriter : public QObject
 {
     Q_OBJECT
     //Q_PROPERTY???
+    //Q_PROPERTY(bool isNightMode READ isNightMode WRITE setIsNightMode NOTIFY isNightModeChanged)
+    Q_PROPERTY(float x_pos);
+    Q_PROPERTY(float y_pos);
+    //maybe use template here to set specific param?????
+    //template <class T> void setParamter(T a, int n)
+    //Q_INVOKABLE void setParamter(const QString &nodeName, type);
+    QML_ELEMENT
 
+    //template <typename T> T myMax(T x, T y)
+    //{
+    //    return (x > y) ? x : y;
+    //}
 
     public:
     static XMLWriter &getInstance();
@@ -24,8 +39,8 @@ class XMLWriter : public QObject
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
     Q_INVOKABLE void createNewNode(const QString &nodeName);
 
-    //maybe use template here to set specific param?????
-    Q_INVOKABLE void setParamter(const QString &nodeName, type);
+
+
 
     bool open(const std::string);
     void close();
@@ -45,33 +60,7 @@ protected:
 
 
 
-// An ELement class is used by the Node class to create the pre-define ELements using the attributes set in the QML implementation.
-class Element
-{
-//add new attribute
-    Element();
-    ~Element();
-public:
-    void addChildElement(const std::string &name);
-    Element getParentElement(Element parentName);
-    std::list<Element> getChildElements(Element parentName);
-    void createNewAttribute(const std::string &name);
 
-    void writeOpenTag(const std::string);
-    void writeCloseTag();
-    void writeStartElementTag(const std::string);
-    void writeEndElementTag();
-    void writeAttribute(const std::string);
-    void writeString(const std::string);
-private:
-    std::ofstream outFile;
-    int indent;
-    int openTags;
-    int openElements;
-    std::vector<std::string> tempOpenTag;
-    std::vector<std::string> tempElementTag;
-
-};
 
 
 
@@ -94,8 +83,8 @@ class Connector
     Connector();
     ~Connector();
     public:
-    void setStartNode(Element node);
-    void setEndNode(Element node);
+    void setStartNode(XMLNode node);
+    void setEndNode(XMLNode node);
 
 };
 

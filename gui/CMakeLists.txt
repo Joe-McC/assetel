@@ -62,4 +62,11 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(gui)
 endif()
 
+qt_add_qml_module(gui
+    URI gui
+    VERSION 1.0
+    QML_FILES qml/main.qml
+    SOURCES misc/xmlwriter.h misc/xmlwriter.cpp
+)
+
 add_subdirectory(misc)

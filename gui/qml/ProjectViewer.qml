@@ -5,6 +5,7 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
+import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
 
 
 Page {
@@ -111,7 +112,9 @@ Page {
             text: parent.width + 'x' + parent.height
         }
     }*/
-
+    XMLWriter{
+        id: xmlWriter
+    }
 
 
 
