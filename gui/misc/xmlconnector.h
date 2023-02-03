@@ -1,12 +1,14 @@
-#ifndef XMLNODE_H
-#define XMLNODE_H
+#ifndef XMLCONNECTOR_H
+#define XMLCONNECTOR_H
 
 #include "abstractasseteltem.h"
 
-class XMLNode: public AbstractAsseteltem
+class XMLConnector
 {
 public:
-    XMLNode();
+
+    XMLConnector();
+    ~XMLConnector();
 
     void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
     void remove(std::unique_ptr<AbstractAsseteltem> item );
@@ -14,6 +16,8 @@ public:
     std::unique_ptr<AbstractAsseteltem> getChild(int index);
     std::pair<float, float> getPosition();
     void setPosition();
+
+
 };
 
-#endif // XMLNODE_H
+#endif // XMLCONNECTOR_H

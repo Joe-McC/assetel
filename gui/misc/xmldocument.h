@@ -7,15 +7,9 @@
 #include <QFile>
 #include <QTextStream>
 
-
-#include <xmlnode.h>
-#include <xmlelement.h>
-#include <nodeconnector.h>
-
-
 namespace Misc
 {
-class XMLWriter : public QObject
+class XMLDocument : public QObject
 {
     Q_OBJECT
     //Q_PROPERTY???
@@ -33,7 +27,7 @@ class XMLWriter : public QObject
     //}
 
     public:
-    static XMLWriter &getInstance();
+    static XMLDocument &getInstance();
     //explicit MyDocument(QObject *parent = nullptr);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
@@ -46,60 +40,7 @@ class XMLWriter : public QObject
     void close();
     bool exists(const std::string);
 
-/*Q_SIGNALS:
-    void myDocumentChanged();
-
-protected:
-    QString
-*/
-
 };
-
-
 }
-
-
-
-
-
-
-
-// An Node is a predefine xml structure which is popluated using data from the QML implementation.
-class Node
-{
-//add new attribute
-    Node(QString name);
-    ~Node();
-public:
-    void setPosition(float x, float y);
-    //int getUID(QString name) ?? do we need this??
-    std::pair<float,float> getPosition(QString name);
-
-};
-
-class Connector
-{
-    //add new attribute
-    Connector();
-    ~Connector();
-    public:
-    void setStartNode(XMLNode node);
-    void setEndNode(XMLNode node);
-
-};
-
-
-
-
-/*
-class Attribute
-{
-    Attribute(const std::string &name);
-    ~Attribute();
-    void addValue(const std::string &value);
-    std::string getValue();
-};
-
-*/
 
 #endif // XMLWRITER_H

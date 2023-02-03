@@ -3,15 +3,19 @@
 
 #include <QWidget>
 
-class AbstractAsseteltem : public QWidget
+class AbstractAsseteltem : public QObject
 {
 public:
-    explicit AbstractAsseteltem(QWidget *parent = nullptr);
+    explicit AbstractAsseteltem(QObject *parent = nullptr);
+
+    virtual void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
+    virtual void remove(std::unique_ptr<AbstractAsseteltem> item );
+
+    virtual std::unique_ptr<AbstractAsseteltem> getParent();
+    virtual std::unique_ptr<AbstractAsseteltem> getChild(int index);
 
     virtual std::pair<float, float> getPosition();
     virtual void setPosition();
-    virtual type?? getParent();
-    virtual type?? getChild();
 
 
 signals:
