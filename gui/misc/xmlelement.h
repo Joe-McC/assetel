@@ -14,12 +14,11 @@ class XMLElement: public AbstractAsseteltem
 {
 
 public:
-
-    XMLElement(std::string &name);
-
-    void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
+    XMLElement();
+    void insert(std::unique_ptr<XMLElement> item, int index);
+    //void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
     void remove(std::unique_ptr<AbstractAsseteltem> item );
-    std::unique_ptr<AbstractAsseteltem> getParent();
+    //std::unique_ptr<AbstractAsseteltem> getParent();
     std::unique_ptr<AbstractAsseteltem> getChild(int index);
     std::pair<float, float> getPosition();
     void setPosition();
