@@ -18,19 +18,19 @@ void XMLElement::remove(std::unique_ptr<AbstractAsseteltem> item )
     return std::unique_ptr<AbstractAsseteltem> m_Parent;
 }*/
 
-std::unique_ptr<AbstractAsseteltem> XMLElement::getChild(int index)
+std::shared_ptr<AbstractAsseteltem> XMLElement::getChild(int index)
 {
-
+    return m_ChildList[index];
 }
 
 std::pair<float, float> XMLElement::getPosition()
 {
-
+    return m_Pos;
 }
 
-void XMLElement::setPosition()
+void XMLElement::setPosition(std::pair<float, float> position)
 {
-
+    m_Pos = position;
 }
 
 /*

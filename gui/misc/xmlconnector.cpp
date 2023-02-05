@@ -12,17 +12,18 @@ void XMLConnector::remove(std::unique_ptr<AbstractAsseteltem> item )
 
 //std::unique_ptr<AbstractAsseteltem> getParent();
 
-std::unique_ptr<AbstractAsseteltem>  XMLConnector::getChild(int index)
+// Connectors are leaf components and do not have childrenm return nullptr.
+std::unique_ptr<AbstractAsseteltem> XMLConnector::getChild(int index)
 {
-
+    return nullptr;
 }
 
 std::pair<float, float> XMLConnector::getPosition()
 {
-
+    return m_Pos;
 }
 
-void XMLConnector::setPosition()
+void XMLConnector::setPosition(std::pair<float, float> position)
 {
-
+    m_Pos = position;
 }
