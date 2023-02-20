@@ -3,12 +3,12 @@
 
 //void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
 
-void XMLElement::insert(std::unique_ptr<XMLElement> item, int index)
+void XMLElement::insert(std::shared_ptr<XMLElement> item, int index)
 {
 
 }
 
-void XMLElement::remove(std::unique_ptr<AbstractAsseteltem> item )
+void XMLElement::remove(std::unique_ptr<XMLElement> item )
 {
 
 }
@@ -18,7 +18,7 @@ void XMLElement::remove(std::unique_ptr<AbstractAsseteltem> item )
     return std::unique_ptr<AbstractAsseteltem> m_Parent;
 }*/
 
-std::shared_ptr<AbstractAsseteltem> XMLElement::getChild(int index)
+std::shared_ptr<XMLElement> XMLElement::getChild(int index)
 {
     return m_ChildList[index];
 }

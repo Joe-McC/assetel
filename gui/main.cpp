@@ -4,8 +4,8 @@
 #include <QQuickStyle>
 
 #include <misc/utilities.h>
-#include <misc/mydocument.h>
-#include <misc/xmlwriter.h>
+#include <misc/xmldocument.h>
+//#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
 int main(int argc, char *argv[])
@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     auto utilities = &Misc::Utilities::getInstance();
-    auto my_document = &Misc::MyDocument::getInstance();
-    auto xml_doc = &Misc::XMLWriter::getInstance();
+    auto xmlDocument = &Misc::XMLDocument::getInstance();
+    //auto xml_doc = &Misc::XMLWriter::getInstance();
 
     //MyDocument::
     //auto folderView = &Misc::FolderView::getInstance();
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
-    c->setContextProperty("Cpp_Misc_My_Document", my_document);
+    c->setContextProperty("Cpp_Misc_My_Document", xmlDocument);
     //c->setContextProperty("folderView", folderView);
 
 

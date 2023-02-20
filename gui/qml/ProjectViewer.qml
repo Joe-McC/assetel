@@ -112,9 +112,9 @@ Page {
             text: parent.width + 'x' + parent.height
         }
     }*/
-    XMLWriter{
-        id: xmlWriter
-    }
+    //XMLWriter{
+    //    id: xmlWriter
+    //}
 
 
 

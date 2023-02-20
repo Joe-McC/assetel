@@ -1,5 +1,6 @@
 add_library(misc STATIC
     utilities.cpp
+    abstractasseteltem.h
     xmldocument.h xmldocument.cpp
     xmlelement.h xmlelement.cpp
     xmlconnector.h xmlconnector.cpp

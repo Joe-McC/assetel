@@ -1,22 +1,18 @@
 #include "xmlconnector.h"
-
-void XMLConnector::insert(std::unique_ptr<AbstractAsseteltem> item, int index)
+#include <iostream>
+/*void XMLConnector::insert(std::unique_ptr<AbstractAsseteltem> item, int index)
 {
-
+    // we don't anything here as a XMLConnector is a Leaf Component
+    std::cout << "Cannot insert into leaf component";
 }
 
 void XMLConnector::remove(std::unique_ptr<AbstractAsseteltem> item )
 {
-
-}
+    // we don't anything here as a XMLConnector is a Leaf Component
+    std::cout << "Cannot remove from leaf component";
+}*/
 
 //std::unique_ptr<AbstractAsseteltem> getParent();
-
-// Connectors are leaf components and do not have childrenm return nullptr.
-std::unique_ptr<AbstractAsseteltem> XMLConnector::getChild(int index)
-{
-    return nullptr;
-}
 
 std::pair<float, float> XMLConnector::getPosition()
 {
@@ -27,3 +23,5 @@ void XMLConnector::setPosition(std::pair<float, float> position)
 {
     m_Pos = position;
 }
+
+

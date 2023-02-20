@@ -15,11 +15,11 @@ class XMLElement: public AbstractAsseteltem
 
 public:
     XMLElement();
-    void insert(std::unique_ptr<XMLElement> item, int index) override;
+    void insert(std::shared_ptr<XMLElement> item, int index);
     //void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
-    void remove(std::unique_ptr<AbstractAsseteltem> item ) override;
+    void remove(std::unique_ptr<XMLElement> item);
     //std::unique_ptr<AbstractAsseteltem> getParent();
-    std::shared_ptr<AbstractAsseteltem> getChild(int index) override;
+    std::shared_ptr<XMLElement> getChild(int index);
     std::pair<float, float> getPosition() override;
     void setPosition(std::pair<float, float>) override;
 
@@ -38,7 +38,7 @@ public:
     void writeString(const std::string);
 private:
     std::pair<float, float> m_Pos;
-    std::vector<std::shared_ptr<AbstractAsseteltem>> m_ChildList;
+    std::vector<std::shared_ptr<XMLElement>> m_ChildList;
 
 
     std::ofstream outFile;

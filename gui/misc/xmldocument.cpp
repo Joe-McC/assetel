@@ -1,6 +1,5 @@
 #include "xmldocument.h"
 
-
 /*Misc::MyDocument::MyDocument(QObject *parent)
     : QObject{parent}
 {
@@ -13,7 +12,7 @@
 
 Misc::XMLDocument &Misc::XMLDocument::getInstance()
 {
-    static XMLWriter instance;
+    static XMLDocument instance;
     return instance;
 }
 
@@ -31,6 +30,12 @@ Misc::XMLDocument &Misc::XMLDocument::getInstance()
 void Misc::XMLDocument::write(const QString &filename, const QString &inputXml)
 {
 
+    return;
+}
+
+
+void Misc::XMLDocument::createNewNode(const QString &nodeName)
+{
     return;
 }
 
@@ -71,6 +76,8 @@ bool Misc::XMLDocument::open(const std::string strFile) {
         std::cout << "Error: File alread exists.\n";
         return false;
     }
+
+    //std::ifstream xmlDocument(strFile);
 
     outFile.open(strFile);
     if (outFile.is_open()) {
