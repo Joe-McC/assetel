@@ -18,11 +18,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     auto utilities = &Misc::Utilities::getInstance();
-    auto xmlDocument = &Misc::XMLDocument::getInstance();
-    //auto xml_doc = &Misc::XMLWriter::getInstance();
-
-    //MyDocument::
-    //auto folderView = &Misc::FolderView::getInstance();
+    //auto xmlDocument = &Misc::XMLDocument::getInstance();
 
     // Configure dark UI
     Misc::Utilities::configureDarkUi();
@@ -39,8 +35,8 @@ int main(int argc, char *argv[])
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
-    c->setContextProperty("Cpp_Misc_My_Document", xmlDocument);
-    //c->setContextProperty("folderView", folderView);
+    //c->setContextProperty("Cpp_Misc_My_Document", xmlDocument);
+
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

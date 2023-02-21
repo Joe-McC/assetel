@@ -152,6 +152,11 @@ Page {
             delegate:  Text { text: " num pages= " + pages }
         }
     }
+
+    XMLDocument {
+        id: myXMLDocument
+    }
+
     // Test
     /*ListView {
         anchors.fill: parent
