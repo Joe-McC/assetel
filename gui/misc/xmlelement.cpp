@@ -1,8 +1,43 @@
 #include "xmlelement.h"
 
 
+//void insert(std::unique_ptr<AbstractAsseteltem> item, int index);
+
+void XMLElement::insert(std::shared_ptr<XMLElement> item, int index)
+{
+
+}
+
+void XMLElement::remove(std::unique_ptr<XMLElement> item )
+{
+
+}
+
+/*std::unique_ptr<AbstractAsseteltem> getParent()
+{
+    return std::unique_ptr<AbstractAsseteltem> m_Parent;
+}*/
+
+std::shared_ptr<XMLElement> XMLElement::getChild(int index)
+{
+    return m_ChildList[index];
+}
+
+std::pair<float, float> XMLElement::getPosition()
+{
+    return m_Pos;
+}
+
+void XMLElement::setPosition(std::pair<float, float> position)
+{
+    m_Pos = position;
+}
+
+/*
 void XMLElement::addChildElement(const std::string &name) {
+
     XMLElement newElement(name);
+
 }
 XMLElement XMLElement::getParentElement(XMLElement parentName) {
 
@@ -13,7 +48,7 @@ std::list<XMLElement> XMLElement::getChildElements(XMLElement parentName) {
 }
 void XMLElement::createNewAttribute(const std::string &name) {
 
-}
+}*/
 
 //=============================================================================
 //== Function Name  :   XmlWriter::writeOpenTag

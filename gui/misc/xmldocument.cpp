@@ -1,5 +1,4 @@
-#include "xmlwriter.h"
-
+#include "xmldocument.h"
 
 /*Misc::MyDocument::MyDocument(QObject *parent)
     : QObject{parent}
@@ -11,9 +10,9 @@
  * Returns the only instance of the class, this is to be used by the QML interface
  */
 
-Misc::XMLWriter &Misc::XMLWriter::getInstance()
+Misc::XMLDocument &Misc::XMLDocument::getInstance()
 {
-    static XMLWriter instance;
+    static XMLDocument instance;
     return instance;
 }
 
@@ -28,9 +27,15 @@ Misc::XMLWriter &Misc::XMLWriter::getInstance()
     return;
 }*/
 
-void Misc::XMLWriter::write(const QString &filename, const QString &inputXml)
+void Misc::XMLDocument::write(const QString &filename, const QString &inputXml)
 {
 
+    return;
+}
+
+
+void Misc::XMLDocument::createNewNode(const QString &nodeName)
+{
     return;
 }
 
@@ -47,7 +52,7 @@ void Misc::XMLWriter::write(const QString &filename, const QString &inputXml)
 //== --------------------------------------------------------------------------
 //== This function is used to check if the XML file exists
 //=============================================================================
-bool Misc::XMLWriter::exists(const std::string fileName){
+bool Misc::XMLDocument::exists(const std::string fileName){
     std::fstream checkFile(fileName);
     return checkFile.is_open();
 }
@@ -65,12 +70,14 @@ bool Misc::XMLWriter::exists(const std::string fileName){
 //== This function is used to open the XML file, first checking to see if it
 //== exists first
 //=============================================================================
-bool Misc::XMLWriter::open(const std::string strFile) {
+bool Misc::XMLDocument::open(const std::string strFile) {
 
     if (exists(strFile)){
         std::cout << "Error: File alread exists.\n";
         return false;
     }
+
+    //std::ifstream xmlDocument(strFile);
 
     outFile.open(strFile);
     if (outFile.is_open()) {
@@ -97,7 +104,7 @@ bool Misc::XMLWriter::open(const std::string strFile) {
 //== --------------------------------------------------------------------------
 //== This function is used to close the XML file
 //=============================================================================
-void Misc::XMLWriter::close() {
+void Misc::XMLDocument::close() {
     if (outFile.is_open()) {
         outFile.close();
     }

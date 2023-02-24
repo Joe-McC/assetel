@@ -66,7 +66,7 @@ qt_add_qml_module(gui
     URI gui
     VERSION 1.0
     QML_FILES qml/main.qml
-    SOURCES misc/xmlwriter.h misc/xmlwriter.cpp
+    SOURCES misc/xmldocument.h misc/xmldocument.cpp
 )
 
 add_subdirectory(misc)

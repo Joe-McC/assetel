@@ -112,9 +112,9 @@ Page {
             text: parent.width + 'x' + parent.height
         }
     }*/
-    XMLWriter{
-        id: xmlWriter
-    }
+    //XMLWriter{
+    //    id: xmlWriter
+    //}
 
 
 
@@ -152,6 +152,11 @@ Page {
             delegate:  Text { text: " num pages= " + pages }
         }
     }
+
+    XMLDocument {
+        id: myXMLDocument
+    }
+
     // Test
     /*ListView {
         anchors.fill: parent
