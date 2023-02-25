@@ -155,6 +155,7 @@ Page {
 
     XMLDocument {
         id: myXMLDocument
+        name: "test document"
     }
 
     // Test

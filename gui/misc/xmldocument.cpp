@@ -6,6 +6,18 @@
 
 }*/
 
+QString Misc::XMLDocument::name() const
+{
+    return m_name;
+}
+
+
+void Misc::XMLDocument::setName(const QString &name)
+{
+    m_name = name;
+}
+
+
 /**
  * Returns the only instance of the class, this is to be used by the QML interface
  */

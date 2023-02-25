@@ -19,6 +19,8 @@ class XMLDocument : public QObject
     //Q_PROPERTY(float xPos READ xPos WRITE xPos NOTIFY isXPosChanged)
     //Q_PROPERTY(float yPos READ yPos WRITE yPos NOTIFY isYPosChanged)
 
+    Q_PROPERTY(QString name READ name WRITE setName FINAL)
+
     //maybe use template here to set specific param?????
     //template <class T> void setParamter(T a, int n)
     //Q_INVOKABLE void setParamter(const QString &nodeName, type);
@@ -32,6 +34,8 @@ class XMLDocument : public QObject
 public:
     static XMLDocument &getInstance();
     //explicit MyDocument(QObject *parent = nullptr);
+    QString name() const;
+    void setName(const QString &name);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
     Q_INVOKABLE void createNewNode(const QString &nodeName);
@@ -41,6 +45,7 @@ public:
     bool exists(const std::string);
 
 private:
+    QString m_name;
     std::ofstream outFile;
     int indent;
     int openTags;
