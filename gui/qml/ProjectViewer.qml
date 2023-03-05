@@ -149,7 +149,8 @@ Page {
         ListView {
             anchors.fill: parent
             model: xmlModel
-            delegate:  Text { text: " num pages= " + pages }
+            // delegate:  Text { text: " num pages= " + pages }
+            delegate:  Text { text: myXMLDocument.name }
         }
     }
 
