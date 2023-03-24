@@ -9,7 +9,7 @@ import gui //false positive error: see https://stackoverflow.com/questions/71182
 
 
 Page {
-    id: root
+    id: projectviewer
     //
     // Toolbar with buttons
     //
@@ -95,32 +95,52 @@ Page {
         }
     }
 
-/*
-    function createSpriteObjects() {
-        component = Qt.createComponent("Node.qml");
-        if (component.status == Component.Ready)
-            finishCreation();
-        else
-            component.statusChanged.connect(finishCreation);
-    }
+    Rectangle {
+        anchors {
+            top: parent.top
+            right:  parent.right
+            bottom:  parent.bottom
+        }
+        width: parent.width / 1.25
+        color: "azure"
 
-    function finishCreation() {
-        if (component.status == Component.Ready) {
-            sprite = component.createObject(appWindow, {x: 100, y: 100});
-            if (sprite == null) {
-                // Error Handling
-                console.log("Error creating object");
-            }
-        } else if (component.status == Component.Error) {
-            // Error Handling
-            console.log("Error loading component:", component.errorString());
+        DropArea {
+            anchors.fill: parent
+            onEntered: drag.source.caught = true;
+            onExited: drag.source.caught = false;
         }
     }
 
+
     Button {
+        property string uidStr
+        flat: true
+        icon.width: 24
+        icon.height: 24
+        Layout.fillHeight: true
+        icon.color: "azure"
+        //icon.source: "qrc:/icons/bug.svg"
+        text: qsTr("Create Use Case")
+        onClicked: {
+            uidStr: "test"
+            var component;
+            var sprite;
+            component = Qt.createComponent("Node.qml");
+
+            //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
+
+
+            sprite = component.createObject(projectviewer, {"uid": uidStr})
+            //sprite = component.createObject(projectviewer)
+        }
 
     }
-*/
+
+
+
+
+
+
     /*Rectangle {
         anchors.left: parent
         color: "#e6dddd"
@@ -179,10 +199,10 @@ Page {
         }
     }
 
-    Node {
-        anchors.centerIn: parent
+    //Node {
+        //anchors.centerIn: parent
 
-    }
+    //}
 
 
 

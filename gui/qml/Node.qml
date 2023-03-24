@@ -1,6 +1,7 @@
 import QtQuick
 
 Item {
+    property string uid
     width: parent.width
     height: parent.height
 
@@ -11,17 +12,18 @@ Item {
         z: mouseArea.drag.active ||  mouseArea.pressed ? 2 : 1
         //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
         color: "transparent"
-        x: parent.width / 2 - 100
-        y: parent.height - 100
+        x: 100
+        y:  100
         property point beginDrag
         property bool caught: false
         border { width:2; color: "white" }
         radius: 5
         Drag.active: mouseArea.drag.active
+        //Text: "uid"    -- set this via uid which is determined by C++ function from projectviewer call
 
         //TextInput didn't seem to work without an addition Rectangle component in the level above
         //- possibly to do with the MouseArea and TextInput functionility clashing
-        Rectangle {
+        /*Rectangle {
             property alias text: input.text
             anchors.centerIn: parent
             width: 180
@@ -38,7 +40,7 @@ Item {
                 anchors.centerIn: parent
                 focus: true
             }
-        }
+        }*/
         MouseArea {
             id: mouseArea
             anchors.fill: parent
