@@ -113,7 +113,7 @@ Page {
 
 
     Button {
-        property string uidStr
+        property string uid
         flat: true
         icon.width: 24
         icon.height: 24
@@ -122,15 +122,17 @@ Page {
         //icon.source: "qrc:/icons/bug.svg"
         text: qsTr("Create Use Case")
         onClicked: {
-            uidStr: "test"
+
             var component;
             var sprite;
             component = Qt.createComponent("Node.qml");
-
+            uid: qsTr(Cpp_Misc_My_Document.addNode())
+            console.log("uid: " + uid + ".end");
+            console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
             //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
 
 
-            sprite = component.createObject(projectviewer, {"uid": uidStr})
+            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
             //sprite = component.createObject(projectviewer)
         }
 
