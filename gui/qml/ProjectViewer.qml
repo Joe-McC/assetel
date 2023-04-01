@@ -126,9 +126,9 @@ Page {
             var component;
             var sprite;
             component = Qt.createComponent("Node.qml");
-            uid: qsTr(Cpp_Misc_My_Document.addNode())
-            console.log("uid: " + uid + ".end");
-            console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
+            //uid: qsTr(Cpp_Misc_My_Document.addNode())
+            //console.log("uid: " + uid + ".end");
+            //console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
             //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
 
 

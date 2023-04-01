@@ -64,9 +64,9 @@ Item {
             onReleased: {
                 if(!rect.caught) {
                     backAnimX.from = rect.x;
-                    backAnimX.to = beginDrag.x;
+                    backAnimX.to = rect.beginDrag.x;
                     backAnimY.from = rect.y;
-                    backAnimY.to = beginDrag.y;
+                    backAnimY.to = rect.beginDrag.y;
                     backAnim.start()
                 }
             }

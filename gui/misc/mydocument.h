@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QString>
+#include <iostream>
 #include "xmlnode.h"
 
 namespace Misc
