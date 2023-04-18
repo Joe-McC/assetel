@@ -138,8 +138,31 @@ Page {
 
     }
 
+    Rectangle {
+        id: droparea
+        anchors {
+            top: parent.top
+            right:  parent.right
+            bottom:  parent.bottom
+        }
+        width: parent.width / 1.25
+        color: "azure"
+
+        DropArea {
+            anchors.fill: parent
+            /*onEntered {
+                drag.source.caught: true
+                ld.active: !ld.active
+            }*/
+            onEntered: drag.source.caught = true
+            onExited: drag.source.caught = false;
+        }
+    }
 
 
+    NodeTreeView {
+
+    }
 
 
 

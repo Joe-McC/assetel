@@ -9,5 +9,6 @@
         <file>icons/icon.png</file>
         <file>ProjectViewer.qml</file>
         <file>Node.qml</file>
+        <file>NodeTreeView.qml</file>
     </qresource>
 </RCC>
