@@ -1,46 +1,58 @@
-#ifndef TREEMODEL_H
-#define TREEMODEL_H
+#ifndef QML_TREEVIEW_TREE_MODEL_H
+#define QML_TREEVIEW_TREE_MODEL_H
 
 #include <QAbstractItemModel>
-#include <QModelIndex>
-#include <QVariant>
 
-class TreeItem;
+#include "treeitem.h"
 
-//! [0]
+/*!
+ * Generic Tree Model.
+ */
 class TreeModel : public QAbstractItemModel
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    enum TreeModelRoles
-    {
-        TreeModelRoleName = Qt::UserRole + 1,
-        TreeModelRoleDescription
-    };
+   explicit TreeModel(QObject* parent = nullptr);
+   ~TreeModel() override;
 
-    explicit TreeModel(const QString &data, QObject *parent = 0);
-    ~TreeModel();
+public:
+   int rowCount(const QModelIndex& index) const override;
+   int columnCount(const QModelIndex& index) const override;
 
-    /* QAbstractItemModel interface */
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QHash<int, QByteArray> roleNames() const override;
+   QModelIndex index(int row, int column, const QModelIndex& parent) const override;
+   QModelIndex parent(const QModelIndex& childIndex) const override;
+
+   QVariant data(const QModelIndex& index, int role = 0) const override;
+   bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
+
+public:
+   //! Add an item to the top level.
+   void addTopLevelItem(TreeItem* child);
+
+   //! Add the item child to the parent node.
+   void addItem(TreeItem* parent, TreeItem* child);
+
+   //! Remove the item and all its children.
+   void removeItem(TreeItem* item);
+
+   //! Return the root item.
+   TreeItem* rootItem() const;
+
+   //! Return the root Model Index. Needed for the QML side.
+   Q_INVOKABLE QModelIndex rootIndex();
+
+   //! Return the depth of the item for the selected index.
+   Q_INVOKABLE int depth(const QModelIndex& index) const;
+
+   //! Remove all the elements from the tree.
+   Q_INVOKABLE void clear();
 
 private:
-    QVariant newCustomType(const QString &text, int position);
-    void setupModelData(const QStringList &lines, TreeItem *parent);
+   TreeItem* internalPointer(const QModelIndex& index) const;
 
-    TreeItem *rootItem;
-    QHash<int, QByteArray> m_roleNameMapping;
+private:
+   TreeItem* _rootItem;
 };
-//! [0]
 
-#endif // TREEMODEL_H
+#endif // QML_TREEVIEW_TREE_MODEL_H

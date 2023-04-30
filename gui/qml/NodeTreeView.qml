@@ -1,53 +1,107 @@
-import QtQuick
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.12
+
+import gui
 
 Item {
     id: nodetreeview
-    TreeView {
-        anchors {
-            top: parent.top
-            left: parent.left
-            bottom:  parent.bottom
+
+    ColumnLayout {
+        anchors.fill: parent
+
+
+        TreeView {
+            id: treeView
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            model: treeManipulator.sourceModel()
+            selectionEnabled: true
+
+            onCurrentIndexChanged: if(currentIndex) console.log("current index is (row=" + currentIndex.row + ", depth=" + model.depth(currentIndex) + ")")
+            onCurrentDataChanged: if(currentData) console.log("current data is " + currentData)
+            onCurrentItemChanged: if(currentItem) console.log("current item is " + currentItem)
+
         }
-        width: parent.width - droparea.width
-        height: parent.height / 1.25
-        // The model needs to be a QAbstractItemModel
-        // model: yourTreeModel
 
-        delegate: Item {
-            id: treeDelegate
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            implicitWidth: padding + label.x + label.implicitWidth + padding
-            implicitHeight: label.implicitHeight * 1.5
-
-            readonly property real indent: 20
-            readonly property real padding: 5
-
-            // Assigned to by TreeView:
-            required property TreeView treeView
-            required property bool isTreeNode
-            required property bool expanded
-            required property int hasChildren
-            required property int depth
-
-            TapHandler {
-                onTapped: treeView.toggleExpanded(row)
+            MenuSeparator {
+                Layout.fillWidth: true
             }
 
-            Text {
-                id: indicator
-                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
-                x: padding + (treeDelegate.depth * treeDelegate.indent)
-                anchors.verticalCenter: label.verticalCenter
-                text: "▸"
-                rotation: treeDelegate.expanded ? 90 : 0
+            TextArea {
+                id: txtEdit
+
+                Layout.fillWidth: true
+
+                placeholderText: "Write data to add..."
+
+                function notEmpty() { return text !== ""}
+                function clear() { text = "" }
             }
 
-            Text {
-                id: label
-                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
-                width: treeDelegate.width - treeDelegate.padding - x
-                clip: true
-                text: model.display
+            Row {
+                Layout.margins: 8
+                spacing: 16
+
+                Button {
+                    id: addBtn
+                    text: "Add top level item"
+                    enabled: txtEdit.notEmpty()
+
+                    onClicked: {
+                        treeManipulator.addTopLevelItem(txtEdit.text)
+                        txtEdit.clear()
+                    }
+                }
+
+                Button {
+                    id: addChildBtn
+                    text: "Add child item"
+                    enabled: txtEdit.notEmpty() && treeView.currentItem
+
+                    onClicked: {
+                        treeManipulator.addItem(treeView.currentIndex, txtEdit.text)
+                        txtEdit.clear()
+                    }
+                }
+
+                Button {
+                    id: delBtn
+                    text: "Remove item"
+                    enabled: treeView.currentItem
+
+                    onClicked: {
+                        treeManipulator.removeItem(treeView.currentIndex)
+                    }
+                }
+
+
+                Button {
+                    id: editBtn
+                    text: "Edit item"
+                    enabled: txtEdit.notEmpty() && treeView.currentItem
+
+                    onClicked: {
+                        treeManipulator.editItem(treeView.currentIndex, txtEdit.text)
+                        txtEdit.clear()
+                    }
+                }
+
+                Button {
+                    id: clearBtn
+                    text: "Clear tree"
+
+                    onClicked:  {
+                        treeManipulator.reset();
+                    }
+                }
             }
         }
     }

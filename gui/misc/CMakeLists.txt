@@ -5,8 +5,9 @@ add_library(misc STATIC
     xmlelement.h xmlelement.cpp
     xmlconnector.h xmlconnector.cpp
     xmlnode.h xmlnode.cpp
-    treemodel.h treemodel.cpp
-    treeitem.h treeitem.cpp
+    #treemodel.h treemodel.cpp
+    #treeitem.h treeitem.cpp
+    #treemanipulator.h treemanipulator.cpp
     customtype.h customtype.cpp
 )
 target_link_libraries(misc PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickControls2 Qt${QT_VERSION_MAJOR}::Widgets)

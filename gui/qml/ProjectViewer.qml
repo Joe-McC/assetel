@@ -5,7 +5,7 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
-import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
+//import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
 
 
 Page {
@@ -161,9 +161,56 @@ Page {
 
 
     NodeTreeView {
-
     }
+    /*TreeView {
+        anchors {
+            //top: parent.top
+            left: parent.left
+            bottom:  parent.bottom
+        }
+        width: parent.width - droparea.width
+        height: parent.height / 1.5
+        // The model needs to be a QAbstractItemModel
+        model: Cpp_TreeView_Model
 
+        delegate: Item {
+            id: treeDelegate
+
+            implicitWidth: padding + label.x + label.implicitWidth + padding
+            implicitHeight: label.implicitHeight * 1.5
+
+            readonly property real indent: 20
+            readonly property real padding: 5
+
+            // Assigned to by TreeView:
+            required property TreeView treeView
+            required property bool isTreeNode
+            required property bool expanded
+            required property int hasChildren
+            required property int depth
+
+            TapHandler {
+                onTapped: treeView.toggleExpanded(row)
+            }
+
+            Text {
+                id: indicator
+                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
+                x: padding + (treeDelegate.depth * treeDelegate.indent)
+                anchors.verticalCenter: label.verticalCenter
+                text: "▸"
+                rotation: treeDelegate.expanded ? 90 : 0
+            }
+
+            Text {
+                id: label
+                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
+                width: treeDelegate.width - treeDelegate.padding - x
+                clip: true
+                text: model.display
+            }
+        }
+    }*/
 
 
     /*Rectangle {
@@ -205,7 +252,7 @@ Page {
         }
     }
 
-    Rectangle {
+    /*Rectangle {
         anchors.centerIn: parent
         color: "#e6dddd"
         border.color: "#00bb7b7b"
@@ -222,7 +269,7 @@ Page {
             // delegate:  Text { text: " num pages= " + pages }
             delegate:  Text { text: myXMLDocument.name }
         }
-    }
+    }*/
 
     //Node {
         //anchors.centerIn: parent
@@ -231,10 +278,10 @@ Page {
 
 
 
-    XMLDocument {
+    /*XMLDocument {
         id: myXMLDocument
         name: "test document"
-    }
+    }*/
 
     // Test
     /*ListView {

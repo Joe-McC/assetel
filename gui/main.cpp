@@ -5,6 +5,8 @@
 
 #include <misc/utilities.h>
 #include <misc/mydocument.h>
+#include <misc/treemodel.h>
+#include <misc/treemanipulator.h>
 //#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
@@ -19,6 +21,10 @@ int main(int argc, char *argv[])
 
     auto utilities = &Misc::Utilities::getInstance();
     auto myDocument = &Misc::MyDocument::getInstance();
+
+    auto treeModel = new TreeModel(&engine);
+    auto treeManipulator = new TreeManipulator(*treeModel, &engine);
+
 
     // Configure dark UI
     Misc::Utilities::configureDarkUi();
@@ -36,8 +42,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Fusion");
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
     c->setContextProperty("Cpp_Misc_My_Document", myDocument);
-
-
+    c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

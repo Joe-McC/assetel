@@ -66,7 +66,8 @@ qt_add_qml_module(gui
     URI gui
     VERSION 1.0
     QML_FILES qml/main.qml
-    SOURCES misc/xmldocument.h misc/xmldocument.cpp #misc/abstractasseteltem.h misc/xmlnode.h misc/xmlnode.cpp
+    SOURCES misc/treemodel.h misc/treemodel.cpp misc/treeitem.h misc/treeitem.cpp misc/treemanipulator.h misc/treemanipulator.cpp
+    #SOURCES misc/xmldocument.h misc/xmldocument.cpp #misc/abstractasseteltem.h misc/xmlnode.h misc/xmlnode.cpp
 )
 
 #qt_add_qml_module(xmlElementMod
