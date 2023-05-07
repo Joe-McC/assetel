@@ -1,6 +1,7 @@
 #include "treemanipulator.h"
 #include "treemodel.h"
 #include "treeitem.h"
+#include <iostream>
 
 TreeManipulator::TreeManipulator(TreeModel& model, QObject* parent)
    : QObject(parent),
@@ -15,6 +16,7 @@ QVariant TreeManipulator::sourceModel() const
 
 void TreeManipulator::addTopLevelItem(const QString& data)
 {
+   //std::cout << "addTopLevelItem text: " << data.toStdString() << std::endl;
    _model->addTopLevelItem(new TreeItem(data));
 }
 

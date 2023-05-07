@@ -14,6 +14,7 @@ Page {
     // Toolbar with buttons
     //
     header: ToolBar {
+        id: toolbar
         height: 48
 
         //
@@ -113,6 +114,11 @@ Page {
 
 
     Button {
+        id: createnodebutton
+        anchors {
+            top: toolbar.bottom
+            left:  parent.left
+        }
         property string uid
         flat: true
         icon.width: 24
@@ -161,6 +167,12 @@ Page {
 
 
     NodeTreeView {
+        anchors {
+            //top: parent.
+            top: createnodebutton.bottom
+            left: parent.left
+            bottom:  parent.middle
+        }
     }
     /*TreeView {
         anchors {
@@ -241,7 +253,7 @@ Page {
 
     // WRITE TO XML HERE ALSO
 
-    XmlListModel {
+    /*XmlListModel {
         id: xmlModel
         source: app.xmlSource
         query: "/documents/document"
@@ -250,7 +262,7 @@ Page {
             name: "pages"
             elementName: "info/num_pages"
         }
-    }
+    }*/
 
     /*Rectangle {
         anchors.centerIn: parent

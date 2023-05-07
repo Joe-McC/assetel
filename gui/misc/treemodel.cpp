@@ -1,4 +1,5 @@
 #include "treemodel.h"
+#include <iostream>
 
 TreeModel::TreeModel(QObject* parent)
    : QAbstractItemModel(parent),

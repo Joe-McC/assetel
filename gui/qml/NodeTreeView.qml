@@ -5,8 +5,11 @@ import QtQuick.Layouts 1.12
 
 import gui
 
-Item {
-    id: nodetreeview
+Frame {
+    width: 600
+    height: 400
+    visible: true
+    //title: qsTr("Tree Manipulation")
 
     ColumnLayout {
         anchors.fill: parent
@@ -57,6 +60,7 @@ Item {
 
                     onClicked: {
                         treeManipulator.addTopLevelItem(txtEdit.text)
+                        console.log("addChildBtn clicked");
                         txtEdit.clear()
                     }
                 }
@@ -67,6 +71,7 @@ Item {
                     enabled: txtEdit.notEmpty() && treeView.currentItem
 
                     onClicked: {
+                        console.log("addChildBtn clicked");
                         treeManipulator.addItem(treeView.currentIndex, txtEdit.text)
                         txtEdit.clear()
                     }
