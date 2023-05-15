@@ -28,16 +28,16 @@ public:
 
 public:
    //! Add an item to the top level.
-   void addTopLevelItem(TreeItem* child);
+   void addTopLevelItem(std::shared_ptr<TreeItem> child);
 
    //! Add the item child to the parent node.
-   void addItem(TreeItem* parent, TreeItem* child);
+   void addItem(std::shared_ptr<TreeItem> parent, std::shared_ptr<TreeItem> child);
 
    //! Remove the item and all its children.
-   void removeItem(TreeItem* item);
+   void removeItem(std::shared_ptr<TreeItem> item);
 
    //! Return the root item.
-   TreeItem* rootItem() const;
+   std::shared_ptr<TreeItem> rootItem() const;
 
    //! Return the root Model Index. Needed for the QML side.
    Q_INVOKABLE QModelIndex rootIndex();
@@ -49,10 +49,12 @@ public:
    Q_INVOKABLE void clear();
 
 private:
-   TreeItem* internalPointer(const QModelIndex& index) const;
+   //TreeItem* internalPointer(const QModelIndex& index) const;
+   std::shared_ptr<TreeItem> internalPointer(const QModelIndex& index) const;
 
 private:
-   TreeItem* _rootItem;
+   //TreeItem* _rootItem;
+   std::shared_ptr<TreeItem> _rootItem;
 };
 
 #endif // QML_TREEVIEW_TREE_MODEL_H

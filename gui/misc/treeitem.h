@@ -8,7 +8,7 @@
  * TreeItem can be used to set and retreive information about the node,
  * insertion and removal is meant to be deal by the model.
  */
-class TreeItem
+class TreeItem : public std::enable_shared_from_this<TreeItem>
 {
    friend class TreeModel;
 
@@ -41,18 +41,18 @@ public:
    int depth() const;
 
 private:
-   TreeItem* parentItem();
-   void setParentItem(TreeItem* parentItem);
+   std::shared_ptr<TreeItem> parentItem();
+   void setParentItem(std::shared_ptr<TreeItem>parentItem);
 
-   void appendChild(TreeItem* item);
-   void removeChild(TreeItem* item);
+   void appendChild(std::shared_ptr<TreeItem> item);
+   void removeChild(std::shared_ptr<TreeItem> item);
 
-   TreeItem* child(int row);
+   std::shared_ptr<TreeItem> child(int row);
 
 private:
    QVariant _itemData;
-   TreeItem* _parentItem;
-   QVector<TreeItem*> _childItems;
+   std::shared_ptr<TreeItem> _parentItem;
+   QVector<std::shared_ptr<TreeItem>> _childItems;
 };
 
 #endif // QML_TREEVIEW_TREE_ITEM_H

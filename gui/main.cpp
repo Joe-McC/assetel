@@ -27,14 +27,21 @@ int main(int argc, char *argv[])
     auto treeModel = new TreeModel(&engine);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
-    auto america = new TreeItem("America");
+    /*auto america = new TreeItem("America");
     auto asia = new TreeItem("Asia");
     auto europe = new TreeItem("Europe");
     auto brazil = new TreeItem("Brazil");
     auto canada = new TreeItem("Canada");
     auto italy = new TreeItem("Italy");
-    auto portugal = new TreeItem("Portugal");
+    auto portugal = new TreeItem("Portugal");*/
 
+    auto america = std::make_shared<TreeItem>("America");
+    auto asia = std::make_shared<TreeItem>("Asia");
+    auto europe = std::make_shared<TreeItem>("Europe");
+    auto brazil = std::make_shared<TreeItem>("Brazil");
+    auto canada = std::make_shared<TreeItem>("Canada");
+    auto italy = std::make_shared<TreeItem>("Italy");
+    auto portugal = std::make_shared<TreeItem>("Portugal");
 
     treeModel->addTopLevelItem(america);
     treeModel->addTopLevelItem(asia);

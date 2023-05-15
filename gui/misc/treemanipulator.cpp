@@ -17,7 +17,8 @@ QVariant TreeManipulator::sourceModel() const
 void TreeManipulator::addTopLevelItem(const QString& data)
 {
    //std::cout << "addTopLevelItem text: " << data.toStdString() << std::endl;
-   _model->addTopLevelItem(new TreeItem(data));
+   //_model->addTopLevelItem(new TreeItem(data));
+    _model->addTopLevelItem(std::make_shared<TreeItem>(data));
 }
 
 void TreeManipulator::addItem(const QModelIndex& index, const QString& data)
@@ -26,8 +27,11 @@ void TreeManipulator::addItem(const QModelIndex& index, const QString& data)
       return;
    }
 
+   TreeItem item(data);
    auto parent = static_cast<TreeItem*>(index.internalPointer());
-   _model->addItem(parent, new TreeItem(data));
+   std::shared_ptr<TreeItem> parent_ptr(parent);
+   std::shared_ptr<TreeItem> item_ptr = std::make_shared<TreeItem>(item);
+   _model->addItem(parent_ptr, item_ptr);
 }
 
 void TreeManipulator::removeItem(const QModelIndex& index)
@@ -36,8 +40,9 @@ void TreeManipulator::removeItem(const QModelIndex& index)
       return;
    }
 
-   auto item = static_cast<TreeItem*>(index.internalPointer());
-   _model->removeItem(item);
+   auto item = static_cast<TreeItem*> (index.internalPointer());
+   std::shared_ptr<TreeItem> item_shared(item);
+   _model->removeItem(item_shared);
 }
 
 void TreeManipulator::editItem(const QModelIndex& index, const QString& data)

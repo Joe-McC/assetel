@@ -14,34 +14,34 @@ TreeItem::TreeItem(const QVariant& data)
 
 TreeItem::~TreeItem()
 {
-   qDeleteAll(_childItems);
+   //qDeleteAll(_childItems);
 }
 
-TreeItem* TreeItem::parentItem()
+std::shared_ptr<TreeItem> TreeItem::parentItem()
 {
    return _parentItem;
 }
 
-void TreeItem::setParentItem(TreeItem* parentItem)
+void TreeItem::setParentItem(std::shared_ptr<TreeItem> parentItem)
 {
    _parentItem = parentItem;
 }
 
-void TreeItem::appendChild(TreeItem* item)
+void TreeItem::appendChild(std::shared_ptr<TreeItem> item)
 {
    if(item && !_childItems.contains(item)){
       _childItems.append(item);
    }
 }
 
-void TreeItem::removeChild(TreeItem* item)
+void TreeItem::removeChild(std::shared_ptr<TreeItem> item)
 {
    if(item){
       _childItems.removeAll(item);
    }
 }
 
-TreeItem* TreeItem::child(int row)
+std::shared_ptr<TreeItem> TreeItem::child(int row)
 {
    return _childItems.value(row);
 }
@@ -69,10 +69,12 @@ bool TreeItem::isLeaf() const
 int TreeItem::depth() const
 {
    int depth = 0;
-   TreeItem* anchestor = _parentItem;
-   while(anchestor){
+   //auto ancestor = std::make_shared<TreeItem>(_parentItem);
+   auto ancestor = _parentItem;
+   //TreeItem* anchestor = _parentItem;
+   while(ancestor){
       ++depth;
-      anchestor = anchestor->parentItem();
+      ancestor = ancestor->parentItem();
    }
 
    return depth;
@@ -81,7 +83,9 @@ int TreeItem::depth() const
 int TreeItem::row() const
 {
    if (_parentItem){
-      return _parentItem->_childItems.indexOf(const_cast<TreeItem* >(this));
+      //return _parentItem->_childItems.indexOf(const_cast<TreeItem* >(this));
+      //return _parentItem->_childItems.indexOf(std::make_shared<TreeItem>(this));
+       return _parentItem->_childItems.indexOf(shared_from_this());
    }
 
    return 0;

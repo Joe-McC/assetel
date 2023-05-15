@@ -9,7 +9,7 @@ TreeModel::TreeModel(QObject* parent)
 
 TreeModel::~TreeModel()
 {
-   delete _rootItem;
+   //delete _rootItem;
 }
 
 int TreeModel::rowCount(const QModelIndex& parent) const
@@ -33,13 +33,15 @@ QModelIndex TreeModel::index(const int row, const int column, const QModelIndex&
       return {};
    }
 
-   TreeItem* item = _rootItem;
+   auto item = _rootItem;
+
+   //TreeItem* item = _rootItem;
    if (parent.isValid()){
       item = internalPointer(parent);
    }
 
    if (auto child = item->child(row)){
-      return createIndex(row, column, child);
+      return createIndex(row, column, child.get());
    }
 
    return {};
@@ -51,8 +53,12 @@ QModelIndex TreeModel::parent(const QModelIndex& index) const
       return {};
    }
 
-   TreeItem* childItem = internalPointer(index);
-   TreeItem* parentItem = childItem->parentItem();
+
+   auto childItem = std::make_shared<TreeItem>(index);
+   auto parentItem = childItem->parentItem();
+
+   //TreeItem* childItem = internalPointer(index);
+   //TreeItem* parentItem = childItem->parentItem();
 
    if (!parentItem){
       return {};
@@ -62,7 +68,7 @@ QModelIndex TreeModel::parent(const QModelIndex& index) const
       return {};
    }
 
-   return createIndex(parentItem->row(), 0, parentItem);
+   return createIndex(parentItem->row(), 0, parentItem.get());
 }
 
 QVariant TreeModel::data(const QModelIndex& index, const int role) const
@@ -88,14 +94,16 @@ bool TreeModel::setData(const QModelIndex& index, const QVariant& value, int /*r
    return false;
 }
 
-void TreeModel::addTopLevelItem(TreeItem* child)
+//void TreeModel::addTopLevelItem(TreeItem* child)
+void TreeModel::addTopLevelItem(std::shared_ptr<TreeItem> child)
 {
    if(child){
       addItem(_rootItem, child);
    }
 }
 
-void TreeModel::addItem(TreeItem* parent, TreeItem* child)
+//void TreeModel::addItem(TreeItem* parent, TreeItem* child)
+void TreeModel::addItem(std::shared_ptr<TreeItem> parent, std::shared_ptr<TreeItem> child)
 {
    if(!child || !parent){
       return;
@@ -117,7 +125,7 @@ void TreeModel::addItem(TreeItem* parent, TreeItem* child)
    emit layoutChanged();
 }
 
-void TreeModel::removeItem(TreeItem* item)
+void TreeModel::removeItem(std::shared_ptr<TreeItem> item)
 {
    if(!item){
       return;
@@ -134,7 +142,7 @@ void TreeModel::removeItem(TreeItem* item)
    emit layoutChanged();
 }
 
-TreeItem* TreeModel::rootItem() const
+std::shared_ptr<TreeItem> TreeModel::rootItem() const
 {
    return _rootItem;
 }
@@ -163,13 +171,20 @@ void TreeModel::clear()
 {
    emit layoutAboutToBeChanged();
    beginResetModel();
-   delete _rootItem;
-   _rootItem = new TreeItem();
+   //delete _rootItem;
+   //_rootItem = new TreeItem();
+   _rootItem = std::make_shared<TreeItem>();
    endResetModel();
    emit layoutChanged();
 }
 
-TreeItem* TreeModel::internalPointer(const QModelIndex& index) const
+/*TreeItem* TreeModel::internalPointer(const QModelIndex& index) const
 {
    return static_cast<TreeItem* >(index.internalPointer());
+}*/
+std::shared_ptr<TreeItem> TreeModel::internalPointer(const QModelIndex& index) const
+{
+   auto ptr = reinterpret_cast<TreeItem*>(index.internalPointer());
+   return std::shared_ptr<TreeItem>(ptr, [](TreeItem* item){});
 }
+
