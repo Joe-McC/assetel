@@ -46,8 +46,8 @@ ApplicationWindow {
     palette.text: app.foregroundColor
     palette.buttonText: app.foregroundColor
     palette.windowText: app.foregroundColor
-    palette.window: app.windowBackgroundColor
-
+    //palette.window: app.windowBackgroundColor
+    palette.window: "white"
 
 
 

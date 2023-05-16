@@ -17,6 +17,7 @@ Page {
         id: toolbar
         height: 48
 
+
         //
         // Background gradient
         //
@@ -96,13 +97,28 @@ Page {
         }
     }
 
+
+    NodeTreeView {
+        id: nodetreeview
+        //height: parent.height
+        //width: 600
+        width: 200
+        height: 800
+        anchors {
+            //top: parent.
+            top: createnodebutton.bottom
+            left: parent.left
+            bottom:  parent.middle
+        }
+    }
+
     Rectangle {
         anchors {
             top: parent.top
             right:  parent.right
             bottom:  parent.bottom
         }
-        width: parent.width / 1.25
+        width: parent - nodetreeview.width //parent.width / 1.25
         color: "azure"
 
         DropArea {
@@ -111,6 +127,8 @@ Page {
             onExited: drag.source.caught = false;
         }
     }
+
+
 
 
     Button {
@@ -166,14 +184,7 @@ Page {
     }
 
 
-    NodeTreeView {
-        anchors {
-            //top: parent.
-            top: createnodebutton.bottom
-            left: parent.left
-            bottom:  parent.middle
-        }
-    }
+
     /*TreeView {
         anchors {
             //top: parent.top

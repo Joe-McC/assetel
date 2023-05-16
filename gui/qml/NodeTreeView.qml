@@ -6,8 +6,8 @@ import QtQuick.Layouts 1.12
 import gui
 
 Frame {
-    width: 600
-    height: 400
+    //width: 200
+    //height: 600
     visible: true
     //title: qsTr("Tree Manipulation")
 
@@ -44,14 +44,21 @@ Frame {
                 Layout.fillWidth: true
 
                 placeholderText: "Write data to add..."
-
+                placeholderTextColor: "black"
                 function notEmpty() { return text !== ""}
                 function clear() { text = "" }
+                Text {
+                    text: parent.text
+                    color: "black"
+                    //visible: !textEdit.text
+                }
             }
 
+
+
             Row {
-                Layout.margins: 8
-                spacing: 16
+                Layout.margins: 4
+                spacing: 4
 
                 Button {
                     id: addBtn
