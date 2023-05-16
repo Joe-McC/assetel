@@ -8,5 +8,9 @@
         <file>icons/website.svg</file>
         <file>icons/icon.png</file>
         <file>ProjectViewer.qml</file>
+        <file>Node.qml</file>
+        <file>NodeTreeView.qml</file>
+        <file>TreeView.qml</file>
+        <file>TreeViewItem.qml</file>
     </qresource>
 </RCC>

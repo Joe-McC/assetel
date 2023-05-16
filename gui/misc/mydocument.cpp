@@ -13,6 +13,8 @@
 Misc::MyDocument &Misc::MyDocument::getInstance()
 {
     static MyDocument instance;
+    //int Misc::MyDocument::_uidCount++;
+    //std::map<QString, std::shared_ptr<XMLNode>> Misc::MyDocument::_nodeLookup;
     return instance;
 }
 
@@ -41,4 +43,27 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
         qDebug("File not opened!");
     }
     return;
+}
+
+QString Misc::MyDocument::addNode()
+{
+    Misc::MyDocument::_uidCount++;//  ::_uidCount++;
+    XMLNode node;
+    auto nodePtr = std::make_shared<XMLNode>(node);
+    QString uid = getNewUID();
+    Misc::MyDocument::_nodeLookup.insert(std::pair<QString, std::shared_ptr<XMLNode>>(uid, nodePtr));
+    return uid;
+}
+
+
+QString Misc::MyDocument::getNewUID()
+{
+   std::string uid = std::to_string(_uidCount);
+   const int num = 3;
+
+   if(uid.size() < num)
+   {
+       uid.insert(0, num - uid.size(), '0');
+   }
+   return QString::fromStdString(uid);
 }

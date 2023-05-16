@@ -5,16 +5,18 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
-import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
+//import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
 
 
 Page {
-    id: root
+    id: projectviewer
     //
     // Toolbar with buttons
     //
     header: ToolBar {
+        id: toolbar
         height: 48
+
 
         //
         // Background gradient
@@ -96,6 +98,144 @@ Page {
     }
 
 
+    NodeTreeView {
+        id: nodetreeview
+        //height: parent.height
+        //width: 600
+        width: 200
+        height: 800
+        anchors {
+            //top: parent.
+            top: createnodebutton.bottom
+            left: parent.left
+            bottom:  parent.middle
+        }
+    }
+
+    Rectangle {
+        anchors {
+            top: parent.top
+            right:  parent.right
+            bottom:  parent.bottom
+        }
+        width: parent - nodetreeview.width //parent.width / 1.25
+        color: "azure"
+
+        DropArea {
+            anchors.fill: parent
+            onEntered: drag.source.caught = true;
+            onExited: drag.source.caught = false;
+        }
+    }
+
+
+
+
+    Button {
+        id: createnodebutton
+        anchors {
+            top: toolbar.bottom
+            left:  parent.left
+        }
+        property string uid
+        flat: true
+        icon.width: 24
+        icon.height: 24
+        Layout.fillHeight: true
+        icon.color: "azure"
+        //icon.source: "qrc:/icons/bug.svg"
+        text: qsTr("Create Use Case")
+        onClicked: {
+
+            var component;
+            var sprite;
+            component = Qt.createComponent("Node.qml");
+            //uid: qsTr(Cpp_Misc_My_Document.addNode())
+            //console.log("uid: " + uid + ".end");
+            //console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
+            //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
+
+
+            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+            //sprite = component.createObject(projectviewer)
+        }
+
+    }
+
+    Rectangle {
+        id: droparea
+        anchors {
+            top: parent.top
+            right:  parent.right
+            bottom:  parent.bottom
+        }
+        width: parent.width / 1.25
+        color: "azure"
+
+        DropArea {
+            anchors.fill: parent
+            /*onEntered {
+                drag.source.caught: true
+                ld.active: !ld.active
+            }*/
+            onEntered: drag.source.caught = true
+            onExited: drag.source.caught = false;
+        }
+    }
+
+
+
+    /*TreeView {
+        anchors {
+            //top: parent.top
+            left: parent.left
+            bottom:  parent.bottom
+        }
+        width: parent.width - droparea.width
+        height: parent.height / 1.5
+        // The model needs to be a QAbstractItemModel
+        model: Cpp_TreeView_Model
+
+        delegate: Item {
+            id: treeDelegate
+
+            implicitWidth: padding + label.x + label.implicitWidth + padding
+            implicitHeight: label.implicitHeight * 1.5
+
+            readonly property real indent: 20
+            readonly property real padding: 5
+
+            // Assigned to by TreeView:
+            required property TreeView treeView
+            required property bool isTreeNode
+            required property bool expanded
+            required property int hasChildren
+            required property int depth
+
+            TapHandler {
+                onTapped: treeView.toggleExpanded(row)
+            }
+
+            Text {
+                id: indicator
+                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
+                x: padding + (treeDelegate.depth * treeDelegate.indent)
+                anchors.verticalCenter: label.verticalCenter
+                text: "▸"
+                rotation: treeDelegate.expanded ? 90 : 0
+            }
+
+            Text {
+                id: label
+                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
+                width: treeDelegate.width - treeDelegate.padding - x
+                clip: true
+                text: model.display
+            }
+        }
+    }*/
+
+
     /*Rectangle {
         anchors.left: parent
         color: "#e6dddd"
@@ -124,7 +264,7 @@ Page {
 
     // WRITE TO XML HERE ALSO
 
-    XmlListModel {
+    /*XmlListModel {
         id: xmlModel
         source: app.xmlSource
         query: "/documents/document"
@@ -133,9 +273,9 @@ Page {
             name: "pages"
             elementName: "info/num_pages"
         }
-    }
+    }*/
 
-    Rectangle {
+    /*Rectangle {
         anchors.centerIn: parent
         color: "#e6dddd"
         border.color: "#00bb7b7b"
@@ -149,13 +289,22 @@ Page {
         ListView {
             anchors.fill: parent
             model: xmlModel
-            delegate:  Text { text: " num pages= " + pages }
+            // delegate:  Text { text: " num pages= " + pages }
+            delegate:  Text { text: myXMLDocument.name }
         }
-    }
+    }*/
 
-    XMLDocument {
+    //Node {
+        //anchors.centerIn: parent
+
+    //}
+
+
+
+    /*XMLDocument {
         id: myXMLDocument
-    }
+        name: "test document"
+    }*/
 
     // Test
     /*ListView {
