@@ -48,6 +48,7 @@ Frame {
                 function notEmpty() { return text !== ""}
                 function clear() { text = "" }
                 Text {
+                    anchors.fill: parent
                     text: parent.text
                     color: "black"
                     //visible: !textEdit.text

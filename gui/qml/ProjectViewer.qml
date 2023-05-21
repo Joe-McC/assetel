@@ -50,10 +50,137 @@ Page {
         //
         // Toolbar controls
         //
+
+
+        Menu {
+            id: createnodemenu
+
+            MenuItem {
+                text: qsTr("Create Node")
+                //shortcut: StandardKey.ZoomIn
+                onTriggered: createnodedialog.open()
+                /*onTriggered: {
+                    var component;
+                    var sprite;
+                    component = Qt.createComponent("Node.qml");
+                    sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                    onRejected: console.log("Cancel clicked")
+                }*/
+            }
+
+            /*MenuItem {
+                text: qsTr("Zoom Out")
+                //shortcut: StandardKey.ZoomOut
+                onTriggered: zoomOut()
+            }*/
+        }
+
+
+        Popup {
+            id: createnodedialog
+            palette.text: "black"
+
+            ColumnLayout {
+                anchors.fill: parent
+                CheckBox { text: qsTr("E-mail") }
+                CheckBox { text: qsTr("Calendar") }
+                CheckBox { text: qsTr("Contacts") }
+
+                RowLayout {
+                    Button {
+                        id: okbutton
+                        property string uid
+                        flat: true
+                        icon.width: 24
+                        icon.height: 24
+                        Layout.fillHeight: true
+                        icon.color: "azure"
+                        text: qsTr("Create")
+                        onClicked: {
+                            var component;
+                            var sprite;
+                            component = Qt.createComponent("Node.qml");
+                            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                            createnodedialog.close()
+                        }
+                        background: Rectangle {
+                            implicitWidth: 100
+                            implicitHeight: 40
+                            opacity: enabled ? 1 : 0.3
+                            border.color: control.down ? "#17a81a" : "#21be2b"
+                            border.width: 1
+                            radius: 2
+                            color: "black"  // I update background color by this
+                        }
+                    }
+                    Button {
+                        id: cancelbutton
+                        property string uid
+                        flat: true
+                        icon.width: 24
+                        icon.height: 24
+                        Layout.fillHeight: true
+                        icon.color: "azure"
+                        text: qsTr("Cancel")
+                        onClicked: {
+                            createnodedialog.close()
+                        }
+                        background: Rectangle {
+                            implicitWidth: 100
+                            implicitHeight: 40
+                            opacity: enabled ? 1 : 0.3
+                            border.color: control.down ? "#17a81a" : "#21be2b"
+                            border.width: 1
+                            radius: 2
+                            color: "black"  // I update background color by this
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        /*Dialog {
+            id: createnodedialog
+            title: "Create Node"
+            modal: true
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            onAccepted: {
+                var component;
+                var sprite;
+                component = Qt.createComponent("Node.qml");
+                sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                onRejected: console.log("Cancel clicked")
+            }
+            onRejected: console.log("Cancel clicked")
+        }*/
+
         RowLayout {
             spacing: app.spacing
             anchors.fill: parent
             anchors.margins: app.spacing
+
+
+            Button {
+                id: createnodebutton
+                anchors {
+                    top: toolbar.bottom
+                    left:  parent.left
+                }
+                property string uid
+                flat: true
+                icon.width: 24
+                icon.height: 24
+                Layout.fillHeight: true
+                icon.color: "azure"
+                //icon.source: "qrc:/icons/bug.svg"
+                text: qsTr("Create Use Case")
+                onClicked: {
+                    createnodemenu.open()
+                }
+            }
 
             Button {
                 flat: true
@@ -126,40 +253,6 @@ Page {
             onEntered: drag.source.caught = true;
             onExited: drag.source.caught = false;
         }
-    }
-
-
-
-
-    Button {
-        id: createnodebutton
-        anchors {
-            top: toolbar.bottom
-            left:  parent.left
-        }
-        property string uid
-        flat: true
-        icon.width: 24
-        icon.height: 24
-        Layout.fillHeight: true
-        icon.color: "azure"
-        //icon.source: "qrc:/icons/bug.svg"
-        text: qsTr("Create Use Case")
-        onClicked: {
-
-            var component;
-            var sprite;
-            component = Qt.createComponent("Node.qml");
-            //uid: qsTr(Cpp_Misc_My_Document.addNode())
-            //console.log("uid: " + uid + ".end");
-            //console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
-            //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
-
-
-            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-            //sprite = component.createObject(projectviewer)
-        }
-
     }
 
     Rectangle {
