@@ -76,70 +76,6 @@ Page {
         }
 
 
-        Popup {
-            id: createnodedialog
-            palette.text: "black"
-
-            ColumnLayout {
-                anchors.fill: parent
-                CheckBox { text: qsTr("E-mail") }
-                CheckBox { text: qsTr("Calendar") }
-                CheckBox { text: qsTr("Contacts") }
-
-                RowLayout {
-                    Button {
-                        id: okbutton
-                        property string uid
-                        flat: true
-                        icon.width: 24
-                        icon.height: 24
-                        Layout.fillHeight: true
-                        icon.color: "azure"
-                        text: qsTr("Create")
-                        onClicked: {
-                            var component;
-                            var sprite;
-                            component = Qt.createComponent("Node.qml");
-                            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-                            createnodedialog.close()
-                        }
-                        background: Rectangle {
-                            implicitWidth: 100
-                            implicitHeight: 40
-                            opacity: enabled ? 1 : 0.3
-                            border.color: control.down ? "#17a81a" : "#21be2b"
-                            border.width: 1
-                            radius: 2
-                            color: "black"  // I update background color by this
-                        }
-                    }
-                    Button {
-                        id: cancelbutton
-                        property string uid
-                        flat: true
-                        icon.width: 24
-                        icon.height: 24
-                        Layout.fillHeight: true
-                        icon.color: "azure"
-                        text: qsTr("Cancel")
-                        onClicked: {
-                            createnodedialog.close()
-                        }
-                        background: Rectangle {
-                            implicitWidth: 100
-                            implicitHeight: 40
-                            opacity: enabled ? 1 : 0.3
-                            border.color: control.down ? "#17a81a" : "#21be2b"
-                            border.width: 1
-                            radius: 2
-                            color: "black"  // I update background color by this
-                        }
-                    }
-                }
-
-
-            }
-        }
 
         /*Dialog {
             id: createnodedialog
@@ -225,6 +161,88 @@ Page {
     }
 
 
+    Popup {
+        id: createnodedialog
+        palette.text: "black"
+        anchors.centerIn: parent
+
+        ColumnLayout {
+            anchors.fill: parent
+
+            RowLayout {
+                Text {
+                    id: label
+                    text: qsTr("Node:")
+                }
+                Rectangle {
+                    x: 200
+                    y: 1000
+                    color: "black"
+                    TextArea {
+                        text: "TextArea\n...\n...\n...\n...\n...\n...\n"
+                    }
+                    /*ScrollView {
+                        id: textinputview
+                        //anchors.fill: parent
+                    }*/
+                }
+
+
+            }
+
+            RowLayout {
+                Button {
+                    id: okbutton
+                    property string uid
+                    flat: true
+                    icon.width: 24
+                    icon.height: 24
+                    Layout.fillHeight: true
+                    icon.color: "azure"
+                    text: qsTr("Create")
+                    onClicked: {
+                        var component;
+                        var sprite;
+                        component = Qt.createComponent("Node.qml");
+                        sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                        createnodedialog.close()
+                    }
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        opacity: enabled ? 1 : 0.3
+                        border.color: okbutton.down ? "#17a81a" : "#21be2b"
+                        border.width: 1
+                        radius: 2
+                        color: "black"  // I update background color by this
+                    }
+                }
+                Button {
+                    id: cancelbutton
+                    property string uid
+                    flat: true
+                    icon.width: 24
+                    icon.height: 24
+                    Layout.fillHeight: true
+                    icon.color: "azure"
+                    text: qsTr("Cancel")
+                    onClicked: {
+                        createnodedialog.close()
+                    }
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        opacity: enabled ? 1 : 0.3
+                        border.color: okbutton.down ? "#17a81a" : "#21be2b"
+                        border.width: 1
+                        radius: 2
+                        color: "black"  // I update background color by this
+                    }
+                }
+            }
+        }
+    }
+
     NodeTreeView {
         id: nodetreeview
         //height: parent.height
@@ -232,8 +250,8 @@ Page {
         width: 200
         height: 800
         anchors {
-            //top: parent.
-            top: createnodebutton.bottom
+            top: parent.top - 100
+            //top: createnodebutton.bottom
             left: parent.left
             bottom:  parent.middle
         }
