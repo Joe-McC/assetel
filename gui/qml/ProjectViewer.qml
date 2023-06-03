@@ -174,20 +174,41 @@ Page {
                     id: label
                     text: qsTr("Node:")
                 }
-                Rectangle {
+                /*Rectangle {
                     x: 200
                     y: 1000
                     color: "black"
-                    TextArea {
-                        text: "TextArea\n...\n...\n...\n...\n...\n...\n"
-                    }
+
                     /*ScrollView {
                         id: textinputview
                         //anchors.fill: parent
-                    }*/
+                    }
+                }*/
+                Item {
+                    width: 300
+                    height: 200
+
+                    ScrollView {
+                        anchors.fill: parent
+
+                        Rectangle {
+                            color: "transparent"
+                            border.color: "black"
+                            border.width: 2
+                            radius: 5
+                            anchors.fill: parent
+
+                            TextArea {
+                                id: textInput
+                                wrapMode: TextArea.Wrap
+                                placeholderText: "Enter your text here..."
+                                width: parent.width
+                                height: contentHeight
+                                color: "black" // Set text color to white for contrast
+                            }
+                        }
+                    }
                 }
-
-
             }
 
             RowLayout {
