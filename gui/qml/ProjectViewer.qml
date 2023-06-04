@@ -174,16 +174,7 @@ Page {
                     id: label
                     text: qsTr("Node:")
                 }
-                /*Rectangle {
-                    x: 200
-                    y: 1000
-                    color: "black"
 
-                    /*ScrollView {
-                        id: textinputview
-                        //anchors.fill: parent
-                    }
-                }*/
                 Item {
                     width: 300
                     height: 200
@@ -198,14 +189,34 @@ Page {
                             radius: 5
                             anchors.fill: parent
 
-                            TextArea {
-                                id: textInput
-                                wrapMode: TextArea.Wrap
-                                placeholderText: "Enter your text here..."
-                                width: parent.width
-                                height: contentHeight
-                                color: "black" // Set text color to white for contrast
-                            }
+                            FocusScope {
+                               anchors.fill: parent
+
+                               TextArea {
+                                   id: textInput
+                                   inputMethodHints: Qt.ImhSensitiveData
+                                   wrapMode: TextArea.Wrap
+                                   placeholderText: "Enter your text here..."
+                                   width: parent.width
+                                   height: contentHeight
+                                   color: "white"
+                                   background: Rectangle {
+                                       color: "transparent"
+                                   }
+
+                                   onActiveFocusChanged: {
+                                       if (activeFocus)
+                                           textInput.selectAll()
+                                   }
+                               }
+
+                               Text {
+                                   //anchors.top: textInput.bottom
+                                   text: textInput.text
+                                   leftPadding: 10
+                                   topPadding: 5
+                               }
+                           }
                         }
                     }
                 }
@@ -227,6 +238,7 @@ Page {
                         component = Qt.createComponent("Node.qml");
                         sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
                         createnodedialog.close()
+                        textInput.text = "" // Clear the text
                     }
                     background: Rectangle {
                         implicitWidth: 100
@@ -249,6 +261,7 @@ Page {
                     text: qsTr("Cancel")
                     onClicked: {
                         createnodedialog.close()
+                        textInput.text = "" // Clear the text
                     }
                     background: Rectangle {
                         implicitWidth: 100
