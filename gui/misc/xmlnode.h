@@ -1,32 +1,25 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef XMLNODE_H
+#define XMLNODE_H
 
 #include <QObject>
 #include <qqml.h>
 #include <QtQml/qqmlregistration.h>
 #include <xmlelement.h>
 
-class XMLNode//: public QObject
+
+namespace Misc
+{
+
+class XMLNode
 {
 public:
     XMLNode();
 
-    //Q_OBJECT
-
-    //Q_PROPERTY(float x READ x WRITE)
-    //Q_PROPERTY(float y READ y WRITE)
-
-    //QML_ELEMENT
-
-    //void addElement(QString name);
-    //std::pair<float, float> getPosition();
-    //void setPosition(std::pair<float, float>);
-
-
+    void addNodeText(const QString &nodeText);
 
 private:
-    //std::pair<float, float> m_Pos;
-    //std::vector<std::shared_ptr<QObject>> m_ChildList;
+
 };
 
-#endif // TEST_H
+}
+#endif // XMLNODE_H

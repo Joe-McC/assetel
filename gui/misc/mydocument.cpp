@@ -45,14 +45,17 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
     return;
 }
 
-QString Misc::MyDocument::addNode()
+
+QString Misc::MyDocument::addNode(const QString &nodeText)
 {
     Misc::MyDocument::_uidCount++;//  ::_uidCount++;
-    XMLNode node;
-    auto nodePtr = std::make_shared<XMLNode>(node);
+    Misc::XMLNode node;
+    auto nodePtr = std::make_shared<Misc::XMLNode>(node);
     QString uid = getNewUID();
-    Misc::MyDocument::_nodeLookup.insert(std::pair<QString, std::shared_ptr<XMLNode>>(uid, nodePtr));
-    return uid;
+    Misc::MyDocument::_nodeLookup.insert(std::pair<QString, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+
+    node.addNodeText(nodeText);
+    return nodeText;
 }
 
 

@@ -17,7 +17,6 @@ Page {
         id: toolbar
         height: 48
 
-
         //
         // Background gradient
         //
@@ -25,14 +24,12 @@ Page {
             border.width: 1
             border.color: palette.midlight
 
-
             Text {
                 text: "TEST"
             }
             Text {
                 text: app.xmlSource
             }
-
 
             gradient: Gradient {
                 GradientStop { position: 0; color: "#21373f" }
@@ -51,7 +48,6 @@ Page {
         // Toolbar controls
         //
 
-
         Menu {
             id: createnodemenu
 
@@ -59,45 +55,13 @@ Page {
                 text: qsTr("Create Node")
                 //shortcut: StandardKey.ZoomIn
                 onTriggered: createnodedialog.open()
-                /*onTriggered: {
-                    var component;
-                    var sprite;
-                    component = Qt.createComponent("Node.qml");
-                    sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-                    onRejected: console.log("Cancel clicked")
-                }*/
             }
-
-            /*MenuItem {
-                text: qsTr("Zoom Out")
-                //shortcut: StandardKey.ZoomOut
-                onTriggered: zoomOut()
-            }*/
         }
-
-
-
-        /*Dialog {
-            id: createnodedialog
-            title: "Create Node"
-            modal: true
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            onAccepted: {
-                var component;
-                var sprite;
-                component = Qt.createComponent("Node.qml");
-                sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-                onRejected: console.log("Cancel clicked")
-            }
-            onRejected: console.log("Cancel clicked")
-        }*/
 
         RowLayout {
             spacing: app.spacing
             anchors.fill: parent
             anchors.margins: app.spacing
-
 
             Button {
                 id: createnodebutton
@@ -236,7 +200,8 @@ Page {
                         var component;
                         var sprite;
                         component = Qt.createComponent("Node.qml");
-                        sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                        //sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                        sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode(textInput.text))})
                         createnodedialog.close()
                         textInput.text = "" // Clear the text
                     }
@@ -327,135 +292,5 @@ Page {
             onExited: drag.source.caught = false;
         }
     }
-
-
-
-    /*TreeView {
-        anchors {
-            //top: parent.top
-            left: parent.left
-            bottom:  parent.bottom
-        }
-        width: parent.width - droparea.width
-        height: parent.height / 1.5
-        // The model needs to be a QAbstractItemModel
-        model: Cpp_TreeView_Model
-
-        delegate: Item {
-            id: treeDelegate
-
-            implicitWidth: padding + label.x + label.implicitWidth + padding
-            implicitHeight: label.implicitHeight * 1.5
-
-            readonly property real indent: 20
-            readonly property real padding: 5
-
-            // Assigned to by TreeView:
-            required property TreeView treeView
-            required property bool isTreeNode
-            required property bool expanded
-            required property int hasChildren
-            required property int depth
-
-            TapHandler {
-                onTapped: treeView.toggleExpanded(row)
-            }
-
-            Text {
-                id: indicator
-                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
-                x: padding + (treeDelegate.depth * treeDelegate.indent)
-                anchors.verticalCenter: label.verticalCenter
-                text: "▸"
-                rotation: treeDelegate.expanded ? 90 : 0
-            }
-
-            Text {
-                id: label
-                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
-                width: treeDelegate.width - treeDelegate.padding - x
-                clip: true
-                text: model.display
-            }
-        }
-    }*/
-
-
-    /*Rectangle {
-        anchors.left: parent
-        color: "#e6dddd"
-        border.color: "#00bb7b7b"
-        //fillWidth: true
-        //minimumWidth: 50
-        //preferredWidth: 100
-        width:100
-        height: 150
-        //maximumWidth: 300
-        //minimumHeight: 150
-        Text {
-            anchors.centerIn: parent
-            text: parent.width + 'x' + parent.height
-        }
-    }*/
-    //XMLWriter{
-    //    id: xmlWriter
-    //}
-
-
-
-
-    // ---------------------------------------------------------------------------------------------------
-    // XML Section
-
-    // WRITE TO XML HERE ALSO
-
-    /*XmlListModel {
-        id: xmlModel
-        source: app.xmlSource
-        query: "/documents/document"
-        // ...
-        XmlListModelRole {
-            name: "pages"
-            elementName: "info/num_pages"
-        }
-    }*/
-
-    /*Rectangle {
-        anchors.centerIn: parent
-        color: "#e6dddd"
-        border.color: "#00bb7b7b"
-        //fillWidth: true
-        //minimumWidth: 50
-        //preferredWidth: 100
-        width:100
-        height: 150
-        //maximumWidth: 300
-        //minimumHeight: 150
-        ListView {
-            anchors.fill: parent
-            model: xmlModel
-            // delegate:  Text { text: " num pages= " + pages }
-            delegate:  Text { text: myXMLDocument.name }
-        }
-    }*/
-
-    //Node {
-        //anchors.centerIn: parent
-
-    //}
-
-
-
-    /*XMLDocument {
-        id: myXMLDocument
-        name: "test document"
-    }*/
-
-    // Test
-    /*ListView {
-        anchors.fill: parent
-        model: xmlModel
-        delegate:  Text { text: " num pages= " + pages }
-    }*/
 
 }

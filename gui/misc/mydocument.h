@@ -11,7 +11,6 @@
 namespace Misc
 {
 
-
 class MyDocument : public QObject
 {
     Q_OBJECT
@@ -22,7 +21,7 @@ public:
     //explicit MyDocument(QObject *parent = nullptr);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
-    Q_INVOKABLE QString addNode();
+    Q_INVOKABLE QString addNode(const QString &nodeText);
 
 /*Q_SIGNALS:
     void myDocumentChanged();
