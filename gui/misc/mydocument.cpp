@@ -55,7 +55,7 @@ QString Misc::MyDocument::addNode(const QString &nodeText)
     Misc::MyDocument::_nodeLookup.insert(std::pair<QString, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
 
     node.addNodeText(nodeText);
-    return nodeText;
+    return uid;
 }
 
 

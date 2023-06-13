@@ -1,18 +1,23 @@
-import QtQuick
+import QtQuick //2.15
+import QtQuick.Controls //2.15
+import QtQuick.Layouts //2.15
+import QtQuick.Dialogs
 
 Item {
     id: node
     property string uid
+    property string nodetext
     //width: parent.width
     //height: parent.height
 
     Rectangle {
         //console.log(uid);
 
-        id: rect
+        id: nodedialog
         property string uid: node.uid
-        width: 50
-        height: 28
+        property string nodetext: node.nodetext
+        width: 500
+        height: 280
         z: mouseArea.drag.active ||  mouseArea.pressed ? 2 : 1
         //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
         //color: "transparent"
@@ -24,26 +29,36 @@ Item {
         radius: 5
         Drag.active: mouseArea.drag.active
 
-        //Text: "uid"    -- set this via uid which is determined by C++ function from projectviewer call
-        Text {
-            anchors.fill:parent
-            anchors.centerIn: parent
-            id: myText
-            //color: "white"
-            font.family: "Helvetica"
-            font.pointSize: 12
-            text:  qsTr(rect.uid)
+        ColumnLayout {
+            anchors.fill: parent
+
+            RowLayout {
+                Text {
+                    id: label
+                    text: qsTr("Node UID:")
+                }
+                Text{
+                    anchors.fill:parent
+                    anchors.centerIn: parent
+                    id: myText
+                    //color: "white"
+                    font.family: "Helvetica"
+                    font.pointSize: 12
+                    text:  qsTr(nodedialog.uid)
+                }
+            }
         }
+
 
         MouseArea {
             id: mouseArea
             anchors.fill: parent
             drag.target: parent
             onPressed: {
-                rect.beginDrag = Qt.point(rect.x, rect.y);
+                nodedialog.beginDrag = Qt.point(rect.x, rect.y);
             }
             onReleased: {
-                if(!rect.caught) {
+                if(!nodedialog.caught) {
                     backAnimX.from = rect.x;
                     backAnimX.to = rect.beginDrag.x;
                     backAnimY.from = rect.y;
@@ -54,8 +69,8 @@ Item {
         }
         ParallelAnimation {
             id: backAnim
-            SpringAnimation { id: backAnimX; target: rect; property: "x"; duration: 500; spring: 2; damping: 0.2 }
-            SpringAnimation { id: backAnimY; target: rect; property: "y"; duration: 500; spring: 2; damping: 0.2 }
+            SpringAnimation { id: backAnimX; target: nodedialog; property: "x"; duration: 500; spring: 2; damping: 0.2 }
+            SpringAnimation { id: backAnimY; target: nodedialog; property: "y"; duration: 500; spring: 2; damping: 0.2 }
         }
     }
 

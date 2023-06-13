@@ -200,8 +200,11 @@ Page {
                         var component;
                         var sprite;
                         component = Qt.createComponent("Node.qml");
+                        var uid = qsTr(Cpp_Misc_My_Document.addNode(textInput.text));
                         //sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-                        sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode(textInput.text))})
+                        sprite = component.createObject(projectviewer, {"uid": uid})
+                        sprite.nodetext = textInput.text;
+
                         createnodedialog.close()
                         textInput.text = "" // Clear the text
                     }
@@ -292,5 +295,4 @@ Page {
             onExited: drag.source.caught = false;
         }
     }
-
 }
