@@ -16,7 +16,7 @@ public:
     XMLNode();
 
     void addNodeText(const QString &nodeText);
-
+    void addChild(const QString &nodeText);
 private:
 
 };

@@ -16,7 +16,6 @@ public:
    explicit TreeModel(QObject* parent = nullptr);
    ~TreeModel() override;
 
-public:
    int rowCount(const QModelIndex& index) const override;
    int columnCount(const QModelIndex& index) const override;
 
@@ -26,7 +25,6 @@ public:
    QVariant data(const QModelIndex& index, int role = 0) const override;
    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
 
-public:
    //! Add an item to the top level.
    void addTopLevelItem(std::shared_ptr<TreeItem> child);
 
@@ -48,11 +46,15 @@ public:
    //! Remove all the elements from the tree.
    Q_INVOKABLE void clear();
 
+public slots:
+
+   void handleTopLevelNodeAdded(const int &nodeId);
+   void handleChildNodeAdded(const int &nodeId, const int &parentNodeId);
+
 private:
    //TreeItem* internalPointer(const QModelIndex& index) const;
    std::shared_ptr<TreeItem> internalPointer(const QModelIndex& index) const;
 
-private:
    //TreeItem* _rootItem;
    std::shared_ptr<TreeItem> _rootItem;
 };

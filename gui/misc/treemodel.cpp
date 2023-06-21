@@ -1,10 +1,15 @@
 #include "treemodel.h"
+#include "misc/mydocument.h"
 #include <iostream>
 
 TreeModel::TreeModel(QObject* parent)
    : QAbstractItemModel(parent),
      _rootItem{new TreeItem()}
 {
+    // Connect the signals to slots
+    connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
+    connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+
 }
 
 TreeModel::~TreeModel()
@@ -188,3 +193,17 @@ std::shared_ptr<TreeItem> TreeModel::internalPointer(const QModelIndex& index) c
    return std::shared_ptr<TreeItem>(ptr, [](TreeItem* item){});
 }
 
+void TreeModel::handleTopLevelNodeAdded(const int &nodeId)
+{
+    auto topLevelItem = std::make_shared<TreeItem>(nodeId);
+    std::cout << "handleTopLevelNodeAdded: " << nodeId << std::endl;
+    addTopLevelItem(topLevelItem);
+}
+
+void TreeModel::handleChildNodeAdded(const int &nodeId, const int &parentNodeId)
+{
+    auto parentItem = std::make_shared<TreeItem>(parentNodeId);
+    auto childItem = std::make_shared<TreeItem>(nodeId);
+
+    addItem(parentItem, childItem);
+}

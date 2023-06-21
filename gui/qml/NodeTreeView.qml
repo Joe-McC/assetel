@@ -55,8 +55,6 @@ Frame {
                 }
             }
 
-
-
             Row {
                 Layout.margins: 4
                 spacing: 4

@@ -21,19 +21,19 @@ public:
     //explicit MyDocument(QObject *parent = nullptr);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
-    Q_INVOKABLE QString addNode(const QString &nodeText);
+    Q_INVOKABLE QString addNode(const QString &nodeText, const QString& parentNodeId = "");
 
-/*Q_SIGNALS:
-    void myDocumentChanged();
+Q_SIGNALS:
+    void topLevelNodeAdded(const int &nodeId);
+    void childNodeAdded(const int &nodeId, const int &parentNodeId);
+//protected:
+//    QString
 
-protected:
-    QString
-*/
 private:
-    inline static std::map<QString, std::shared_ptr<XMLNode>> _nodeLookup;
-    inline static int _uidCount;
+    inline static std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
+    inline static int _uid;
 
-    QString getNewUID();
+    QString getUIDQString();
 
 
 };

@@ -24,12 +24,6 @@ Page {
             border.width: 1
             border.color: palette.midlight
 
-            Text {
-                text: "TEST"
-            }
-            Text {
-                text: app.xmlSource
-            }
 
             gradient: Gradient {
                 GradientStop { position: 0; color: "#21373f" }
@@ -140,6 +134,7 @@ Page {
                 }
 
                 Item {
+                    id: addNodeDialog
                     width: 300
                     height: 200
 
@@ -157,7 +152,7 @@ Page {
                                anchors.fill: parent
 
                                TextArea {
-                                   id: textInput
+                                   id: nodeDialogTextInput
                                    inputMethodHints: Qt.ImhSensitiveData
                                    wrapMode: TextArea.Wrap
                                    placeholderText: "Enter your text here..."
@@ -170,13 +165,13 @@ Page {
 
                                    onActiveFocusChanged: {
                                        if (activeFocus)
-                                           textInput.selectAll()
+                                           nodeDialogTextInput.selectAll()
                                    }
                                }
 
                                Text {
                                    //anchors.top: textInput.bottom
-                                   text: textInput.text
+                                   text: nodeDialogTextInput.text
                                    leftPadding: 10
                                    topPadding: 5
                                }
@@ -186,9 +181,30 @@ Page {
                 }
             }
 
-            RowLayout {
+            Row {
+                CheckBox {
+                    id: parentCheckbox
+                    text: "Has Parent"
+                    onCheckedChanged: {
+                        addNodeDialog.hasParent = checked
+                    }
+                }
+
+                ComboBox {
+                    id: parentComboBox
+                    width: 150
+                    enabled: parentCheckbox.checked
+                    model: availableParentsModel
+                    currentIndex: -1
+                    onCurrentIndexChanged: {
+                        addNodeDialog.selectedParentId = availableParentsModel.get(index).nodeId
+                    }
+                }
+            }
+
+            RowLayout {            
                 Button {
-                    id: okbutton
+                    id: createbutton
                     property string uid
                     flat: true
                     icon.width: 24
@@ -200,19 +216,43 @@ Page {
                         var component;
                         var sprite;
                         component = Qt.createComponent("Node.qml");
-                        var uid = qsTr(Cpp_Misc_My_Document.addNode(textInput.text));
-                        //sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
+                       var uid;
+
+                        // WHY HAS FOLLOWING BIT OF CODE CAUSED COMPONENT NOT READY ERROR???  POSSIBLY SOMETHING IN NODE.QML???
+                        if (nodeDialogTextInput.text !== "") {
+                            // Check if a parent is selected when the checkbox is checked
+                            if (addNodeDialog.hasParent && addNodeDialog.selectedParentId === "") {
+                                // Display an error message or handle the case when no parent is selected
+                                console.error("Please select a parent node.")
+                            } else {
+                                // Call the appropriate function to add the node
+                                if (addNodeDialog.hasParent) {
+                                    // Add node with parent
+                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text, addNodeDialog.selectedParentId))
+                                    console.log("child node uid: ", uid)
+                                } else {
+                                    // Add top-level node
+                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text))
+                                    console.log("top level node uid: ", uid)
+                                }
+
+                                // Close the dialog
+                                //addNodeDialog.close()
+                            }
+                        }
+
+
                         sprite = component.createObject(projectviewer, {"uid": uid})
-                        sprite.nodetext = textInput.text;
+                        //sprite.nodetext = textInput.text;
 
                         createnodedialog.close()
-                        textInput.text = "" // Clear the text
+                        nodeDialogTextInput.text = "" // Clear the text
                     }
                     background: Rectangle {
                         implicitWidth: 100
                         implicitHeight: 40
                         opacity: enabled ? 1 : 0.3
-                        border.color: okbutton.down ? "#17a81a" : "#21be2b"
+                        border.color: createbutton.down ? "#17a81a" : "#21be2b"
                         border.width: 1
                         radius: 2
                         color: "black"  // I update background color by this
@@ -229,13 +269,13 @@ Page {
                     text: qsTr("Cancel")
                     onClicked: {
                         createnodedialog.close()
-                        textInput.text = "" // Clear the text
+                        nodeDialogTextInput.text = "" // Clear the text
                     }
                     background: Rectangle {
                         implicitWidth: 100
                         implicitHeight: 40
                         opacity: enabled ? 1 : 0.3
-                        border.color: okbutton.down ? "#17a81a" : "#21be2b"
+                        border.color: createbutton.down ? "#17a81a" : "#21be2b"
                         border.width: 1
                         radius: 2
                         color: "black"  // I update background color by this

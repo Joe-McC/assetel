@@ -6,7 +6,7 @@ import QtQuick.Dialogs
 Item {
     id: node
     property string uid
-    property string nodetext
+    //property string nodetext
     //width: parent.width
     //height: parent.height
 
@@ -15,9 +15,9 @@ Item {
 
         id: nodedialog
         property string uid: node.uid
-        property string nodetext: node.nodetext
-        width: 500
-        height: 280
+        property string nodetext: node.uid
+        width: 24
+        height: 24
         z: mouseArea.drag.active ||  mouseArea.pressed ? 2 : 1
         //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
         //color: "transparent"
@@ -38,8 +38,8 @@ Item {
                     text: qsTr("Node UID:")
                 }
                 Text{
-                    anchors.fill:parent
-                    anchors.centerIn: parent
+                    //anchors.fill:parent
+                    //anchors.centerIn: parent
                     id: myText
                     //color: "white"
                     font.family: "Helvetica"

@@ -9,6 +9,9 @@ void Misc::XMLNode::addNodeText(const QString &text)
 
 }
 
+void Misc::XMLNode::addChild(const QString &nodeText)
+{
 
+}
 
 

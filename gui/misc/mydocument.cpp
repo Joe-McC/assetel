@@ -46,22 +46,40 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
 }
 
 
-QString Misc::MyDocument::addNode(const QString &nodeText)
+QString Misc::MyDocument::addNode(const QString &nodeText, const QString& parentNodeId)
 {
-    Misc::MyDocument::_uidCount++;//  ::_uidCount++;
+    _uid++;//  ::_uidCount++;
     Misc::XMLNode node;
     auto nodePtr = std::make_shared<Misc::XMLNode>(node);
-    QString uid = getNewUID();
-    Misc::MyDocument::_nodeLookup.insert(std::pair<QString, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+    QString uidQString = getUIDQString();
+
+    // Check if a parent node ID is provided
+    if (!parentNodeId.isEmpty())
+    {
+        // Add the new node as a child of the parent node
+        auto parentNode = _nodeLookup.find(parentNodeId.toInt());
+        if (parentNode != _nodeLookup.end())
+        {
+            parentNode->second->addChild(nodeText);
+        }
+        emit childNodeAdded(_uid, parentNodeId.toInt());
+    }
+    else
+    {
+        std::cout << "emit TopLevelNodeAdded: " << _uid << std::endl;
+        emit topLevelNodeAdded(_uid);
+    }
+    Misc::MyDocument::_nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
     node.addNodeText(nodeText);
-    return uid;
+
+    return uidQString;
 }
 
 
-QString Misc::MyDocument::getNewUID()
+QString Misc::MyDocument::getUIDQString()
 {
-   std::string uid = std::to_string(_uidCount);
+   std::string uid = std::to_string(_uid);
    const int num = 3;
 
    if(uid.size() < num)
