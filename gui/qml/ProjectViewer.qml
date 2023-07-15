@@ -124,19 +124,23 @@ Page {
         palette.text: "black"
         anchors.centerIn: parent
 
+        property bool hasParent: false // Add the hasParent property here
+        // Add the selectedParentId property
+        property string selectedParentId: ""
+
         ColumnLayout {
             anchors.fill: parent
 
             RowLayout {
                 Text {
-                    id: label
-                    text: qsTr("Node:")
+                    id: titlelabel
+                    text: qsTr("Node Title:")
                 }
 
                 Item {
-                    id: addNodeDialog
+                    id: addNodeDialogTitle
                     width: 300
-                    height: 200
+                    height: 50
 
                     ScrollView {
                         anchors.fill: parent
@@ -181,12 +185,67 @@ Page {
                 }
             }
 
+            RowLayout {
+                Text {
+                    id: label
+                    text: qsTr("Node Text:")
+                }
+
+                Item {
+                    id: addNodeDialogTextBox
+                    width: 300
+                    height: 200
+
+                    ScrollView {
+                        anchors.fill: parent
+
+                        Rectangle {
+                            color: "transparent"
+                            border.color: "black"
+                            border.width: 2
+                            radius: 5
+                            anchors.fill: parent
+
+                            FocusScope {
+                               anchors.fill: parent
+
+                               TextArea {
+                                   id: nodeDialogTileTextInput
+                                   inputMethodHints: Qt.ImhSensitiveData
+                                   wrapMode: TextArea.Wrap
+                                   placeholderText: "Enter your text here..."
+                                   width: parent.width
+                                   height: contentHeight
+                                   color: "white"
+                                   background: Rectangle {
+                                       color: "transparent"
+                                   }
+
+                                   onActiveFocusChanged: {
+                                       if (activeFocus)
+                                           nodeDialogTileTextInput.selectAll()
+                                   }
+                               }
+
+                               Text {
+
+                                   text: nodeDialogTileTextInput.text
+                                   leftPadding: 10
+                                   topPadding: 5
+                               }
+                           }
+                        }
+                    }
+                }
+            }
+
+
             Row {
                 CheckBox {
                     id: parentCheckbox
                     text: "Has Parent"
                     onCheckedChanged: {
-                        addNodeDialog.hasParent = checked
+                        createnodedialog.hasParent = checked
                     }
                 }
 
@@ -197,7 +256,20 @@ Page {
                     model: availableParentsModel
                     currentIndex: -1
                     onCurrentIndexChanged: {
-                        addNodeDialog.selectedParentId = availableParentsModel.get(index).nodeId
+                        if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
+                            createnodedialog.selectedParentId = availableParentsModel.get(currentIndex).nodeId
+                        } else {
+                            createnodedialog.selectedParentId = ""
+                        }
+                    }
+
+                    delegate: Button {
+                        width: parentComboBox.width
+                        height: 30
+                        text: model.displayText
+                        onClicked: {
+                            parentComboBox.currentIndex = index // Update currentIndex on click
+                        }
                     }
                 }
             }
@@ -216,28 +288,39 @@ Page {
                         var component;
                         var sprite;
                         component = Qt.createComponent("Node.qml");
-                       var uid;
+                        var uid;
 
                         // WHY HAS FOLLOWING BIT OF CODE CAUSED COMPONENT NOT READY ERROR???  POSSIBLY SOMETHING IN NODE.QML???
                         if (nodeDialogTextInput.text !== "") {
                             // Check if a parent is selected when the checkbox is checked
-                            if (addNodeDialog.hasParent && addNodeDialog.selectedParentId === "") {
+                            if (createnodedialog.hasParent && createnodedialog.selectedParentId === "") {
                                 // Display an error message or handle the case when no parent is selected
                                 console.error("Please select a parent node.")
                             } else {
                                 // Call the appropriate function to add the node
-                                if (addNodeDialog.hasParent) {
+                                if (createnodedialog.hasParent) {
                                     // Add node with parent
-                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text, addNodeDialog.selectedParentId))
+                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text, createnodedialog.selectedParentId))
                                     console.log("child node uid: ", uid)
                                 } else {
                                     // Add top-level node
                                     uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text))
                                     console.log("top level node uid: ", uid)
                                 }
+                                // Retrieve the instance of ParentsModel
+                                var parentsModel = availableParentsModel
 
+                                // Create a new parent item
+                                var newNodeId = uid
+                                var newDisplayText = nodeDialogTextInput.text
+
+                                // Add the new parent item
+                                availableParentsModel.addParentItem(newNodeId, newDisplayText)
+
+                                // Set the current index to the newly added parent item
+                                parentComboBox.currentIndex = availableParentsModel.rowCount() - 1
                                 // Close the dialog
-                                //addNodeDialog.close()
+                                //createnodedialog.close()
                             }
                         }
 

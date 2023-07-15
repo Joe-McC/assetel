@@ -99,7 +99,7 @@ bool TreeModel::setData(const QModelIndex& index, const QVariant& value, int /*r
    return false;
 }
 
-//void TreeModel::addTopLevelItem(TreeItem* child)
+//???????? why do we add a child with a Top Level Item, is this correct????
 void TreeModel::addTopLevelItem(std::shared_ptr<TreeItem> child)
 {
    if(child){
