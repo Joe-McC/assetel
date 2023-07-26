@@ -112,8 +112,6 @@ Page {
 
             ComboBox {
                 Layout.alignment: Qt.AlignVCenter
-                //model: Cpp_Misc_Translator.availableLanguages
-                //onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
             }
         }
     }
@@ -239,7 +237,6 @@ Page {
                 }
             }
 
-
             Row {
                 CheckBox {
                     id: parentCheckbox
@@ -249,29 +246,100 @@ Page {
                     }
                 }
 
+                /*ComboBox {
+                    editable: true
+                    model: parentsModel
+                    onAccepted: {
+                        createnodedialog.selectedParentId =
+                    }
+                }*/
+
+                /*ComboBox {
+                    id: parentComboBox
+                    width: 150
+                    enabled: parentCheckbox.checked
+                    model: availableParentsModel
+                    currentIndex: 0
+                    onAccepted: {
+                        if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
+                            console.log("current combobox index ", currentIndex)
+
+                            //createnodedialog.selectedParentId = parentComboBox.model.nodeId;
+                            createnodedialog.selectedParentId = model.data(currentIndex).nodeId
+
+                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId)
+
+                        } else {
+                            createnodedialog.selectedParentId = "";
+                            console.log("NOT SETTING SELECTEDPARENTID, availableParentsModel.count: ", availableParentsModel.count)
+                        }
+                    }
+
+                   delegate: Button {
+                        width: parentComboBox.width
+                        height: 30
+                        text: model.displayText//createnodedialog.selectedParentId//parentComboBox.model.displayText  // Access the displayText property
+                        onClicked: {
+                            parentComboBox.currentIndex = index
+
+                            console.log("parentComboBox.currentIndex combobox button index ", index)
+
+                            console.log("availableParentsModel.data(index).nodeId ", availableParentsModel.nodeId)
+
+
+
+                            createnodedialog.selectedParentId = availableParentsModel.data(index).nodeId
+
+                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId)
+                              // Update currentIndex on click
+                        }
+                    }
+                }*/
+
                 ComboBox {
                     id: parentComboBox
                     width: 150
                     enabled: parentCheckbox.checked
                     model: availableParentsModel
-                    currentIndex: -1
-                    onCurrentIndexChanged: {
+                    currentIndex: 0
+                    onAccepted: {
                         if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
-                            createnodedialog.selectedParentId = availableParentsModel.get(currentIndex).nodeId
+                            console.log("current combobox index ", currentIndex);
+
+                            // Use currentText property to get the selected parent
+                            createnodedialog.selectedParentId = parentComboBox.currentText;
+
+                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId);
                         } else {
-                            createnodedialog.selectedParentId = ""
+                            createnodedialog.selectedParentId = "";
+                            console.log("NOT SETTING SELECTEDPARENTID, availableParentsModel.count: ", availableParentsModel.count);
                         }
                     }
 
-                    delegate: Button {
+                   delegate: Button {
                         width: parentComboBox.width
                         height: 30
-                        text: model.displayText
+                        text: model.displayText // Access the displayText property
                         onClicked: {
-                            parentComboBox.currentIndex = index // Update currentIndex on click
+                            parentComboBox.currentIndex = index;
+
+                            console.log("parentComboBox.currentIndex combobox button index ", index);
+                            console.log("model.displayText", model.displayText);
+                            console.log("availableParentsModel.get(index).nodeId ", model.nodeId);
+
+                            //console.log("availableParentsModel.get(index).nodeId ", model.get(index).nodeId);
+
+                            // Use model.get(index).nodeId to get the selected parent's nodeId
+                            createnodedialog.selectedParentId = model.nodeId;
+
+                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId);
+                              // Update currentIndex on click
                         }
                     }
                 }
+
+
+
             }
 
             RowLayout {            
@@ -299,12 +367,16 @@ Page {
                             } else {
                                 // Call the appropriate function to add the node
                                 if (createnodedialog.hasParent) {
-                                    // Add node with parent
-                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text, createnodedialog.selectedParentId))
-                                    console.log("child node uid: ", uid)
+                                    if (createnodedialog.selectedParentId !== "") {
+                                        uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text.toString(), createnodedialog.selectedParentId.toString()))
+                                        console.log("child node uid: ", uid)
+                                    } else {
+                                        console.error("Please select a parent node.")
+                                    }
+
                                 } else {
                                     // Add top-level node
-                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text))
+                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text.toString()))
                                     console.log("top level node uid: ", uid)
                                 }
                                 // Retrieve the instance of ParentsModel

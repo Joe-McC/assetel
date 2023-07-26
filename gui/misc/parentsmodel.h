@@ -35,6 +35,15 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+
+    int count() const;
+
+signals:
+    void countChanged();
+
+
+
 private:
     QList<ParentItem> m_parents;
 };

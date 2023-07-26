@@ -1,15 +1,21 @@
 #include "parentsmodel.h"
+#include <iostream>
 
 namespace Misc
 {
 
-ParentsModel::ParentsModel(QObject* parent) : QAbstractListModel(parent) {}
+ParentsModel::ParentsModel(QObject* parent) : QAbstractListModel(parent) {
+    //addParentItem("1", "Parent 1");
+    //addParentItem("2", "Parent 2");
+
+}
 
 void ParentsModel::setParents(const QList<ParentItem>& parents)
 {
     beginResetModel();
     m_parents = parents;
     endResetModel();
+    emit countChanged(); // Emit countChanged signal when the model is updated
 }
 
 void ParentsModel::addParentItem(const QString& nodeId, const QString& displayText)
@@ -17,20 +23,23 @@ void ParentsModel::addParentItem(const QString& nodeId, const QString& displayTe
     beginInsertRows(QModelIndex(), m_parents.size(), m_parents.size());
     m_parents.append({nodeId, displayText});
     endInsertRows();
+    emit countChanged(); // Emit countChanged signal when a new item is added
 }
 
 int ParentsModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
         return 0;
-    return m_parents.size();
+    return m_parents.count();
 }
+
 
 QVariant ParentsModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_parents.size())
         return QVariant();
 
+    std::cout << "m_parents.size(): " << m_parents.size() << std::endl;
     const ParentItem& parent = m_parents[index.row()];
 
     if (role == NodeIdRole)
@@ -48,4 +57,10 @@ QHash<int, QByteArray> ParentsModel::roleNames() const
     roles[DisplayTextRole] = "displayText";
     return roles;
 }
+
+int ParentsModel::count() const
+{
+    return rowCount();
+}
+
 }
