@@ -1,4 +1,5 @@
 #include "treeitem.h"
+#include <iostream>
 
 TreeItem::TreeItem()
    : _itemData(),
@@ -29,7 +30,10 @@ void TreeItem::setParentItem(std::shared_ptr<TreeItem> parentItem)
 
 void TreeItem::appendChild(std::shared_ptr<TreeItem> item)
 {
+
+   std::cout << "TreeItem::appendChild " << std::endl;
    if(item && !_childItems.contains(item)){
+       std::cout << "TreeItem::appendChild CHILD APPENDED " << std::endl;
       _childItems.append(item);
    }
 }

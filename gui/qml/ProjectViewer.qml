@@ -246,56 +246,6 @@ Page {
                     }
                 }
 
-                /*ComboBox {
-                    editable: true
-                    model: parentsModel
-                    onAccepted: {
-                        createnodedialog.selectedParentId =
-                    }
-                }*/
-
-                /*ComboBox {
-                    id: parentComboBox
-                    width: 150
-                    enabled: parentCheckbox.checked
-                    model: availableParentsModel
-                    currentIndex: 0
-                    onAccepted: {
-                        if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
-                            console.log("current combobox index ", currentIndex)
-
-                            //createnodedialog.selectedParentId = parentComboBox.model.nodeId;
-                            createnodedialog.selectedParentId = model.data(currentIndex).nodeId
-
-                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId)
-
-                        } else {
-                            createnodedialog.selectedParentId = "";
-                            console.log("NOT SETTING SELECTEDPARENTID, availableParentsModel.count: ", availableParentsModel.count)
-                        }
-                    }
-
-                   delegate: Button {
-                        width: parentComboBox.width
-                        height: 30
-                        text: model.displayText//createnodedialog.selectedParentId//parentComboBox.model.displayText  // Access the displayText property
-                        onClicked: {
-                            parentComboBox.currentIndex = index
-
-                            console.log("parentComboBox.currentIndex combobox button index ", index)
-
-                            console.log("availableParentsModel.data(index).nodeId ", availableParentsModel.nodeId)
-
-
-
-                            createnodedialog.selectedParentId = availableParentsModel.data(index).nodeId
-
-                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId)
-                              // Update currentIndex on click
-                        }
-                    }
-                }*/
-
                 ComboBox {
                     id: parentComboBox
                     width: 150
@@ -304,15 +254,10 @@ Page {
                     currentIndex: 0
                     onAccepted: {
                         if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
-                            console.log("current combobox index ", currentIndex);
-
                             // Use currentText property to get the selected parent
                             createnodedialog.selectedParentId = parentComboBox.currentText;
-
-                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId);
                         } else {
                             createnodedialog.selectedParentId = "";
-                            console.log("NOT SETTING SELECTEDPARENTID, availableParentsModel.count: ", availableParentsModel.count);
                         }
                     }
 
@@ -322,24 +267,10 @@ Page {
                         text: model.displayText // Access the displayText property
                         onClicked: {
                             parentComboBox.currentIndex = index;
-
-                            console.log("parentComboBox.currentIndex combobox button index ", index);
-                            console.log("model.displayText", model.displayText);
-                            console.log("availableParentsModel.get(index).nodeId ", model.nodeId);
-
-                            //console.log("availableParentsModel.get(index).nodeId ", model.get(index).nodeId);
-
-                            // Use model.get(index).nodeId to get the selected parent's nodeId
                             createnodedialog.selectedParentId = model.nodeId;
-
-                            console.log("createnodedialog.selectedParentId ", createnodedialog.selectedParentId);
-                              // Update currentIndex on click
                         }
                     }
                 }
-
-
-
             }
 
             RowLayout {            

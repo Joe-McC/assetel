@@ -1,17 +1,28 @@
 #include "xmlnode.h"
 
-Misc::XMLNode::XMLNode() {
+
+namespace Misc
+{
+
+XMLNode::XMLNode() {
     // Constructor implementation
 }
 
-void Misc::XMLNode::addNodeText(const QString &text)
+void XMLNode::setNodeText(const QString &text)
 {
-
+    _nodeText = text.toStdString();
 }
 
-void Misc::XMLNode::addChild(const QString &nodeText)
+std::string XMLNode::getNodeText()
 {
-
+    return _nodeText;
 }
 
 
+void XMLNode::addChild(const QString &nodeText)
+{
+    Misc::XMLNode node;
+    node.setNodeText(nodeText);
+}
+
+}

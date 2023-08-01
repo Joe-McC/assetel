@@ -99,28 +99,6 @@ ApplicationWindow {
         sourceComponent: uipage
     }
 
-    //
-    // Project Viewer content
-    //
-    //Loader {
-    //    id: projectviwerloader
-    //    anchors.fill: parent
-    //    source: visible ? "ProjectViewer.qml" : ""
-    //}
-
-    //Loader {
-    //    id: projectviwerloader
-    //    visible: false
-    //    asynchronous: true
-    //    anchors.fill: parent
-    //    sourceComponent: ProjectViewer {
-    //        anchors.fill: parent
-    //        Component.onCompleted: {
-    //           //app.ui = this
-    //            //app.displayWindow()
-    //        }
-    //    }
-    //}
 
 
 }

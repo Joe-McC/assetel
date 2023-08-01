@@ -62,9 +62,6 @@ QModelIndex TreeModel::parent(const QModelIndex& index) const
    auto childItem = std::make_shared<TreeItem>(index);
    auto parentItem = childItem->parentItem();
 
-   //TreeItem* childItem = internalPointer(index);
-   //TreeItem* parentItem = childItem->parentItem();
-
    if (!parentItem){
       return {};
    }
@@ -99,12 +96,13 @@ bool TreeModel::setData(const QModelIndex& index, const QVariant& value, int /*r
    return false;
 }
 
-//???????? why do we add a child with a Top Level Item, is this correct????
-void TreeModel::addTopLevelItem(std::shared_ptr<TreeItem> child)
+
+void TreeModel::addTopLevelItem(std::shared_ptr<TreeItem> topLevelItem)
 {
-   if(child){
-      addItem(_rootItem, child);
+   if(topLevelItem){
+      addItem(_rootItem, topLevelItem);
    }
+
 }
 
 //void TreeModel::addItem(TreeItem* parent, TreeItem* child)
@@ -124,6 +122,8 @@ void TreeModel::addItem(std::shared_ptr<TreeItem> parent, std::shared_ptr<TreeIt
 
    beginInsertRows(QModelIndex(), parent->childCount() - 1, parent->childCount() - 1);
    child->setParentItem(parent);
+
+   std::cout << "TreeModel::addItem append child: " << std::endl;
    parent->appendChild(child);
    endInsertRows();
 
@@ -176,17 +176,13 @@ void TreeModel::clear()
 {
    emit layoutAboutToBeChanged();
    beginResetModel();
-   //delete _rootItem;
-   //_rootItem = new TreeItem();
+
    _rootItem = std::make_shared<TreeItem>();
    endResetModel();
    emit layoutChanged();
 }
 
-/*TreeItem* TreeModel::internalPointer(const QModelIndex& index) const
-{
-   return static_cast<TreeItem* >(index.internalPointer());
-}*/
+
 std::shared_ptr<TreeItem> TreeModel::internalPointer(const QModelIndex& index) const
 {
    auto ptr = reinterpret_cast<TreeItem*>(index.internalPointer());
@@ -196,14 +192,35 @@ std::shared_ptr<TreeItem> TreeModel::internalPointer(const QModelIndex& index) c
 void TreeModel::handleTopLevelNodeAdded(const int &nodeId)
 {
     auto topLevelItem = std::make_shared<TreeItem>(nodeId);
+
+    _nodeList[nodeId] = topLevelItem;
+
     std::cout << "handleTopLevelNodeAdded: " << nodeId << std::endl;
     addTopLevelItem(topLevelItem);
 }
 
 void TreeModel::handleChildNodeAdded(const int &nodeId, const int &parentNodeId)
 {
-    auto parentItem = std::make_shared<TreeItem>(parentNodeId);
+
+
+    //auto parentItem = std::make_shared<TreeItem>(parentNodeId);
     auto childItem = std::make_shared<TreeItem>(nodeId);
+    //auto childItem = std::make_shared<TreeItem>(std::to_string(nodeId));
+
+    _nodeList[nodeId] = childItem;
+
+    auto parentItem = _nodeList.at(parentNodeId);
+
+
+    /*TreeItem parentItem(nodeId);
+    std::shared_ptr<TreeItem> parentItemPtr = std::make_shared<TreeItem>(parentItem);
+    TreeItem childItem(nodeId);
+    std::shared_ptr<TreeItem> childItemPtr = std::make_shared<TreeItem>(childItem);
+    */
+    std::cout << "handleChildNodeAdded nodeid: " << nodeId << std::endl;
+    std::cout << "handleChildNodeAdded parentNodeId: " << parentNodeId << std::endl;
+
 
     addItem(parentItem, childItem);
+    //addItem(parentItemPtr, childItemPtr);
 }

@@ -26,7 +26,7 @@ public:
    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
 
    //! Add an item to the top level.
-   void addTopLevelItem(std::shared_ptr<TreeItem> child);
+   void addTopLevelItem(std::shared_ptr<TreeItem> topLevelItem);
 
    //! Add the item child to the parent node.
    void addItem(std::shared_ptr<TreeItem> parent, std::shared_ptr<TreeItem> child);
@@ -57,6 +57,8 @@ private:
 
    //TreeItem* _rootItem;
    std::shared_ptr<TreeItem> _rootItem;
+
+   std::map<int, std::shared_ptr<TreeItem>> _nodeList;
 };
 
 #endif // QML_TREEVIEW_TREE_MODEL_H
