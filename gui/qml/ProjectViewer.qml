@@ -239,12 +239,27 @@ Page {
 
             Row {
                 CheckBox {
+
                     id: parentCheckbox
                     text: "Has Parent"
                     onCheckedChanged: {
-                        createnodedialog.hasParent = checked
+                        createnodedialog.hasParent = parentCheckbox.checked
                     }
+                    contentItem: Rectangle {
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        color: "white" // Set the checkbox background color to white
+                        border.color: "black" // Set the border color to black
+
+                        Image {
+                            source: parentCheckbox.checked ? "qrc:/icons/checkmark_black.png" : ""
+                            anchors.centerIn: parent
+                        }
+                    }
+
                 }
+
+
 
                 ComboBox {
                     id: parentComboBox
@@ -252,6 +267,20 @@ Page {
                     enabled: parentCheckbox.checked
                     model: availableParentsModel
                     currentIndex: 0
+
+                    // Customize the appearance of the ComboBox
+                    contentItem: Rectangle {
+                        width: parentComboBox.width
+                        height: parentComboBox.height
+                        color: "white" // Set the background color to white
+                        border.color: "black" // Set the border color to black
+                        Text {
+                            anchors.centerIn: parent
+                            color: "black" // Set the text color to black
+                            text: parentComboBox.displayText
+                        }
+                    }
+
                     onAccepted: {
                         if (currentIndex >= 0 && currentIndex < availableParentsModel.count) {
                             // Use currentText property to get the selected parent
@@ -268,6 +297,23 @@ Page {
                         onClicked: {
                             parentComboBox.currentIndex = index;
                             createnodedialog.selectedParentId = model.nodeId;
+                        }
+                        background: Rectangle {
+                            implicitWidth: parent.width
+                            implicitHeight: parent.height
+                            opacity: enabled ? 1 : 0.3
+                            border.color: createbutton.down ? "#17a81a" : "#21be2b"
+                            border.width: 1
+                            radius: 2
+                            color: "white"  // Set the background color to white
+                        }
+                        Label {
+                            anchors.fill: parent
+                            text: parent.text
+                            font.pixelSize: 16
+                            color: "black" // Set the text color to black
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
                         }
                     }
                 }
