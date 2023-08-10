@@ -281,6 +281,7 @@ Page {
                             color: "black" // Set the text color to black
                             text: parentComboBox.displayText
                             horizontalAlignment: Text.AlignHLeft
+                            leftPadding: 10
                         }
                     }
 
@@ -318,6 +319,7 @@ Page {
                             color: "black" // Set the text color to black
                             horizontalAlignment: Text.AlignHLeft
                             verticalAlignment: Text.AlignVCenter
+                            leftPadding: 10
                         }
                     }
                 }
