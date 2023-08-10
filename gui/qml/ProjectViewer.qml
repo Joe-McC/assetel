@@ -252,6 +252,8 @@ Page {
                         border.color: "black" // Set the border color to black
 
                         Image {
+                            width: parent.width - 2
+                            height: parent.height - 2
                             source: parentCheckbox.checked ? "qrc:/icons/checkmark_black.png" : ""
                             anchors.centerIn: parent
                         }
@@ -275,9 +277,10 @@ Page {
                         color: "white" // Set the background color to white
                         border.color: "black" // Set the border color to black
                         Text {
-                            anchors.centerIn: parent
+                            //anchors.centerIn: parent
                             color: "black" // Set the text color to black
                             text: parentComboBox.displayText
+                            horizontalAlignment: Text.AlignHLeft
                         }
                     }
 
@@ -297,6 +300,7 @@ Page {
                         onClicked: {
                             parentComboBox.currentIndex = index;
                             createnodedialog.selectedParentId = model.nodeId;
+                            parentComboBox.displayText = model.displayText
                         }
                         background: Rectangle {
                             implicitWidth: parent.width
@@ -312,7 +316,7 @@ Page {
                             text: parent.text
                             font.pixelSize: 16
                             color: "black" // Set the text color to black
-                            horizontalAlignment: Text.AlignHCenter
+                            horizontalAlignment: Text.AlignHLeft
                             verticalAlignment: Text.AlignVCenter
                         }
                     }
