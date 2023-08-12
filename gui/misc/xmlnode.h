@@ -15,12 +15,15 @@ class XMLNode
 public:
     XMLNode();
 
+    void setNodeTitle(const QString &title);
+    std::string getNodeTitle();
+
     void setNodeText(const QString &nodeText);
     std::string getNodeText();
 
     void addChild(const QString &nodeText);
 private:
-
+    inline static std::string _nodeTitle;
     inline static std::string _nodeText;
 };
 

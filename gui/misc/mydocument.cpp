@@ -34,7 +34,7 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
 }
 
 
-QString Misc::MyDocument::addNode(const QString &nodeText, const QString& parentNodeId)
+QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString& parentNodeId)
 {
     _uid++;//  ::_uidCount++;
     Misc::XMLNode node;
@@ -55,18 +55,19 @@ QString Misc::MyDocument::addNode(const QString &nodeText, const QString& parent
 
         if (parentNode != _nodeLookup.end())
         {
-            parentNode->second->addChild(nodeText);
+            parentNode->second->addChild(nodeTitle);
         }
-        emit childNodeAdded(_uid, parentNodeId.toInt());
+        emit childNodeAdded(_uid, nodeTitle.toStdString(), parentNodeId.toInt());
     }
     else
     {
         std::cout << "emit TopLevelNodeAdded: " << _uid << std::endl;
-        emit topLevelNodeAdded(_uid);
+        emit topLevelNodeAdded(_uid, nodeTitle.toStdString());
     }
     Misc::MyDocument::_nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
-    node.setNodeText(nodeText);
+    //node.setNodeText(nodeText);
+    node.setNodeTitle(nodeTitle);
 
     return uidQString;
 }

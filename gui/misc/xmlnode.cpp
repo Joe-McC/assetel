@@ -8,6 +8,17 @@ XMLNode::XMLNode() {
     // Constructor implementation
 }
 
+void XMLNode::setNodeTitle(const QString &title)
+{
+    _nodeTitle = title.toStdString();
+}
+
+std::string XMLNode::getNodeTitle()
+{
+    return _nodeTitle;
+}
+
+
 void XMLNode::setNodeText(const QString &text)
 {
     _nodeText = text.toStdString();

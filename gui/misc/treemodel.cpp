@@ -189,9 +189,9 @@ std::shared_ptr<TreeItem> TreeModel::internalPointer(const QModelIndex& index) c
    return std::shared_ptr<TreeItem>(ptr, [](TreeItem* item){});
 }
 
-void TreeModel::handleTopLevelNodeAdded(const int &nodeId)
+void TreeModel::handleTopLevelNodeAdded(const int &nodeId, const std::string &nodeTitle)
 {
-    auto topLevelItem = std::make_shared<TreeItem>(nodeId);
+    auto topLevelItem = std::make_shared<TreeItem>(QString::fromStdString(nodeTitle));
 
     _nodeList[nodeId] = topLevelItem;
 
@@ -199,12 +199,10 @@ void TreeModel::handleTopLevelNodeAdded(const int &nodeId)
     addTopLevelItem(topLevelItem);
 }
 
-void TreeModel::handleChildNodeAdded(const int &nodeId, const int &parentNodeId)
+void TreeModel::handleChildNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId)
 {
-
-
     //auto parentItem = std::make_shared<TreeItem>(parentNodeId);
-    auto childItem = std::make_shared<TreeItem>(nodeId);
+    auto childItem = std::make_shared<TreeItem>(QString::fromStdString(nodeTitle));
     //auto childItem = std::make_shared<TreeItem>(std::to_string(nodeId));
 
     _nodeList[nodeId] = childItem;

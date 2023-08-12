@@ -21,11 +21,11 @@ public:
     //explicit MyDocument(QObject *parent = nullptr);
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
-    Q_INVOKABLE QString addNode(const QString &nodeText, const QString& parentNodeId = "");
+    Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString& parentNodeId = "");
 
 Q_SIGNALS:
-    void topLevelNodeAdded(const int &nodeId);
-    void childNodeAdded(const int &nodeId, const int &parentNodeId);
+    void topLevelNodeAdded(const int &nodeId, const std::string &nodeTitle);
+    void childNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId);
 //protected:
 //    QString
 
