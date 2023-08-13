@@ -116,7 +116,11 @@ Page {
         }
     }
 
+    CreateNodeDialog {
+        id: createnodedialog
+    }
 
+/*
     Popup {
         id: createnodedialog
         palette.text: "black"
@@ -422,6 +426,7 @@ Page {
             }
         }
     }
+*/
 
     NodeTreeView {
         id: nodetreeview

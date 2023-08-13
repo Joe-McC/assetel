@@ -13,5 +13,6 @@
         <file>TreeView.qml</file>
         <file>TreeViewItem.qml</file>
         <file>icons/checkmark_black.png</file>
+        <file>CreateNodeDialog.qml</file>
     </qresource>
 </RCC>
