@@ -154,7 +154,7 @@ Page {
                                anchors.fill: parent
 
                                TextArea {
-                                   id: nodeDialogTextInput
+                                   id: nodeDialogTitleInput
                                    inputMethodHints: Qt.ImhSensitiveData
                                    wrapMode: TextArea.Wrap
                                    placeholderText: "Enter your text here..."
@@ -167,13 +167,13 @@ Page {
 
                                    onActiveFocusChanged: {
                                        if (activeFocus)
-                                           nodeDialogTextInput.selectAll()
+                                           nodeDialogTitleInput.selectAll()
                                    }
                                }
 
                                Text {
                                    //anchors.top: textInput.bottom
-                                   text: nodeDialogTextInput.text
+                                   text: nodeDialogTitleInput.text
                                    leftPadding: 10
                                    topPadding: 5
                                }
@@ -208,7 +208,7 @@ Page {
                                anchors.fill: parent
 
                                TextArea {
-                                   id: nodeDialogTileTextInput
+                                   id: nodeDialogTextInput
                                    inputMethodHints: Qt.ImhSensitiveData
                                    wrapMode: TextArea.Wrap
                                    placeholderText: "Enter your text here..."
@@ -221,13 +221,13 @@ Page {
 
                                    onActiveFocusChanged: {
                                        if (activeFocus)
-                                           nodeDialogTileTextInput.selectAll()
+                                           nodeDialogTextInput.selectAll()
                                    }
                                }
 
                                Text {
 
-                                   text: nodeDialogTileTextInput.text
+                                   text: nodeDialogTextInput.text
                                    leftPadding: 10
                                    topPadding: 5
                                }
@@ -239,7 +239,6 @@ Page {
 
             Row {
                 CheckBox {
-
                     id: parentCheckbox
                     text: "Has Parent"
                     onCheckedChanged: {
@@ -342,7 +341,7 @@ Page {
                         var uid;
 
                         // WHY HAS FOLLOWING BIT OF CODE CAUSED COMPONENT NOT READY ERROR???  POSSIBLY SOMETHING IN NODE.QML???
-                        if (nodeDialogTextInput.text !== "") {
+                        if (nodeDialogTitleInput.text !== "") {
                             // Check if a parent is selected when the checkbox is checked
                             if (createnodedialog.hasParent && createnodedialog.selectedParentId === "") {
                                 // Display an error message or handle the case when no parent is selected
@@ -351,7 +350,7 @@ Page {
                                 // Call the appropriate function to add the node
                                 if (createnodedialog.hasParent) {
                                     if (createnodedialog.selectedParentId !== "") {
-                                        uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text.toString(), createnodedialog.selectedParentId.toString()))
+                                        uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTitleInput.text.toString(), nodeDialogTextInput.text.toString(), createnodedialog.selectedParentId.toString()))
                                         console.log("child node uid: ", uid)
                                     } else {
                                         console.error("Please select a parent node.")
@@ -359,7 +358,7 @@ Page {
 
                                 } else {
                                     // Add top-level node
-                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTextInput.text.toString()))
+                                    uid = qsTr(Cpp_Misc_My_Document.addNode(nodeDialogTitleInput.text.toString(), nodeDialogTextInput.text.toString()))
                                     console.log("top level node uid: ", uid)
                                 }
                                 // Retrieve the instance of ParentsModel
@@ -367,7 +366,7 @@ Page {
 
                                 // Create a new parent item
                                 var newNodeId = uid
-                                var newDisplayText = nodeDialogTextInput.text
+                                var newDisplayText = nodeDialogTitleInput.text
 
                                 // Add the new parent item
                                 availableParentsModel.addParentItem(newNodeId, newDisplayText)
@@ -384,6 +383,7 @@ Page {
                         //sprite.nodetext = textInput.text;
 
                         createnodedialog.close()
+                        nodeDialogTitleInput.text = "" // Clear the title
                         nodeDialogTextInput.text = "" // Clear the text
                     }
                     background: Rectangle {

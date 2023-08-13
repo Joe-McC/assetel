@@ -34,7 +34,7 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
 }
 
 
-QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString& parentNodeId)
+QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
     _uid++;//  ::_uidCount++;
     Misc::XMLNode node;
