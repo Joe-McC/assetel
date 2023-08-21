@@ -221,9 +221,9 @@ Popup {
                 icon.color: "azure"
                 text: qsTr("Create")
                 onClicked: {
-                    var component;
+                    //var component;
                     var sprite;
-                    component = Qt.createComponent("Node.qml");
+                    var component = Qt.createComponent("Node.qml");
                     var uid;
 
                     // WHY HAS FOLLOWING BIT OF CODE CAUSED COMPONENT NOT READY ERROR???  POSSIBLY SOMETHING IN NODE.QML???
@@ -251,11 +251,11 @@ Popup {
                             var parentsModel = availableParentsModel
 
                             // Create a new parent item
-                            var newNodeId = uid
-                            var newDisplayText = nodeDialogTitleInput.text
+                            //var newNodeId = uid
+                            //var newDisplayTitle = nodeDialogTitleInput.text
 
                             // Add the new parent item
-                            availableParentsModel.addParentItem(newNodeId, newDisplayText)
+                            availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
 
                             // Set the current index to the newly added parent item
                             parentComboBox.currentIndex = availableParentsModel.rowCount() - 1
@@ -264,9 +264,8 @@ Popup {
                         }
                     }
 
+                    sprite = component.createObject(projectviewer, {"title": nodeDialogTitleInput.text.toString(), "uid": uid.toString(), "parentid": createnodedialog.selectedParentId.toString(),  "text": nodeDialogTextInput.text.toString()})
 
-                    sprite = component.createObject(projectviewer, {"uid": uid})
-                    //sprite.nodetext = textInput.text;
 
                     createnodedialog.close()
                     nodeDialogTitleInput.text = "" // Clear the title

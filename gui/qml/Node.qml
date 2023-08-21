@@ -5,27 +5,23 @@ import QtQuick.Dialogs
 
 Item {
     id: node
+    property string title
     property string uid
-    //property string nodetext
-    //width: parent.width
-    //height: parent.height
+    property string parentid
+    property string text
 
     Rectangle {
-        //console.log(uid);
-
         id: nodedialog
-        property string uid: node.uid
-        property string nodetext: node.uid
-        width: 24
-        height: 24
+        //property string uid: node.uid
+        //property string nodetext: node.uid
+        width: 200
+        height: 100
         z: mouseArea.drag.active ||  mouseArea.pressed ? 2 : 1
-        //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
-        //color: "transparent"
-        x: 100
+        x: 500
         y:  100
         property point beginDrag
         property bool caught: false
-        border { width:2; color: "white" }
+        border { width:2; color: "black" }
         radius: 5
         Drag.active: mouseArea.drag.active
 
@@ -34,21 +30,53 @@ Item {
 
             RowLayout {
                 Text {
-                    id: label
+                    id: titlelabel
+                    text: qsTr("Title:")
+                }
+                Text{
+                    id: titletext
+                    font.family: "Helvetica"
+                    font.pointSize: 12
+                    text:  qsTr(node.title)
+                }
+            }
+            RowLayout {
+                Text {
+                    id: uidlabel
                     text: qsTr("Node UID:")
                 }
                 Text{
-                    //anchors.fill:parent
-                    //anchors.centerIn: parent
-                    id: myText
-                    //color: "white"
+                    id: uidtext
                     font.family: "Helvetica"
                     font.pointSize: 12
-                    text:  qsTr(nodedialog.uid)
+                    text:  qsTr(node.uid)
+                }
+            }
+            RowLayout {
+                Text {
+                    id: parentlabel
+                    text: qsTr("Node Parent:")
+                }
+                Text{
+                    id: parenttext
+                    font.family: "Helvetica"
+                    font.pointSize: 12
+                    text:  qsTr(node.parentid)
+                }
+            }
+            RowLayout {
+                Text {
+                    id: textlabel
+                    text: qsTr("Description:")
+                }
+                Text{
+                    id: decriptiontext
+                    font.family: "Helvetica"
+                    font.pointSize: 12
+                    text:  qsTr(node.text)
                 }
             }
         }
-
 
         MouseArea {
             id: mouseArea
