@@ -120,6 +120,20 @@ Page {
         id: createnodedialog
     }
 
+    /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
+
+    Repeater {
+        model: Cpp_Misc_My_Document.getNodesForQml()
+
+        delegate: Node {          
+            title: model.nodeTitle
+            uid: model.nodeUID
+            parentid: model.nodeParentID
+            text: model.nodeText
+            xposition: model.nodeXPosition
+            yposition: model.nodeYPosition
+        }
+    }
 
     NodeTreeView {
         id: nodetreeview

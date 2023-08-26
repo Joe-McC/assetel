@@ -1,11 +1,5 @@
 #include "mydocument.h"
 
-/*Misc::MyDocument::MyDocument(QObject *parent)
-    : QObject{parent}
-{
-
-}*/
-
 /**
  * Returns the only instance of the class, this is to be used by the QML interface
  */
@@ -37,8 +31,10 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
 QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
     _uid++;//  ::_uidCount++;
-    Misc::XMLNode node;
-    auto nodePtr = std::make_shared<Misc::XMLNode>(node);
+    //Misc::XMLNode node;
+    //auto nodePtr = std::make_shared<Misc::XMLNode>(node);
+    auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
+
     QString uidQString = getUIDQString();
 
     std::cout << "Misc::MyDocument::addNode parentNodeId: " << parentNodeId.toStdString() << std::endl;
@@ -50,7 +46,7 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
         // Add the new node as a child of the parent node
         auto parentNode = _nodeLookup.find(parentNodeId.toInt());
 
-        std::cout << "Misc::MyDocument::addNode parentNode after lookup: " << parentNode->second->getNodeText() << std::endl;
+        //std::cout << "Misc::MyDocument::addNode parentNode after lookup: " << parentNode->second->getNodeText() << std::endl;
 
 
         if (parentNode != _nodeLookup.end())
@@ -67,9 +63,21 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
     Misc::MyDocument::_nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
     //node.setNodeText(nodeText);
-    node.setNodeTitle(nodeTitle);
+    //node.setNodeTitle(nodeTitle);
+    nodePtr->setNodeTitle(nodeTitle);
 
     return uidQString;
+}
+
+QList<QObject*> Misc::MyDocument::getNodesForQml() {
+    QList<QObject*> qmlNodes;
+    for (const auto& entry : _nodeLookup) {
+        QObject* qmlNode = new QObject(this);
+        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle()); // Replace with actual property name
+        qmlNode->setProperty("nodeText", entry.second->getNodeText());   // Replace with actual property name
+        qmlNodes.append(qmlNode);
+    }
+    return qmlNodes;
 }
 
 

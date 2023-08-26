@@ -18,10 +18,13 @@ class MyDocument : public QObject
 
 public:
     static MyDocument &getInstance();
-    //explicit MyDocument(QObject *parent = nullptr);
+    //explicit MyDocument(QObject *parent = nullptr)
+
+    std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;;
 
     Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
-    Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");
+    Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");    
+    Q_INVOKABLE QList<QObject*> getNodesForQml();
 
 Q_SIGNALS:
     void topLevelNodeAdded(const int &nodeId, const std::string &nodeTitle);
@@ -30,7 +33,7 @@ Q_SIGNALS:
 //    QString
 
 private:
-    inline static std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
+
     inline static int _uid;
 
     QString getUIDQString();

@@ -2,6 +2,7 @@
 #define XMLNODE_H
 
 #include <QObject>
+#include <QString>
 #include <qqml.h>
 #include <QtQml/qqmlregistration.h>
 #include <xmlelement.h>
@@ -10,21 +11,50 @@
 namespace Misc
 {
 
-class XMLNode
+class XMLNode : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString nodeTitle READ getNodeTitle WRITE setNodeTitle NOTIFY nodeTitleChanged)
+    Q_PROPERTY(QString nodeText READ getNodeText WRITE setNodeText NOTIFY nodeTextChanged)
+    Q_PROPERTY(QString nodeParentID READ getNodeParentID WRITE setNodeParentID NOTIFY nodeParentIDChanged)
+    Q_PROPERTY(QString nodeUID READ getNodeUID WRITE setNodeUID NOTIFY nodeUIDChanged)
+    Q_PROPERTY(QString nodeXPosition READ getNodeXPosition WRITE setNodeXPosition NOTIFY nodeXPositionChanged)
+    Q_PROPERTY(QString nodeYPosition READ getNodeYPosition WRITE setNodeYPosition NOTIFY nodeYPositionChanged)
+
 public:
     XMLNode();
 
     void setNodeTitle(const QString &title);
-    std::string getNodeTitle();
+    QString getNodeTitle();
 
     void setNodeText(const QString &nodeText);
-    std::string getNodeText();
+    QString getNodeText();
+
+    void setNodeParentID(const QString &parentID);
+    QString getNodeParentID();
+
+    void setNodeUID(const QString &nodeUID);
+    QString getNodeUID();
+
+    void setNodeXPosition(const QString &nodeXPosition);
+    QString getNodeXPosition();
+
+    void setNodeYPosition(const QString &nodeYPosition);
+    QString getNodeYPosition();
 
     void addChild(const QString &nodeText);
+
+signals:
+    void nodeTitleChanged();
+    void nodeTextChanged();
+
 private:
-    inline static std::string _nodeTitle;
-    inline static std::string _nodeText;
+    QString _nodeTitle;
+    QString _nodeText;
+    QString _nodeParentID;
+    QString _nodeUID;
+    QString _nodeXPosition;
+    QString _nodeYPosition;
 };
 
 }
