@@ -11,14 +11,17 @@ Misc::MyDocument &Misc::MyDocument::getInstance()
     return instance;
 }
 
-void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
+void Misc::MyDocument::openDocument(const QString &filename)
 {
-    QFile file;
-    file.setFileName(filename);
-    if (file.open(QIODevice::ReadWrite))
+    QString filenameModified = filename.mid(8);
+    _XMLfilename.setFileName(filenameModified);
+    //_XMLfilename.open(QIODevice::ReadWrite);
+    std::cout << "Misc::MyDocument::openDocument filename: " << filenameModified.toStdString() << std::endl;
+    if (_XMLfilename.open(QIODevice::ReadWrite))
     {
-        QTextStream stream(&file);
-        stream << inputXml << Qt::endl;
+        std::cout << "File Opened" << std::endl;
+        //QTextStream stream(&file);
+        //stream << inputXml << Qt::endl;
     }
     else
     {
@@ -26,6 +29,7 @@ void Misc::MyDocument::write(const QString &filename, const QString &inputXml)
     }
     return;
 }
+
 
 
 QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)

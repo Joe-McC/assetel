@@ -80,12 +80,9 @@ Page {
 
             ComboBox {
                 Layout.alignment: Qt.AlignVCenter
-                //model: Cpp_Misc_Translator.availableLanguages
-                //onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
             }
         }
     }
-
 
     //
     // Background color
@@ -103,7 +100,6 @@ Page {
 
         Image {
             source: "qrc:/icons/icon.png" //-- add logo here.
-            //sourceSize: Qt.size(app.initWidth, 300)
             sourceSize: Qt.size(600, 300)
             Layout.alignment: Qt.AlignHCenter
         }
@@ -118,44 +114,32 @@ Page {
             selectedNameFilter.index: 1
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            onAccepted:{
+            onAccepted: {
                 app.xmlSource = currentFile
-
+                Cpp_Misc_My_Document.openDocument(currentFile)
                 navigate(projectviewerpage)
             }
         }
 
-
-        // look at https://askubuntu.com/questions/446710/qml-simplest-way-to-write-to-a-text-file
-        /*MyDocument {
-            id: document
-            //fileType: fileDialog.selectedNameFilter.extensions[0]
-        }*/
-
         FileDialog {
             id: createDialog
             fileMode: FileDialog.SaveFile
-            //defaultSuffix: //document.fileType
             nameFilters: openDialog.nameFilters
-            //selectedNameFilter.index: document.fileType === "xml" ? 0 : 1
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            onAccepted: Cpp_Misc_My_Document.write(currentFile, "")
-
+            //onAccepted: Cpp_Misc_My_Document.openDocument(currentFile)
+            onAccepted: {
+                app.xmlSource = currentFile
+                Cpp_Misc_My_Document.openDocument(currentFile)
+                navigate(projectviewerpage)
+            }
         }
 
         Button {
             icon.color: palette.text
             Layout.minimumWidth: 156
             Layout.alignment: Qt.AlignHCenter
-            //icon.source: "qrc:/icons/newfile.png"
             text: qsTr("Create New Project")
-            //onClicked: folderviewloader.source = "folderview.qml"
             onClicked:{
-                //var component = Qt.createComponent("folderview.qml")
-                //var window = component.createObject(this)
-                //window.show()
-                //openProjectWindow.show()
-                //openDialog.open()
                 createDialog.open()
             }
         }
@@ -165,7 +149,6 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             icon.source: "qrc:/icons/openfolder.png"
             text: qsTr("Open Existing Project")
-            //onClicked: folderviewloader.source = "folderview.qml"
             onClicked: openDialog.open()
         }
 

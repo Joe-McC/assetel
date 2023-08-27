@@ -47,7 +47,10 @@ public:
 signals:
     void nodeTitleChanged();
     void nodeTextChanged();
-
+    void nodeParentIDChanged();
+    void nodeUIDChanged();
+    void nodeXPositionChanged();
+    void nodeYPositionChanged();
 private:
     QString _nodeTitle;
     QString _nodeText;

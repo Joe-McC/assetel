@@ -22,7 +22,7 @@ public:
 
     std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;;
 
-    Q_INVOKABLE void write(const QString &filename, const QString &inputXml);
+    Q_INVOKABLE void openDocument(const QString &filename);
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");    
     Q_INVOKABLE QList<QObject*> getNodesForQml();
 
@@ -35,10 +35,9 @@ Q_SIGNALS:
 private:
 
     inline static int _uid;
+    inline static QFile _XMLfilename;
 
     QString getUIDQString();
-
-
 };
 
 

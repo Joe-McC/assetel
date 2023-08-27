@@ -5,10 +5,10 @@ import QtQuick.Dialogs
 
 Item {
     id: node
-    property QString title
-    property QString uid
-    property QString parentid
-    property QString text
+    property string title
+    property string uid
+    property string parentid
+    property string text
     property int xposition
     property int yposition
 
