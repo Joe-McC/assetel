@@ -5,7 +5,7 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
-//import "ProjectViewer"
+
 
 Page {
     id: root

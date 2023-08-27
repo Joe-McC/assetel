@@ -7,6 +7,7 @@
 #include <misc/mydocument.h>
 #include <misc/treemodel.h>
 #include <misc/treemanipulator.h>
+#include <misc/parentsmodel.h>
 //#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
@@ -27,14 +28,6 @@ int main(int argc, char *argv[])
     auto treeModel = new TreeModel(&engine);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
-    /*auto america = new TreeItem("America");
-    auto asia = new TreeItem("Asia");
-    auto europe = new TreeItem("Europe");
-    auto brazil = new TreeItem("Brazil");
-    auto canada = new TreeItem("Canada");
-    auto italy = new TreeItem("Italy");
-    auto portugal = new TreeItem("Portugal");*/
-
     auto america = std::make_shared<TreeItem>("America");
     auto asia = std::make_shared<TreeItem>("Asia");
     auto europe = std::make_shared<TreeItem>("Europe");
@@ -51,16 +44,10 @@ int main(int argc, char *argv[])
     treeModel->addItem(europe, italy);
     treeModel->addItem(europe, portugal);
 
+    Misc::ParentsModel parentsModel;
+
     // Configure dark UI
     Misc::Utilities::configureDarkUi();
-
-    // Automatically re-translate UI
-    //QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
-    //                 &QQmlApplicationEngine::retranslate);
-
-
-    //Misc::FolderView* folderView = new Misc::FolderView();
-    //folderView->setSandBoxDetails(QDir::currentPath());   //show current path
 
     // Init QML interface
     auto c = engine.rootContext();
@@ -68,6 +55,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("Cpp_Misc_Utilities", utilities);
     c->setContextProperty("Cpp_Misc_My_Document", myDocument);
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
+    c->setContextProperty("availableParentsModel", &parentsModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

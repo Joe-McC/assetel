@@ -1,32 +1,61 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef XMLNODE_H
+#define XMLNODE_H
 
 #include <QObject>
+#include <QString>
 #include <qqml.h>
 #include <QtQml/qqmlregistration.h>
 #include <xmlelement.h>
 
-class XMLNode//: public QObject
+
+namespace Misc
 {
+
+class XMLNode : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString nodeTitle READ getNodeTitle WRITE setNodeTitle NOTIFY nodeTitleChanged)
+    Q_PROPERTY(QString nodeText READ getNodeText WRITE setNodeText NOTIFY nodeTextChanged)
+    Q_PROPERTY(QString nodeParentID READ getNodeParentID WRITE setNodeParentID NOTIFY nodeParentIDChanged)
+    Q_PROPERTY(QString nodeUID READ getNodeUID WRITE setNodeUID NOTIFY nodeUIDChanged)
+    Q_PROPERTY(QString nodeXPosition READ getNodeXPosition WRITE setNodeXPosition NOTIFY nodeXPositionChanged)
+    Q_PROPERTY(QString nodeYPosition READ getNodeYPosition WRITE setNodeYPosition NOTIFY nodeYPositionChanged)
+
 public:
     XMLNode();
 
-    //Q_OBJECT
+    void setNodeTitle(const QString &title);
+    QString getNodeTitle();
 
-    //Q_PROPERTY(float x READ x WRITE)
-    //Q_PROPERTY(float y READ y WRITE)
+    void setNodeText(const QString &nodeText);
+    QString getNodeText();
 
-    //QML_ELEMENT
+    void setNodeParentID(const QString &parentID);
+    QString getNodeParentID();
 
-    //void addElement(QString name);
-    //std::pair<float, float> getPosition();
-    //void setPosition(std::pair<float, float>);
+    void setNodeUID(const QString &nodeUID);
+    QString getNodeUID();
 
+    void setNodeXPosition(const QString &nodeXPosition);
+    QString getNodeXPosition();
 
+    void setNodeYPosition(const QString &nodeYPosition);
+    QString getNodeYPosition();
+
+    void addChild(const QString &nodeText);
+
+signals:
+    void nodeTitleChanged();
+    void nodeTextChanged();
 
 private:
-    //std::pair<float, float> m_Pos;
-    //std::vector<std::shared_ptr<QObject>> m_ChildList;
+    QString _nodeTitle;
+    QString _nodeText;
+    QString _nodeParentID;
+    QString _nodeUID;
+    QString _nodeXPosition;
+    QString _nodeYPosition;
 };
 
-#endif // TEST_H
+}
+#endif // XMLNODE_H

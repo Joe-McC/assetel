@@ -17,21 +17,12 @@ Page {
         id: toolbar
         height: 48
 
-
         //
         // Background gradient
         //
         Rectangle {
             border.width: 1
             border.color: palette.midlight
-
-
-            Text {
-                text: "TEST"
-            }
-            Text {
-                text: app.xmlSource
-            }
 
 
             gradient: Gradient {
@@ -50,10 +41,40 @@ Page {
         //
         // Toolbar controls
         //
+
+        Menu {
+            id: createnodemenu
+
+            MenuItem {
+                text: qsTr("Create Node")
+                //shortcut: StandardKey.ZoomIn
+                onTriggered: createnodedialog.open()
+            }
+        }
+
         RowLayout {
             spacing: app.spacing
             anchors.fill: parent
             anchors.margins: app.spacing
+
+            Button {
+                id: createnodebutton
+                anchors {
+                    top: toolbar.bottom
+                    left:  parent.left
+                }
+                property string uid
+                flat: true
+                icon.width: 24
+                icon.height: 24
+                Layout.fillHeight: true
+                icon.color: "azure"
+                //icon.source: "qrc:/icons/bug.svg"
+                text: qsTr("Create Use Case")
+                onClicked: {
+                    createnodemenu.open()
+                }
+            }
 
             Button {
                 flat: true
@@ -91,12 +112,28 @@ Page {
 
             ComboBox {
                 Layout.alignment: Qt.AlignVCenter
-                //model: Cpp_Misc_Translator.availableLanguages
-                //onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
             }
         }
     }
 
+    CreateNodeDialog {
+        id: createnodedialog
+    }
+
+    /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
+
+    Repeater {
+        model: Cpp_Misc_My_Document.getNodesForQml()
+
+        delegate: Node {          
+            title: model.nodeTitle
+            uid: model.nodeUID
+            parentid: model.nodeParentID
+            text: model.nodeText
+            xposition: model.nodeXPosition
+            yposition: model.nodeYPosition
+        }
+    }
 
     NodeTreeView {
         id: nodetreeview
@@ -105,8 +142,8 @@ Page {
         width: 200
         height: 800
         anchors {
-            //top: parent.
-            top: createnodebutton.bottom
+            top: parent.top - 100
+            //top: createnodebutton.bottom
             left: parent.left
             bottom:  parent.middle
         }
@@ -126,40 +163,6 @@ Page {
             onEntered: drag.source.caught = true;
             onExited: drag.source.caught = false;
         }
-    }
-
-
-
-
-    Button {
-        id: createnodebutton
-        anchors {
-            top: toolbar.bottom
-            left:  parent.left
-        }
-        property string uid
-        flat: true
-        icon.width: 24
-        icon.height: 24
-        Layout.fillHeight: true
-        icon.color: "azure"
-        //icon.source: "qrc:/icons/bug.svg"
-        text: qsTr("Create Use Case")
-        onClicked: {
-
-            var component;
-            var sprite;
-            component = Qt.createComponent("Node.qml");
-            //uid: qsTr(Cpp_Misc_My_Document.addNode())
-            //console.log("uid: " + uid + ".end");
-            //console.log("uid2: " + qsTr(Cpp_Misc_My_Document.addNode()) + ".end");
-            //sprite = component.createObject(projectviewer, {"x": 100, "y": 100})
-
-
-            sprite = component.createObject(projectviewer, {"uid": qsTr(Cpp_Misc_My_Document.addNode())})
-            //sprite = component.createObject(projectviewer)
-        }
-
     }
 
     Rectangle {
@@ -182,135 +185,4 @@ Page {
             onExited: drag.source.caught = false;
         }
     }
-
-
-
-    /*TreeView {
-        anchors {
-            //top: parent.top
-            left: parent.left
-            bottom:  parent.bottom
-        }
-        width: parent.width - droparea.width
-        height: parent.height / 1.5
-        // The model needs to be a QAbstractItemModel
-        model: Cpp_TreeView_Model
-
-        delegate: Item {
-            id: treeDelegate
-
-            implicitWidth: padding + label.x + label.implicitWidth + padding
-            implicitHeight: label.implicitHeight * 1.5
-
-            readonly property real indent: 20
-            readonly property real padding: 5
-
-            // Assigned to by TreeView:
-            required property TreeView treeView
-            required property bool isTreeNode
-            required property bool expanded
-            required property int hasChildren
-            required property int depth
-
-            TapHandler {
-                onTapped: treeView.toggleExpanded(row)
-            }
-
-            Text {
-                id: indicator
-                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
-                x: padding + (treeDelegate.depth * treeDelegate.indent)
-                anchors.verticalCenter: label.verticalCenter
-                text: "▸"
-                rotation: treeDelegate.expanded ? 90 : 0
-            }
-
-            Text {
-                id: label
-                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
-                width: treeDelegate.width - treeDelegate.padding - x
-                clip: true
-                text: model.display
-            }
-        }
-    }*/
-
-
-    /*Rectangle {
-        anchors.left: parent
-        color: "#e6dddd"
-        border.color: "#00bb7b7b"
-        //fillWidth: true
-        //minimumWidth: 50
-        //preferredWidth: 100
-        width:100
-        height: 150
-        //maximumWidth: 300
-        //minimumHeight: 150
-        Text {
-            anchors.centerIn: parent
-            text: parent.width + 'x' + parent.height
-        }
-    }*/
-    //XMLWriter{
-    //    id: xmlWriter
-    //}
-
-
-
-
-    // ---------------------------------------------------------------------------------------------------
-    // XML Section
-
-    // WRITE TO XML HERE ALSO
-
-    /*XmlListModel {
-        id: xmlModel
-        source: app.xmlSource
-        query: "/documents/document"
-        // ...
-        XmlListModelRole {
-            name: "pages"
-            elementName: "info/num_pages"
-        }
-    }*/
-
-    /*Rectangle {
-        anchors.centerIn: parent
-        color: "#e6dddd"
-        border.color: "#00bb7b7b"
-        //fillWidth: true
-        //minimumWidth: 50
-        //preferredWidth: 100
-        width:100
-        height: 150
-        //maximumWidth: 300
-        //minimumHeight: 150
-        ListView {
-            anchors.fill: parent
-            model: xmlModel
-            // delegate:  Text { text: " num pages= " + pages }
-            delegate:  Text { text: myXMLDocument.name }
-        }
-    }*/
-
-    //Node {
-        //anchors.centerIn: parent
-
-    //}
-
-
-
-    /*XMLDocument {
-        id: myXMLDocument
-        name: "test document"
-    }*/
-
-    // Test
-    /*ListView {
-        anchors.fill: parent
-        model: xmlModel
-        delegate:  Text { text: " num pages= " + pages }
-    }*/
-
 }
