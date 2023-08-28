@@ -15,7 +15,6 @@ void Misc::MyDocument::openDocument(const QString &filename)
 {
     QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
-    //_XMLfilename.open(QIODevice::ReadWrite);
     std::cout << "Misc::MyDocument::openDocument filename: " << filenameModified.toStdString() << std::endl;
     if (_XMLfilename.open(QIODevice::ReadWrite))
     {
@@ -35,23 +34,15 @@ void Misc::MyDocument::openDocument(const QString &filename)
 QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
     _uid++;//  ::_uidCount++;
-    //Misc::XMLNode node;
-    //auto nodePtr = std::make_shared<Misc::XMLNode>(node);
     auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
 
     QString uidQString = getUIDQString();
-
-    std::cout << "Misc::MyDocument::addNode parentNodeId: " << parentNodeId.toStdString() << std::endl;
-
 
     // Check if a parent node ID is provided
     if (!parentNodeId.isEmpty())
     {
         // Add the new node as a child of the parent node
         auto parentNode = _nodeLookup.find(parentNodeId.toInt());
-
-        //std::cout << "Misc::MyDocument::addNode parentNode after lookup: " << parentNode->second->getNodeText() << std::endl;
-
 
         if (parentNode != _nodeLookup.end())
         {
