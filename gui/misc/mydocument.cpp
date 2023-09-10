@@ -29,6 +29,27 @@ void Misc::MyDocument::openDocument(const QString &filename)
     return;
 }
 
+void Misc::MyDocument::saveDocument(const QString &filename)
+{
+    // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc????
+    /*QString filenameModified = filename.mid(8);
+    _XMLfilename.setFileName(filenameModified);
+    _XMLfilename.
+    std::cout << "Misc::MyDocument::save filename: " << filenameModified.toStdString() << std::endl;
+    if (_XMLfilename.open(QIODevice::ReadWrite))
+    {
+        std::cout << "File Opened" << std::endl;
+        //QTextStream stream(&file);
+        //stream << inputXml << Qt::endl;
+    }
+    else
+    {
+        qDebug("File not opened!");
+    }
+    return;*/
+}
+
+
 
 
 QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)

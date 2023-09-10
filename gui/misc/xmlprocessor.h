@@ -3,6 +3,12 @@
 
 #include "xmlnode.h"
 #include <QFile>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QXmlStreamAttribute>
+#include <QDomElement>
+#include <QDomDocument>
+#include <QDomText>
 
 namespace Misc {
 
@@ -16,6 +22,9 @@ public:
 
 private:
     inline static QFile _XMLfilename;
+    //inline static QXmlStreamWriter _xmlWriter;
+    //inline static QXmlStreamReader _xmlReader;
+    inline static QDomDocument _XMLdocument;
 };
 
 }
