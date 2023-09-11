@@ -12,10 +12,10 @@ XMLProcessor::XMLProcessor(QFile filename)
     {
         qDebug() << "failed to parse file";
         filename.close();
-        return 0;
+        //return 0;
     }
 
-    file.close();
+    filename.close();
 
     QDomElement docEle = _XMLdocument.documentElement();
     QDomNodeList elements = docEle.elementsByTagName("LAMPS");
@@ -31,7 +31,7 @@ XMLProcessor::XMLProcessor(QFile filename)
     if( !outFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
     {
         qDebug( "Failed to open file for writing." );
-        return 0;
+        //return 0;
     }
 
     QTextStream stream( &outFile );
@@ -93,8 +93,8 @@ void XMLProcessor::writeNodes(Misc::XMLNode node)
 
     _xmlWriter.writeEndElement();
 
-    /************************************* WHEN DO WE WANT TO CLOSE THE FILE???***********************************/
-    //_XMLfilename.close();*/
+    // ************************************ WHEN DO WE WANT TO CLOSE THE FILE??? **********************************
+    //_XMLfilename.close(); */
 }
 
 }
