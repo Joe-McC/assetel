@@ -41,6 +41,56 @@ Page {
         //
         // Toolbar controls
         //
+        FileDialog {
+            id: loadDialog
+            fileMode: FileDialog.OpenFile
+            selectedNameFilter.index: 1
+            nameFilters: ["Text files (*.xml)"]
+            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            onAccepted: {
+                app.xmlSource = currentFile
+                Cpp_Misc_My_Document.openDocument(currentFile)
+                navigate(projectviewerpage)
+            }
+        }
+
+        FileDialog {
+            id: newDialog
+            fileMode: FileDialog.OpenFile
+            selectedNameFilter.index: 1
+            nameFilters: ["Text files (*.xml)"]
+            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            onAccepted: {
+                app.xmlSource = currentFile
+                Cpp_Misc_My_Document.openDocument(currentFile)
+                navigate(projectviewerpage)
+            }
+        }
+
+        Menu {
+            id: filemenu
+            MenuItem {
+                text: qsTr("New")
+                onTriggered: {
+                    newDialog.open()
+                }
+            }
+            MenuItem {
+                text: qsTr("Load")
+                onTriggered: {
+                    loadDialog.open()
+                }
+            }
+            MenuItem {
+                text: qsTr("Save")
+                onTriggered: createnodedialog.open()
+            }
+            MenuItem {
+                text: qsTr("Save As")
+                onTriggered: createnodedialog.open()
+            }
+
+        }
 
         Menu {
             id: createnodemenu
@@ -58,11 +108,30 @@ Page {
             anchors.margins: app.spacing
 
             Button {
-                id: createnodebutton
+                id: filebutton
                 anchors {
                     top: toolbar.bottom
                     left:  parent.left
                 }
+
+                flat: true
+                icon.width: 24
+                icon.height: 24
+                Layout.fillHeight: true
+                icon.color: "azure"
+                //icon.source: "qrc:/icons/bug.svg"
+                text: qsTr("File")
+                onClicked: {
+                    filemenu.open()
+                }
+            }
+
+            Button {
+                id: createnodebutton
+                //anchors {
+                //    top: toolbar.bottom
+                //    left:  parent.left
+                //}
                 property string uid
                 flat: true
                 icon.width: 24

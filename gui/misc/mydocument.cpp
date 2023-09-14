@@ -26,12 +26,18 @@ void Misc::MyDocument::openDocument(const QString &filename)
     {
         qDebug("File not opened!");
     }
+
+    //POSSIBLY DONT NEED THE ABOVE CODE AS WE HANDLE ALL THIS IN XMLProcessor
+
+    QFile file;
+    file.setFileName(filename);
+    _XMLprocessor.setFilename(file);
     return;
 }
 
 void Misc::MyDocument::saveDocument(const QString &filename)
 {
-    // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc????
+    // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc???? --IT NEEDS TO BE CALLED AFTER WRITING TO EXISTING FILE
     /*QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
     _XMLfilename.
@@ -81,6 +87,13 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
     //node.setNodeText(nodeText);
     //node.setNodeTitle(nodeTitle);
     nodePtr->setNodeTitle(nodeTitle);
+
+    // YET TO BE IMPLEMENTED
+    /*nodePtr->setNodeText();
+    nodePtr->setNodeParentID();
+    nodePtr->setNodeUID();
+    nodePtr->setNodeXPosition();
+    nodePtr->setNodeYPosition();*/
 
     return uidQString;
 }

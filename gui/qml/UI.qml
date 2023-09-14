@@ -8,7 +8,7 @@ import QtQml.XmlListModel
 
 
 Page {
-    id: root
+    id: uimain
 
     //
     // Toolbar with buttons

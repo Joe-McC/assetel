@@ -2,7 +2,12 @@
 
 namespace Misc
 {
-XMLProcessor::XMLProcessor(QFile filename)
+XMLProcessor::XMLProcessor()
+{
+
+}
+
+void XMLProcessor::setFilename(QFile &filename)
 {
     _XMLfilename.setFileName(filename.fileName()); //QFile does not have copy constructor so need to get string of filename and reset
 
@@ -93,7 +98,7 @@ void XMLProcessor::writeNodes(Misc::XMLNode node)
 
     _xmlWriter.writeEndElement();
 
-    // ************************************ WHEN DO WE WANT TO CLOSE THE FILE??? **********************************
+    // ************************************ WHEN DO WE WANT TO CLOSE THE FILE -- Never??? **********************************
     //_XMLfilename.close(); */
 }
 

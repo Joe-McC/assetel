@@ -15,8 +15,8 @@ namespace Misc {
 class XMLProcessor
 {
 public:
-    XMLProcessor(QFile filename);
-
+    XMLProcessor();
+    void setFilename(QFile &filename);
     std::vector<Misc::XMLNode> getNodes();
     void writeNodes(Misc::XMLNode parent);
 

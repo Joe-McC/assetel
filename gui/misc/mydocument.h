@@ -7,6 +7,7 @@
 #include <QString>
 #include <iostream>
 #include "xmlnode.h"
+#include "xmlprocessor.h"
 
 namespace Misc
 {
@@ -37,6 +38,7 @@ private:
 
     inline static int _uid;
     inline static QFile _XMLfilename;
+    inline static XMLProcessor _XMLprocessor;
 
     QString getUIDQString();
 };
