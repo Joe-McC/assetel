@@ -25,6 +25,8 @@ public:
 
     Q_INVOKABLE void openDocument(const QString &filename);
     Q_INVOKABLE void saveDocument(const QString &filename);
+    Q_INVOKABLE void saveDocument();
+    Q_INVOKABLE QString getFilename();
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");    
     Q_INVOKABLE QList<QObject*> getNodesForQml();
 

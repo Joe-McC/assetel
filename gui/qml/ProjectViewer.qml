@@ -5,7 +5,6 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
-//import gui //false positive error: see https://stackoverflow.com/questions/71182775/how-to-register-qobject-class-in-cmake-with-qt-add-qml-module
 
 
 Page {
@@ -23,7 +22,6 @@ Page {
         Rectangle {
             border.width: 1
             border.color: palette.midlight
-
 
             gradient: Gradient {
                 GradientStop { position: 0; color: "#21373f" }
@@ -48,9 +46,7 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
-                app.xmlSource = currentFile
                 Cpp_Misc_My_Document.openDocument(currentFile)
-                navigate(projectviewerpage)
             }
         }
 
@@ -61,9 +57,20 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
-                app.xmlSource = currentFile
                 Cpp_Misc_My_Document.openDocument(currentFile)
-                navigate(projectviewerpage)
+            }
+        }
+
+        FileDialog {
+            id: saveDialog
+            fileMode: FileDialog.SaveFile
+            selectedNameFilter.index: 1
+            //filename: Cpp_Misc_My_Document.
+            //nameFilters: [Cpp_Misc_My_Document.getFilename]
+            currentFile: "file:///"+Cpp_Misc_My_Document.getFilename()+".xml" //The name of the item that you want to save
+            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            onAccepted: {
+                Cpp_Misc_My_Document.saveDocument(currentFile)
             }
         }
 
@@ -83,13 +90,16 @@ Page {
             }
             MenuItem {
                 text: qsTr("Save")
-                onTriggered: createnodedialog.open()
+                onTriggered: {
+                    Cpp_Misc_My_Document.saveDocument()
+                }
             }
             MenuItem {
                 text: qsTr("Save As")
-                onTriggered: createnodedialog.open()
+                onTriggered: {
+                    saveDialog.open()
+                }
             }
-
         }
 
         Menu {

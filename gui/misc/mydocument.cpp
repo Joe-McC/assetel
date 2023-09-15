@@ -37,6 +37,8 @@ void Misc::MyDocument::openDocument(const QString &filename)
 
 void Misc::MyDocument::saveDocument(const QString &filename)
 {
+    //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+
     // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc???? --IT NEEDS TO BE CALLED AFTER WRITING TO EXISTING FILE
     /*QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
@@ -55,8 +57,14 @@ void Misc::MyDocument::saveDocument(const QString &filename)
     return;*/
 }
 
+void Misc::MyDocument::saveDocument()
+{
+    //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+}
 
-
+QString Misc::MyDocument::getFilename() {
+    return _XMLfilename.fileName();
+}
 
 QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
