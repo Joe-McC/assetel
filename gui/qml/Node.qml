@@ -80,6 +80,18 @@ Item {
             }
         }
 
+        onXChanged: {
+            if (mouseArea.drag.active) {
+                Cpp_Misc_My_Document.setNewNodeXPos(uid, x)
+            }
+        }
+        onYChanged: {
+            if (mouseArea.drag.active) {
+              Cpp_Misc_My_Document.setNewNodeYPos(uid, y)
+            }
+        }
+
+
         MouseArea {
             id: mouseArea
             anchors.fill: parent

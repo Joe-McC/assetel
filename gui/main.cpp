@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     auto treeModel = new TreeModel(&engine);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
+
     auto america = std::make_shared<TreeItem>("America");
     auto asia = std::make_shared<TreeItem>("Asia");
     auto europe = std::make_shared<TreeItem>("Europe");
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("Cpp_Misc_My_Document", myDocument);
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
     c->setContextProperty("availableParentsModel", &parentsModel);
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

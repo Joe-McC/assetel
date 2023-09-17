@@ -106,6 +106,19 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
     return uidQString;
 }
 
+
+void Misc::MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPosition)
+{
+     auto nodeEntry = _nodeLookup.find(uid.toInt());
+     nodeEntry->second->setNodeXPosition(nodeXPosition);
+}
+
+void Misc::MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
+{
+    auto nodeEntry = _nodeLookup.find(uid.toInt());
+    nodeEntry->second->setNodeXPosition(nodeYPosition);
+}
+
 QList<QObject*> Misc::MyDocument::getNodesForQml() {
     QList<QObject*> qmlNodes;
     for (const auto& entry : _nodeLookup) {
