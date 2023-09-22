@@ -28,23 +28,6 @@ int main(int argc, char *argv[])
     auto treeModel = new TreeModel(&engine);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
-
-    auto america = std::make_shared<TreeItem>("America");
-    auto asia = std::make_shared<TreeItem>("Asia");
-    auto europe = std::make_shared<TreeItem>("Europe");
-    auto brazil = std::make_shared<TreeItem>("Brazil");
-    auto canada = std::make_shared<TreeItem>("Canada");
-    auto italy = std::make_shared<TreeItem>("Italy");
-    auto portugal = std::make_shared<TreeItem>("Portugal");
-
-    treeModel->addTopLevelItem(america);
-    treeModel->addTopLevelItem(asia);
-    treeModel->addTopLevelItem(europe);
-    treeModel->addItem(america, brazil);
-    treeModel->addItem(america, canada);
-    treeModel->addItem(europe, italy);
-    treeModel->addItem(europe, portugal);
-
     Misc::ParentsModel parentsModel;
 
     // Configure dark UI
