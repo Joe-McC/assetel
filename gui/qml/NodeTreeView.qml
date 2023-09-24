@@ -5,14 +5,23 @@ import QtQuick.Layouts 1.12
 
 import gui
 
-Frame {
-    //width: 200
-    //height: 600
+
+Window {
+    id: app
+    //width: 2560
+    //height: 1600
     visible: true
-    //title: qsTr("Tree Manipulation")
+    title: qsTr("Nodes")
+//Frame {
+    //visible: true
 
     ColumnLayout {
         anchors.fill: parent
+
+        Text {
+            id: titlelabel
+            text: qsTr("Node Title:")
+        }
 
         TreeView {
             id: treeView
@@ -30,3 +39,4 @@ Frame {
         }
     }
 }
+

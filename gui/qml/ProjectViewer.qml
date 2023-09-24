@@ -12,6 +12,8 @@ Page {
     //
     // Toolbar with buttons
     //
+    property int layerviewwidth: 300
+
     header: ToolBar {
         id: toolbar
         height: 48
@@ -216,16 +218,17 @@ Page {
 
     NodeTreeView {
         id: nodetreeview
-        //height: parent.height
-        //width: 600
-        width: 200
-        height: 800
-        anchors {
+        width: layerviewwidth
+        height: parent.height - 100
+        x: parent.left
+        y: 100
+
+        /*anchors {
             top: parent.top - 100
             //top: createnodebutton.bottom
             left: parent.left
             bottom:  parent.middle
-        }
+        }*/
     }
 
     Rectangle {
@@ -234,7 +237,7 @@ Page {
             right:  parent.right
             bottom:  parent.bottom
         }
-        width: parent - nodetreeview.width //parent.width / 1.25
+        width: parent.width - layerviewwidth //parent.width / 1.25
         color: "azure"
 
         DropArea {
