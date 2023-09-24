@@ -10,6 +10,7 @@ ApplicationWindow {
     width: 2560
     height: 1600
     visible: true
+    visibility: "Maximized"
     title: qsTr("assetel")
 
     //
@@ -18,14 +19,10 @@ ApplicationWindow {
     //property UI ui: null
     property string xmlSource: ""
     property string xmlContent: ""
-    //property bool projviewer: false
-    //property var folderview: null
-    //property alias folderview: folderview
 
     //
     // Global properties
     //
-    //readonly property int initWidth: 1280
     readonly property int spacing: 8
     readonly property color foregroundColor: "#ffffff"
     readonly property color windowBackgroundColor: "#121920"
@@ -46,31 +43,9 @@ ApplicationWindow {
     palette.text: app.foregroundColor
     palette.buttonText: app.foregroundColor
     palette.windowText: app.foregroundColor
-    //palette.window: app.windowBackgroundColor
     palette.window: "white"
 
-
-
-
-
-    //
-    // UI content
-    //
-    //Loader {
-    //    id: uiloader
-    //    asynchronous: true
-    //    anchors.fill: parent
-    //    sourceComponent: UI {
-    //        anchors.fill: parent
-    //        Component.onCompleted: {
-    //            //app.ui = this
-                //app.displayWindow()
-    //        }
-    //    }
-    //}
-
     function navigate(page) {
-        //loader.source =  page + ".qml";
         loader.sourceComponent = page;
     }
 
@@ -86,19 +61,14 @@ ApplicationWindow {
         id: projectviewerpage
         ProjectViewer {
             id: projectviewer
-            anchors.fill: parent
+            //anchors.fill: parent
             //xmlSource: xmlSource
         }
     }
-
-
 
     Loader {
         id: loader
         anchors.fill: parent
         sourceComponent: uipage
     }
-
-
-
 }

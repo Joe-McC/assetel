@@ -121,10 +121,10 @@ Page {
 
             Button {
                 id: filebutton
-                anchors {
+                /*anchors {
                     top: toolbar.bottom
                     left:  parent.left
-                }
+                }*/
 
                 flat: true
                 icon.width: 24
@@ -220,7 +220,7 @@ Page {
         id: nodetreeview
         width: layerviewwidth
         height: parent.height - 100
-        x: parent.left
+        x: 0
         y: 100
 
         /*anchors {
