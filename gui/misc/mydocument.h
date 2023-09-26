@@ -20,7 +20,7 @@ class MyDocument : public QObject
 public:
     static MyDocument &getInstance();
 
-    std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;;
+    std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
 
     Q_INVOKABLE void openDocument(const QString &filename);
     Q_INVOKABLE void saveDocument(const QString &filename);

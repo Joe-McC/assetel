@@ -260,9 +260,14 @@ Popup {
                         }
                     }
 
+                    var xpos = 300;
+                    var ypos = 300;
 
 //////////////////// USE IDS FROM MY Cpp_Misc_My_Document. Also, this should not happen here. Only add a new node based on what is in Cpp_Misc_My_Document (i.e. when loading an old doc or when a new node has been added_
-                    sprite = component.createObject(projectviewer, {"title": nodeDialogTitleInput.text.toString(), "uid": uid.toString(), "parentid": createnodedialog.selectedParentId.toString(),  "text": nodeDialogTextInput.text.toString()})
+                    sprite = component.createObject(projectviewer, {"title": nodeDialogTitleInput.text.toString(), "uid": uid.toString(), "parentid": createnodedialog.selectedParentId.toString(),  "text": nodeDialogTextInput.text.toString(), x: xpos, y: ypos})
+
+                    Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
+                    Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
 
                     createnodedialog.close()
                     nodeDialogTitleInput.text = "" // Clear the title

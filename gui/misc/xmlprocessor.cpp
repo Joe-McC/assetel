@@ -20,9 +20,9 @@ void XMLProcessor::setFilename(QFile &filename)
         //return 0;
     }
 
-    filename.close();
+    //filename.close();
 
-    QDomElement docEle = _XMLdocument.documentElement();
+    /*QDomElement docEle = _XMLdocument.documentElement();
     QDomNodeList elements = docEle.elementsByTagName("LAMPS");
 
     QDomElement light1 = _XMLdocument.createElement( "LIGHT1" );
@@ -42,7 +42,7 @@ void XMLProcessor::setFilename(QFile &filename)
     QTextStream stream( &outFile );
     stream << _XMLdocument.toString();
 
-    outFile.close();
+    outFile.close();*/
 
     /* Create an object, through which the recording to file */
     /*//QXmlStreamWriter _xmlWriter(&_XMLfilename);
@@ -68,7 +68,10 @@ std::vector<Misc::XMLNode> XMLProcessor::getNodes()
 {
     std::vector<Misc::XMLNode> nodes;
 
-    if (_XMLfilename.open(QIODevice::ReadWrite))
+
+    // already done in MyDocument.open ????
+
+    /*if (_XMLfilename.open(QIODevice::ReadWrite))
     {
         std::cout << "File Opened" << std::endl;
         //QTextStream stream(&file);
@@ -77,13 +80,75 @@ std::vector<Misc::XMLNode> XMLProcessor::getNodes()
     else
     {
         qDebug("File not opened!");
-    }
+    }*/
     return nodes;
 }
 
-void XMLProcessor::writeNodes(Misc::XMLNode node)
+void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup)
 {
+    /* FROM https://doc.qt.io/qt-6/qdomdocument.html
+     * QDomDocument doc;
+     * QDomElement root = doc.createElement("MyML");
+     * doc.appendChild(root);
+     * QDomElement tag = doc.createElement("Greeting");
+     * root.appendChild(tag);
+     * QDomText t = doc.createTextNode("Hello World");
+     * tag.appendChild(t);
+     * QString xml = doc.toString();
+     */
+
+
+    QDomElement nodes = _XMLdocument.createElement("Nodes");
+
+    for (auto const& nodeEntry : nodeLookup)
+    {
+        QDomElement node = _XMLdocument.createElement("Node");
+        _XMLdocument.appendChild(node);
+
+        QDomElement nodeTitle = _XMLdocument.createElement("Node Title");
+        node.appendChild(nodeTitle);
+        QDomText nodeTitleValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeTitle());
+        nodeTitle.appendChild(nodeTitleValue);
+
+        QDomElement nodeText = _XMLdocument.createElement("Node Text");
+        node.appendChild(nodeText);
+        QDomText nodeTextValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeText());
+        nodeText.appendChild(nodeTextValue);
+
+        QDomElement nodeUID = _XMLdocument.createElement("Node UID");
+        node.appendChild(nodeUID);
+        QDomText nodeUIDValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeUID());
+        nodeUID.appendChild(nodeUIDValue);
+
+        QDomElement nodeParentID = _XMLdocument.createElement("Node Parent ID");
+        node.appendChild(nodeParentID);
+        QDomText nodeParentIDValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeParentID());
+        nodeParentID.appendChild(nodeParentIDValue);
+
+        QDomElement nodeXPos = _XMLdocument.createElement("Node X Position");
+        node.appendChild(nodeXPos);
+        QDomText nodeXPosValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeXPosition());
+        nodeXPos.appendChild(nodeXPosValue);
+
+        QDomElement nodeYPos = _XMLdocument.createElement("Node Y Position");
+        node.appendChild(nodeXPos);
+        QDomText nodeYPosValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeYPosition());
+        nodeYPos.appendChild(nodeYPosValue);
+    }
+
     /* how do we write a child node into an existing node?? use https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer??? */
+
+    std::cout << "Misc::MyProcessor::writeNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+    if (_XMLfilename.open(QIODevice::ReadWrite))
+    {
+        std::cout << "File Opened" << std::endl;
+        //QTextStream stream(&file);
+        //stream << inputXml << Qt::endl;
+    }
+    QTextStream stream( &_XMLfilename );
+    stream << _XMLdocument.toString();
+
+    _XMLfilename.close();
 
     /*_xmlWriter.writeStartElement("resources");   // Write the first element of his name
 
@@ -99,7 +164,7 @@ void XMLProcessor::writeNodes(Misc::XMLNode node)
     _xmlWriter.writeEndElement();
 
     // ************************************ WHEN DO WE WANT TO CLOSE THE FILE -- Never??? **********************************
-    //_XMLfilename.close(); */
+    //_XMLfilename.close();*/
 }
 
 }

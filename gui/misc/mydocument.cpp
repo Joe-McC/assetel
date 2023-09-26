@@ -15,29 +15,20 @@ void Misc::MyDocument::openDocument(const QString &filename)
 {
     QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
-    std::cout << "Misc::MyDocument::openDocument filename: " << filenameModified.toStdString() << std::endl;
-    if (_XMLfilename.open(QIODevice::ReadWrite))
-    {
-        std::cout << "File Opened" << std::endl;
-        //QTextStream stream(&file);
-        //stream << inputXml << Qt::endl;
-    }
-    else
-    {
-        qDebug("File not opened!");
-    }
 
-    //POSSIBLY DONT NEED THE ABOVE CODE AS WE HANDLE ALL THIS IN XMLProcessor
+    _XMLprocessor.setFilename(_XMLfilename);
 
-    QFile file;
-    file.setFileName(filename);
-    _XMLprocessor.setFilename(file);
     return;
 }
 
 void Misc::MyDocument::saveDocument(const QString &filename)
 {
-    //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+    QString filenameModified = filename.mid(8);
+    _XMLfilename.setFileName(filenameModified);
+
+    _XMLprocessor.setFilename(_XMLfilename);
+
+    _XMLprocessor.writeNodes(_nodeLookup);  // MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
 
     // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc???? --IT NEEDS TO BE CALLED AFTER WRITING TO EXISTING FILE
     /*QString filenameModified = filename.mid(8);
