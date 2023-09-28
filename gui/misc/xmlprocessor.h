@@ -17,7 +17,7 @@ class XMLProcessor
 public:
     XMLProcessor();
     void setFilename(QFile &filename);
-    std::vector<Misc::XMLNode> getNodes();
+    std::map<int, std::shared_ptr<XMLNode>> getNodes();
     void writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup);
 
 private:

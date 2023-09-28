@@ -86,6 +86,9 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
     //node.setNodeText(nodeText);
     //node.setNodeTitle(nodeTitle);
     nodePtr->setNodeTitle(nodeTitle);
+    nodePtr->setNodeText(nodeText);
+    nodePtr->setNodeParentID(parentNodeId);
+    nodePtr->setNodeUID(uidQString);
 
     // YET TO BE IMPLEMENTED
     /*nodePtr->setNodeText();
@@ -107,15 +110,16 @@ void Misc::MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXP
 void Misc::MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
 {
     auto nodeEntry = _nodeLookup.find(uid.toInt());
-    nodeEntry->second->setNodeXPosition(nodeYPosition);
+    nodeEntry->second->setNodeYPosition(nodeYPosition);
 }
 
 QList<QObject*> Misc::MyDocument::getNodesForQml() {
+    _nodeLookup = _XMLprocessor.getNodes();
     QList<QObject*> qmlNodes;
     for (const auto& entry : _nodeLookup) {
         QObject* qmlNode = new QObject(this);
-        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle()); // Replace with actual property name
-        qmlNode->setProperty("nodeText", entry.second->getNodeText());   // Replace with actual property name
+        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
+        qmlNode->setProperty("nodeText", entry.second->getNodeText());
         qmlNodes.append(qmlNode);
     }
     return qmlNodes;

@@ -18,86 +18,34 @@ void XMLProcessor::setFilename(QFile &filename)
         qDebug() << "failed to parse file";
         filename.close();
         //return 0;
-    }
-
-    //filename.close();
-
-    /*QDomElement docEle = _XMLdocument.documentElement();
-    QDomNodeList elements = docEle.elementsByTagName("LAMPS");
-
-    QDomElement light1 = _XMLdocument.createElement( "LIGHT1" );
-    QDomElement state = _XMLdocument.createElement("State");
-    QDomText nextNode = _XMLdocument.createTextNode("State");
-    state.appendChild(nextNode);
-    light1.appendChild(state);
-    docEle.appendChild( light1 );
-
-    QFile outFile( "test-result.xml" );
-    if( !outFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
-    {
-        qDebug( "Failed to open file for writing." );
-        //return 0;
-    }
-
-    QTextStream stream( &outFile );
-    stream << _XMLdocument.toString();
-
-    outFile.close();*/
-
-    /* Create an object, through which the recording to file */
-    /*//QXmlStreamWriter _xmlWriter(&_XMLfilename);
-    //_xmlWriter(&_XMLfilename);
-    _xmlWriter.setDevice(&_XMLfilename);
-
-    //Create an object, through which the reading of the file
-    _xmlReader.setDevice(&_XMLfilename);
-
-
-    _xmlWriter.setAutoFormatting(true);  // Set the auto-formatting text_xmlWriter.writeStartDocument();     // run record in a document
-
-    _xmlWriter.writeStartDocument();
-    _xmlWriter.writeDTD(QStringLiteral("<!DOCTYPE xbel>"));
-    _xmlWriter.writeStartElement(QStringLiteral("xbel"));
-    _xmlWriter.writeAttribute(QStringLiteral("version"), QStringLiteral("1.0"));
-
-
-    //_xmlWriter.writeEndDocument();*/
+    } 
 }
 
-std::vector<Misc::XMLNode> XMLProcessor::getNodes()
+std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
 {
-    std::vector<Misc::XMLNode> nodes;
+    std::map<int, std::shared_ptr<XMLNode>> nodes;
+    // print out the element names of all elements that are direct children
+    // of the outermost element.
+    QDomElement docElem = _XMLdocument.documentElement();
 
-
-    // already done in MyDocument.open ????
-
-    /*if (_XMLfilename.open(QIODevice::ReadWrite))
-    {
-        std::cout << "File Opened" << std::endl;
-        //QTextStream stream(&file);
-        //stream << inputXml << Qt::endl;
+    int uid = 1;
+    QDomNode n = docElem.firstChild();
+    while(!n.isNull()) {
+        QDomElement e = n.toElement(); // try to convert the node to an element.
+        if(!e.isNull()) {
+           auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
+           nodes.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+           uid++;
+           //cout << qPrintable(e.tagName()) << '\n'; // the node really is an element.
+        }
+        n = n.nextSibling();
     }
-    else
-    {
-        qDebug("File not opened!");
-    }*/
+
     return nodes;
 }
 
 void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup)
 {
-    /* FROM https://doc.qt.io/qt-6/qdomdocument.html
-     * QDomDocument doc;
-     * QDomElement root = doc.createElement("MyML");
-     * doc.appendChild(root);
-     * QDomElement tag = doc.createElement("Greeting");
-     * root.appendChild(tag);
-     * QDomText t = doc.createTextNode("Hello World");
-     * tag.appendChild(t);
-     * QString xml = doc.toString();
-     */
-
-
     QDomElement nodes = _XMLdocument.createElement("Nodes");
 
     for (auto const& nodeEntry : nodeLookup)
@@ -131,7 +79,7 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
         nodeXPos.appendChild(nodeXPosValue);
 
         QDomElement nodeYPos = _XMLdocument.createElement("Node Y Position");
-        node.appendChild(nodeXPos);
+        node.appendChild(nodeYPos);
         QDomText nodeYPosValue = _XMLdocument.createTextNode(nodeEntry.second->getNodeYPosition());
         nodeYPos.appendChild(nodeYPosValue);
     }
@@ -149,22 +97,6 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
     stream << _XMLdocument.toString();
 
     _XMLfilename.close();
-
-    /*_xmlWriter.writeStartElement("resources");   // Write the first element of his name
-
-    _xmlWriter.writeStartElement("Node");
-
-    _xmlWriter.writeTextElement("NodeTitle", node.getNodeTitle());
-    _xmlWriter.writeTextElement("NodeText", node.getNodeText());
-    _xmlWriter.writeTextElement("NodeParentID", node.getNodeParentID());
-    _xmlWriter.writeTextElement("NodeUID", node.getNodeUID());
-    _xmlWriter.writeTextElement("NodeXPosition", node.getNodeXPosition());
-    _xmlWriter.writeTextElement("NodeYPosition", node.getNodeYPosition());
-
-    _xmlWriter.writeEndElement();
-
-    // ************************************ WHEN DO WE WANT TO CLOSE THE FILE -- Never??? **********************************
-    //_XMLfilename.close();*/
 }
 
 }
