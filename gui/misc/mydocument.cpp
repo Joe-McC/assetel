@@ -13,6 +13,9 @@ Misc::MyDocument &Misc::MyDocument::getInstance()
 
 void Misc::MyDocument::openDocument(const QString &filename)
 {
+    std::cout << "MyDocument::openDocument \n";
+
+
     QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
 
@@ -114,6 +117,8 @@ void Misc::MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYP
 }
 
 QList<QObject*> Misc::MyDocument::getNodesForQml() {
+    std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
+
     _nodeLookup = _XMLprocessor.getNodes();
     QList<QObject*> qmlNodes;
     for (const auto& entry : _nodeLookup) {
