@@ -8,6 +8,7 @@
 #include <iostream>
 #include "xmlnode.h"
 #include "xmlprocessor.h"
+#include <QQmlApplicationEngine>
 
 namespace Misc
 {
@@ -15,10 +16,11 @@ namespace Misc
 class MyDocument : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY???
 
 public:
-    static MyDocument &getInstance();
+    MyDocument(QQmlApplicationEngine& engine);
+
+    //static MyDocument &getInstance();
 
     std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
 
@@ -40,6 +42,7 @@ Q_SIGNALS:
 
 private:
 
+    QQmlApplicationEngine _engine;
     inline static int _uid;
     inline static QFile _XMLfilename;
     inline static XMLProcessor _XMLprocessor;

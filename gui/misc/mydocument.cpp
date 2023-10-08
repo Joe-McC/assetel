@@ -4,11 +4,16 @@
  * Returns the only instance of the class, this is to be used by the QML interface
  */
 
-Misc::MyDocument &Misc::MyDocument::getInstance()
+/*Misc::MyDocument &Misc::MyDocument::getInstance()
 {
     static MyDocument instance;
 
     return instance;
+}*/
+
+Misc::MyDocument(QQmlApplicationEngine &engine)
+{
+    _engine = engine;
 }
 
 void Misc::MyDocument::openDocument(const QString &filename)
@@ -86,19 +91,11 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
     }
     Misc::MyDocument::_nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
-    //node.setNodeText(nodeText);
-    //node.setNodeTitle(nodeTitle);
     nodePtr->setNodeTitle(nodeTitle);
     nodePtr->setNodeText(nodeText);
     nodePtr->setNodeParentID(parentNodeId);
     nodePtr->setNodeUID(uidQString);
 
-    // YET TO BE IMPLEMENTED
-    /*nodePtr->setNodeText();
-    nodePtr->setNodeParentID();
-    nodePtr->setNodeUID();
-    nodePtr->setNodeXPosition();
-    nodePtr->setNodeYPosition();*/
 
     return uidQString;
 }
@@ -120,14 +117,39 @@ QList<QObject*> Misc::MyDocument::getNodesForQml() {
     std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
 
     _nodeLookup = _XMLprocessor.getNodes();
+
+    QQmlComponent component(&engine, QUrl::fromLocalFile("Node.qml"));
+    QObject *object = component.create();
+    object->setProperty("width", 200);
+    object->setProperty("height", 150);
+    object->setProperty("color", "blue");
+
+
     QList<QObject*> qmlNodes;
-    for (const auto& entry : _nodeLookup) {
-        QObject* qmlNode = new QObject(this);
-        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
+    /*for (const auto& entry : _nodeLookup) {
+        /*XMLNode* node = entry.second.get(); // Assuming _nodeLookup is a std::map<int, std::shared_ptr<XMLNode>>
+
+        // Ensure signals are connected properly for property changes
+        connect(node, &XMLNode::nodeTitleChanged, this, &MyDocument::handleNodeTitleChange);
+        connect(node, &XMLNode::nodeUIDChanged, this, &MyDocument::handleNodeUIDChange);
+        // ... connect other signals ...
+
+        qmlNodes.append(node);
+
+        //QObject* qmlNode = new QObject(this);
+        //qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
+        //qmlNode->setProperty("nodeText", entry.second->getNodeText());
+        //qmlNodes.append(qmlNode);
+        QObject* qmlNode = new XMLNode();
+        qmlNode->setProperty("nodeTitle", QVariant(entry.second->getNodeTitle()));
         qmlNode->setProperty("nodeText", entry.second->getNodeText());
+        qmlNode->setProperty("nodeUID", entry.second->getNodeUID());
+        qmlNode->setProperty("nodeParentID", entry.second->getNodeParentID());
+        qmlNode->setProperty("nodeXPosition", entry.second->getNodeXPosition());
+        qmlNode->setProperty("nodeYPosition", entry.second->getNodeYPosition());
         qmlNodes.append(qmlNode);
     }
-    return qmlNodes;
+    return qmlNodes; */
 }
 
 

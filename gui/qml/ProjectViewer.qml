@@ -197,6 +197,15 @@ Page {
         }
     }
 
+    function consoleoutput(nodeTitle, nodeUID, nodeParentID, nodeText, nodeXPosition, nodeYPosition) {
+        console.log("model.modelData.nodeTitle: ", nodeTitle);
+        console.log("model.modelData.nodeUID: ", nodeUID);
+        console.log("model.modelData.nodeParentID: ", nodeParentID);
+        console.log("model.modelData.nodeText: ", nodeText);
+        console.log("model.modelData.nodeXPosition: ", nodeXPosition);
+        console.log("model.modelData.nodeYPosition: ", nodeYPosition);
+    }
+
     CreateNodeDialog {
         id: createnodedialog
     }
@@ -206,7 +215,8 @@ Page {
     Repeater {
         model: Cpp_Misc_My_Document.getNodesForQml()
 
-        delegate: Node {          
+        //delegate: Node {
+        Node {
             title: model.nodeTitle
             uid: model.nodeUID
             parentid: model.nodeParentID
@@ -214,7 +224,11 @@ Page {
             xposition: model.nodeXPosition
             yposition: model.nodeYPosition
         }
+        Component.onCompleted: {
+            consoleoutput(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
+        }
     }
+
 
     NodeTreeView {
         id: nodetreeview

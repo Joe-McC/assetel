@@ -23,7 +23,9 @@ int main(int argc, char *argv[])
     engine.addImportPath("qrc:/modules");
 
     auto utilities = &Misc::Utilities::getInstance();
-    auto myDocument = &Misc::MyDocument::getInstance();
+    //auto myDocument = &Misc::MyDocument::getInstance();
+
+    auto myDocument = new Misc::MyDocument(&engine);
 
     auto treeModel = new TreeModel(&engine);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);

@@ -37,8 +37,6 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
     if (_XMLfilename.open(QIODevice::ReadWrite))
     {
         std::cout << "File Opened" << std::endl;
-        //QTextStream stream(&file);
-        //stream << inputXml << Qt::endl;
     }
 
     QDomDocument _XMLdocument;
@@ -52,7 +50,8 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
         _XMLfilename.close();
     }
 
-    std::map<int, std::shared_ptr<XMLNode>> nodes;
+    std::map<int, std::shared_ptr<XMLNode>> nodeList;
+
     // print out the element names of all elements that are direct children
     // of the outermost element.
     QDomElement docElem = _XMLdocument.documentElement();
@@ -76,7 +75,7 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
 
             QString title;
             QString text;
-            QString uid;
+            QString uidStr;
             QString parentid;
             QString xpos;
             QString ypos;
@@ -87,7 +86,7 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
                 // Read Name and value
                 if (child.tagName()=="title") title = child.firstChild().toText().data();
                 if (child.tagName()=="text") text = child.firstChild().toText().data();
-                if (child.tagName()=="uid") uid = child.firstChild().toText().data();
+                if (child.tagName()=="uid") uidStr = child.firstChild().toText().data();
                 if (child.tagName()=="parentid") parentid = child.firstChild().toText().data();
                 if (child.tagName()=="xpos") xpos = child.firstChild().toText().data();
                 if (child.tagName()=="ypos") ypos = child.firstChild().toText().data();
@@ -98,68 +97,30 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
             // Display component data
             std::cout << "title = " << title.toStdString().c_str() << std::endl;
             std::cout << "text  = " << text.toStdString().c_str() << std::endl;
-            std::cout << "uid = " << uid.toStdString().c_str() << std::endl;
+            std::cout << "uid = " << uidStr.toStdString().c_str() << std::endl;
             std::cout << "parentid  = " << parentid.toStdString().c_str() << std::endl;
             std::cout << "xpos = " << xpos.toStdString().c_str() << std::endl;
             std::cout << "ypos  = " << ypos.toStdString().c_str() << std::endl;
 
-
             std::cout << std::endl;
+
+            auto nodePtr = std::shared_ptr<XMLNode>(new XMLNode());
+
+            nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+
+            nodePtr->setNodeTitle(title);
+            nodePtr->setNodeText(text);
+            nodePtr->setNodeParentID(parentid);
+            nodePtr->setNodeUID(uidStr);
+            nodePtr->setNodeXPosition(xpos);
+            nodePtr->setNodeYPosition(ypos);
         }
 
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
 
-
-    /*
-
-    QString data = domNodes.tagName();
-    qDebug()<<"The FirstChild is"<<data;
-    qDebug("After the Nodes DOM Element");
-
-    QDomNodeList nodesList = _XMLdocument.elementsByTagName("Nodes");
-    for(int i = 0; i < nodesList.count(); i++)
-    {
-        QDomNodeList nodeTitle = _XMLdocument.elementsByTagName("title");
-        QDomNode elm = nodesList.at(i);
-        if(elm.isElement())
-        {
-            qDebug() << elm.toElement().tagName()
-                     << " = "
-                     << elm.toElement().text();
-        }
-
-        QDomNodeList nodeText = _XMLdocument.elementsByTagName("text");
-        QDomNode elm2 = nodesList.at(i);
-        if(elm2.isElement())
-        {
-            qDebug() << elm2.toElement().tagName()
-                     << " = "
-                     << elm2.toElement().text();
-        }
-
-    }
-
-
-    // we're not currently entering the following while loop...
-    /*while(!domNodes.isNull()) {
-        std::cout << "XMLProcessor::getNodes QDomNode n is not null" << '\n';
-
-        QDomElement e = domNodes.toElement(); // try to convert the node to an element.
-        if(!e.isNull()) {
-           std::cout << "XMLProcessor::getNodes QDomElement e  is not null" << '\n';
-
-           auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
-           nodes.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
-           uid++;
-           std::cout << "TagName" << qPrintable(e.tagName()) << '\n'; // the node really is an element.
-           std::cout << "NodeName" << qPrintable(e.nodeName()) << '\n'; // the node really is an element.
-        }
-        //n = nodes.nextSibling();
-    }*/
-
-    return nodes;
+    return nodeList;
 }
 
 void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup)
