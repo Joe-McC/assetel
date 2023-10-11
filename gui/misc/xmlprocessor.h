@@ -25,8 +25,6 @@ public:
 
 private:
     inline static QFile _XMLfilename;
-    //inline static QXmlStreamWriter _xmlWriter;
-    //inline static QXmlStreamReader _xmlReader;
     inline static QDomDocument _XMLdocument;
 };
 

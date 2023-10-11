@@ -12,23 +12,10 @@ void XMLProcessor::setFilename(QFile &filename)
 
     std::cout << "XMLProcessor::setFilename \n";
 
-
     _XMLfilename.setFileName(filename.fileName()); //QFile does not have copy constructor so need to get string of filename and reset
 
     std::cout << "XMLProcessor::setFilename " << _XMLfilename.fileName().toStdString() << '\n';
 
-
-//SEE https://doc.qt.io/qt-6/qdomdocument.html and https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer
-    /*QDomDocument _XMLdocument;
-    QString error;
-    int line, column;
-
-    if (!_XMLdocument.setContent(&filename, &error, &line, &column))
-    {
-        qDebug() << "XMLProcessor::setFilename failed to parse file";
-        qDebug() << "Error:" << error << "in line " << line << "column" << column;
-        filename.close();
-    } */
 }
 
 std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEngine *engine)
