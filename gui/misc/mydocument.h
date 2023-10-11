@@ -18,9 +18,7 @@ class MyDocument : public QObject
     Q_OBJECT
 
 public:
-    MyDocument(QQmlApplicationEngine& engine);
-
-    //static MyDocument &getInstance();
+    MyDocument(QQmlApplicationEngine &engine);
 
     std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
 
@@ -42,7 +40,7 @@ Q_SIGNALS:
 
 private:
 
-    QQmlApplicationEngine _engine;
+    QQmlApplicationEngine* _engine;
     inline static int _uid;
     inline static QFile _XMLfilename;
     inline static XMLProcessor _XMLprocessor;

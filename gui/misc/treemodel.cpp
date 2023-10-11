@@ -2,13 +2,15 @@
 #include "misc/mydocument.h"
 #include <iostream>
 
-TreeModel::TreeModel(QObject* parent)
+TreeModel::TreeModel(QObject* parent, Misc::MyDocument *myDocument)
    : QAbstractItemModel(parent),
      _rootItem{new TreeItem()}
 {
     // Connect the signals to slots
-    connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
-    connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+    //connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
+    //connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+    connect(myDocument, &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
+    connect(myDocument, &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
 
 }
 

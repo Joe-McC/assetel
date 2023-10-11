@@ -1,9 +1,13 @@
 #include "mydocument.h"
+#include "qqmlcomponent.h"
+#include <QQmlApplicationEngine>
 
 /**
  * Returns the only instance of the class, this is to be used by the QML interface
  */
 
+namespace Misc
+{
 /*Misc::MyDocument &Misc::MyDocument::getInstance()
 {
     static MyDocument instance;
@@ -11,12 +15,12 @@
     return instance;
 }*/
 
-Misc::MyDocument(QQmlApplicationEngine &engine)
+MyDocument::MyDocument(QQmlApplicationEngine& engine):
+    _engine(&engine)
 {
-    _engine = engine;
 }
 
-void Misc::MyDocument::openDocument(const QString &filename)
+void MyDocument::openDocument(const QString &filename)
 {
     std::cout << "MyDocument::openDocument \n";
 
@@ -29,7 +33,7 @@ void Misc::MyDocument::openDocument(const QString &filename)
     return;
 }
 
-void Misc::MyDocument::saveDocument(const QString &filename)
+void MyDocument::saveDocument(const QString &filename)
 {
     QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
@@ -56,16 +60,16 @@ void Misc::MyDocument::saveDocument(const QString &filename)
     return;*/
 }
 
-void Misc::MyDocument::saveDocument()
+void MyDocument::saveDocument()
 {
     //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
 }
 
-QString Misc::MyDocument::getFilename() {
+QString MyDocument::getFilename() {
     return _XMLfilename.fileName();
 }
 
-QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
+QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
     _uid++;//  ::_uidCount++;
     auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
@@ -101,28 +105,28 @@ QString Misc::MyDocument::addNode(const QString &nodeTitle, const QString &nodeT
 }
 
 
-void Misc::MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPosition)
+void MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPosition)
 {
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);
 }
 
-void Misc::MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
+void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
 {
     auto nodeEntry = _nodeLookup.find(uid.toInt());
     nodeEntry->second->setNodeYPosition(nodeYPosition);
 }
 
-QList<QObject*> Misc::MyDocument::getNodesForQml() {
+QList<QObject*> MyDocument::getNodesForQml() {
     std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
 
-    _nodeLookup = _XMLprocessor.getNodes();
+    _nodeLookup = _XMLprocessor.getNodes(_engine);
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile("Node.qml"));
-    QObject *object = component.create();
-    object->setProperty("width", 200);
-    object->setProperty("height", 150);
-    object->setProperty("color", "blue");
+    //QQmlComponent component(_engine, QUrl::fromLocalFile("Node.qml"));
+    //QObject *object = component.create();
+    //object->setProperty("width", 200);
+    //object->setProperty("height", 150);
+    //object->setProperty("color", "blue");
 
 
     QList<QObject*> qmlNodes;
@@ -153,7 +157,7 @@ QList<QObject*> Misc::MyDocument::getNodesForQml() {
 }
 
 
-QString Misc::MyDocument::getUIDQString()
+QString MyDocument::getUIDQString()
 {
    std::string uid = std::to_string(_uid);
    const int num = 3;
@@ -163,4 +167,5 @@ QString Misc::MyDocument::getUIDQString()
        uid.insert(0, num - uid.size(), '0');
    }
    return QString::fromStdString(uid);
+}
 }

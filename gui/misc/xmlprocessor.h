@@ -9,6 +9,9 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QDomText>
+#include <QQmlApplicationEngine>
+#include <QQmlComponent>
+
 
 namespace Misc {
 
@@ -17,7 +20,7 @@ class XMLProcessor
 public:
     XMLProcessor();
     void setFilename(QFile &filename);
-    std::map<int, std::shared_ptr<XMLNode>> getNodes();
+    std::map<int, std::shared_ptr<XMLNode>> getNodes(QQmlApplicationEngine *engine);
     void writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup);
 
 private:

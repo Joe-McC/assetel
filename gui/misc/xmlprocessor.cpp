@@ -31,7 +31,7 @@ void XMLProcessor::setFilename(QFile &filename)
     } */
 }
 
-std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
+std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEngine *engine)
 {
     std::cout << "Misc::MyProcessor::getNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
     if (_XMLfilename.open(QIODevice::ReadWrite))
@@ -104,16 +104,21 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes()
 
             std::cout << std::endl;
 
-            auto nodePtr = std::shared_ptr<XMLNode>(new XMLNode());
+            //auto nodePtr = std::shared_ptr<XMLNode>(new XMLNode());
 
-            nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+            //nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
 
-            nodePtr->setNodeTitle(title);
-            nodePtr->setNodeText(text);
-            nodePtr->setNodeParentID(parentid);
-            nodePtr->setNodeUID(uidStr);
-            nodePtr->setNodeXPosition(xpos);
-            nodePtr->setNodeYPosition(ypos);
+            QQmlComponent component(engine, QUrl::fromLocalFile("Node.qml"));
+            QObject *node = component.create();
+
+            node->setProperty("nodeTitle", title);
+            node->setProperty("nodeText", text);
+            node->setProperty("nodeUID", uidStr);
+            node->setProperty("nodeParentID", parentid);
+            node->setProperty("nodeXPosition", xpos);
+            node->setProperty("nodeYPosition", ypos);
+
+
         }
 
         // Next component

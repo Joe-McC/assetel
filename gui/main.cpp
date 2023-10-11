@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
     auto utilities = &Misc::Utilities::getInstance();
     //auto myDocument = &Misc::MyDocument::getInstance();
 
-    auto myDocument = new Misc::MyDocument(&engine);
+    auto myDocument = new Misc::MyDocument(engine);
 
-    auto treeModel = new TreeModel(&engine);
+    auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
     Misc::ParentsModel parentsModel;
