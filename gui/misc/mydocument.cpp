@@ -30,6 +30,8 @@ void MyDocument::openDocument(const QString &filename)
 
     _XMLprocessor.setFilename(_XMLfilename);
 
+    _nodeLookup = _XMLprocessor.getNodes(_engine);
+
     return;
 }
 

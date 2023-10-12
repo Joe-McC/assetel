@@ -212,7 +212,7 @@ Page {
 
     /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
 
-    Repeater {
+    /*Repeater {
         model: Cpp_Misc_My_Document.getNodesForQml()
 
         //delegate: Node {
@@ -227,7 +227,7 @@ Page {
         Component.onCompleted: {
             consoleoutput(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
         }
-    }
+    }*/
 
 
     NodeTreeView {

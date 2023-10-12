@@ -11,6 +11,7 @@
 #include <QDomText>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
+#include <QQuickWindow>
 
 
 namespace Misc {

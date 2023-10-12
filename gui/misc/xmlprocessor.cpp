@@ -46,6 +46,23 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
     qDebug()<<"The docElem tag is"<<startTag;
     std::cout << "XMLProcessor::getNodes" << '\n';
 
+
+
+    QQuickWindow *window = qobject_cast<QQuickWindow*>(engine->rootObjects().at(1));
+
+    if (!window) {
+        qFatal("Error: Your root item has to be a window.");
+        //return -1;
+    }
+    window->show();
+    QQuickItem *root = window->contentItem();
+
+
+
+
+
+
+
     int uid = 1;
     QDomElement domNodes = docElem.firstChild().toElement();
     //QDomNode node = nodes.firstChild();
@@ -93,10 +110,15 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
 
             //auto nodePtr = std::shared_ptr<XMLNode>(new XMLNode());
 
-            //nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
+            //nodeList.ins  ert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
 
-            QQmlComponent component(engine, QUrl::fromLocalFile("Node.qml"));
+            std::cout << "About to create node" << std::endl;
+
+            QQmlComponent component(engine, QUrl(QStringLiteral("qrc:/Node.qml")));
             QObject *node = component.create();
+            QQmlEngine::setObjectOwnership(node, QQmlEngine::CppOwnership);
+
+            std::cout << "Node created" << std::endl;
 
             node->setProperty("nodeTitle", title);
             node->setProperty("nodeText", text);
@@ -105,12 +127,15 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
             node->setProperty("nodeXPosition", xpos);
             node->setProperty("nodeYPosition", ypos);
 
+            std::cout << "Properties set" << std::endl;
 
         }
 
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
+
+
 
     return nodeList;
 }
