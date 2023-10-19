@@ -16,6 +16,7 @@ namespace Misc
 class MyDocument : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QList<QObject*> nodes READ getNodes CONSTANT)
 
 public:
     MyDocument(QQmlApplicationEngine &engine);
@@ -30,6 +31,8 @@ public:
     Q_INVOKABLE void setNewNodeXPos(const QString &uid, const QString &nodeXPosition);
     Q_INVOKABLE void setNewNodeYPos(const QString &uid, const QString &nodeYPosition);
     Q_INVOKABLE QList<QObject*> getNodesForQml();
+
+    Q_INVOKABLE QList<QObject*> getNodes();
 
 Q_SIGNALS:
     // Signals emitted to TreeModel.qml

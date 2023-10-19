@@ -8,6 +8,7 @@
 #include <misc/treemodel.h>
 #include <misc/treemanipulator.h>
 #include <misc/parentsmodel.h>
+#include <misc/xmlnode.h>
 //#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
@@ -25,10 +26,16 @@ int main(int argc, char *argv[])
     auto utilities = &Misc::Utilities::getInstance();
     //auto myDocument = &Misc::MyDocument::getInstance();
 
+// create XMLProcessor instance here and pass to mydocument and nodemodellist? OR add connections between myDocument and NodeListModel
+    //auto xmlProcessor = &Misc::XMLProcessor::getInstance();
+
     auto myDocument = new Misc::MyDocument(engine);
+    auto nodeListModel = new Misc::NodeListModel();
 
     auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
+
+    //QList<QObject*> nodes = myDocument->getNodes();
 
     Misc::ParentsModel parentsModel;
 
@@ -43,6 +50,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
     c->setContextProperty("availableParentsModel", &parentsModel);
 
+    //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

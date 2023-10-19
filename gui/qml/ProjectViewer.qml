@@ -5,6 +5,7 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
+import xmlNode
 
 
 Page {
@@ -211,23 +212,46 @@ Page {
     }
 
     /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
+    function createNode(title, uid, parentId, text, xpos, ypos) {
+        var component = Qt.createComponent("Node.qml");
+        if (component.status === Component.Ready) {
+            var sprite = component.createObject(projectviewer, {
+                "title": title,
+                "uid": uid.toString(),
+                "parentid": parentId.toString(),
+                "text": text,
+                "x": xpos,
+                "y": ypos
+            });
 
-    /*Repeater {
-        model: Cpp_Misc_My_Document.getNodesForQml()
+            if (sprite === null) {
+                console.error("Error creating object");
+            } else {
+                // Set properties for the new object (if needed)
+                // ...
+                Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos);
+                Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos);
+            }
+        } else {
+            console.error("Error loading component:", component.errorString());
+        }
+    }
 
-        //delegate: Node {
-        Node {
-            title: model.nodeTitle
-            uid: model.nodeUID
-            parentid: model.nodeParentID
-            text: model.nodeText
-            xposition: model.nodeXPosition
-            yposition: model.nodeYPosition
+    Repeater {
+        model: Cpp_Misc_My_Document.nodes
+
+        delegate: Node {
+            Node {
+                title: model.nodeTitle
+                uid: model.nodeUID
+                parentid: model.nodeParentID
+                text: model.nodeText
+                xposition: model.nodeXPosition
+                yposition: model.nodeYPosition
+            }
         }
-        Component.onCompleted: {
-            consoleoutput(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
-        }
-    }*/
+
+    }
 
 
     NodeTreeView {

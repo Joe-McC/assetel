@@ -2,9 +2,6 @@
 #include "qqmlcomponent.h"
 #include <QQmlApplicationEngine>
 
-/**
- * Returns the only instance of the class, this is to be used by the QML interface
- */
 
 namespace Misc
 {
@@ -30,7 +27,7 @@ void MyDocument::openDocument(const QString &filename)
 
     _XMLprocessor.setFilename(_XMLfilename);
 
-    _nodeLookup = _XMLprocessor.getNodes(_engine);
+    //_nodeLookup = _XMLprocessor.getNodes(_engine);
 
     return;
 }
@@ -132,7 +129,8 @@ QList<QObject*> MyDocument::getNodesForQml() {
 
 
     QList<QObject*> qmlNodes;
-    /*for (const auto& entry : _nodeLookup) {
+    QObject* qmlNode = new QObject(this);
+    for (const auto& entry : _nodeLookup) {
         /*XMLNode* node = entry.second.get(); // Assuming _nodeLookup is a std::map<int, std::shared_ptr<XMLNode>>
 
         // Ensure signals are connected properly for property changes
@@ -140,14 +138,25 @@ QList<QObject*> MyDocument::getNodesForQml() {
         connect(node, &XMLNode::nodeUIDChanged, this, &MyDocument::handleNodeUIDChange);
         // ... connect other signals ...
 
-        qmlNodes.append(node);
+        qmlNodes.append(node);*/
 
-        //QObject* qmlNode = new QObject(this);
+
         //qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
         //qmlNode->setProperty("nodeText", entry.second->getNodeText());
         //qmlNodes.append(qmlNode);
-        QObject* qmlNode = new XMLNode();
-        qmlNode->setProperty("nodeTitle", QVariant(entry.second->getNodeTitle()));
+        //QObject* qmlNode = new XMLNode();
+
+        std::cout << "title = " << entry.second->getNodeTitle().toStdString().c_str() << std::endl;
+        std::cout << "text  = " << entry.second->getNodeText().toStdString().c_str() << std::endl;
+        std::cout << "uid = " << entry.second->getNodeUID().toStdString().c_str() << std::endl;
+        std::cout << "parentid  = " << entry.second->getNodeParentID().toStdString().c_str() << std::endl;
+        std::cout << "xpos = " << entry.second->getNodeXPosition().toStdString().c_str() << std::endl;
+        std::cout << "ypos  = " << entry.second->getNodeYPosition().toStdString().c_str() << std::endl;
+
+        std::cout << std::endl;
+
+
+        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
         qmlNode->setProperty("nodeText", entry.second->getNodeText());
         qmlNode->setProperty("nodeUID", entry.second->getNodeUID());
         qmlNode->setProperty("nodeParentID", entry.second->getNodeParentID());
@@ -155,10 +164,66 @@ QList<QObject*> MyDocument::getNodesForQml() {
         qmlNode->setProperty("nodeYPosition", entry.second->getNodeYPosition());
         qmlNodes.append(qmlNode);
     }
-    return qmlNodes; */
+
+
+
+    //_engine->rootContext()->setContextProperty("axes", QVariant::fromValue(data.axes()));
+
+    return qmlNodes;
 }
 
+QList<QObject*> MyDocument::getNodes() {
+    std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
 
+    _nodeLookup = _XMLprocessor.getNodes(_engine);
+
+    QList<QObject*> qmlNodes;
+    for (const auto& entry : _nodeLookup) {
+        /*XMLNode* node = entry.second.get(); // Assuming _nodeLookup is a std::map<int, std::shared_ptr<XMLNode>>
+
+        // Ensure signals are connected properly for property changes
+        connect(node, &XMLNode::nodeTitleChanged, this, &MyDocument::handleNodeTitleChange);
+        connect(node, &XMLNode::nodeUIDChanged, this, &MyDocument::handleNodeUIDChange);
+        // ... connect other signals ...
+
+        qmlNodes.append(node);*/
+
+        //QObject* qmlNode = new QObject(this);
+        //qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
+        //qmlNode->setProperty("nodeText", entry.second->getNodeText());
+        //qmlNodes.append(qmlNode);
+        //QObject* qmlNode = new XMLNode();
+
+        //XMLNode* qmlNode = new XMLNode();
+
+        //node->setProperty("width", 200);
+        //object->setProperty("height", 150);
+        //object->setProperty("color", "blue");
+
+        std::cout << "title = " << entry.second->getNodeTitle().toStdString().c_str() << std::endl;
+        std::cout << "text  = " << entry.second->getNodeText().toStdString().c_str() << std::endl;
+        std::cout << "uid = " << entry.second->getNodeUID().toStdString().c_str() << std::endl;
+        std::cout << "parentid  = " << entry.second->getNodeParentID().toStdString().c_str() << std::endl;
+        std::cout << "xpos = " << entry.second->getNodeXPosition().toStdString().c_str() << std::endl;
+        std::cout << "ypos  = " << entry.second->getNodeYPosition().toStdString().c_str() << std::endl;
+
+
+        //qmlNode->setProperty("nodeTitle", QString("Test"));
+
+        std::cout << std::endl;
+
+       /*qmlNode->setNodeTitle(entry.second->getNodeTitle());
+        qmlNode->setNodeText(entry.second->getNodeText());
+        qmlNode->setNodeUID(entry.second->getNodeUID());
+        qmlNode->setNodeParentID(entry.second->getNodeParentID());
+        qmlNode->setNodeXPosition(entry.second->getNodeXPosition());
+        qmlNode->setNodeXPosition(entry.second->getNodeYPosition());
+        qmlNodes.append(qmlNode);*/
+
+
+    }
+    return qmlNodes;
+}
 QString MyDocument::getUIDQString()
 {
    std::string uid = std::to_string(_uid);
@@ -170,4 +235,5 @@ QString MyDocument::getUIDQString()
    }
    return QString::fromStdString(uid);
 }
+
 }
