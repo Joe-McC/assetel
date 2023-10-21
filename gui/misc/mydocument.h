@@ -30,14 +30,15 @@ public:
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");
     Q_INVOKABLE void setNewNodeXPos(const QString &uid, const QString &nodeXPosition);
     Q_INVOKABLE void setNewNodeYPos(const QString &uid, const QString &nodeYPosition);
-    Q_INVOKABLE QList<QObject*> getNodesForQml();
+    //Q_INVOKABLE QList<QObject*> getNodesForQml();
 
-    Q_INVOKABLE QList<QObject*> getNodes();
+    Q_INVOKABLE void getNodes();
 
 Q_SIGNALS:
     // Signals emitted to TreeModel.qml
     void topLevelNodeAdded(const int &nodeId, const std::string &nodeTitle);
     void childNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId);
+    void nodeListUpdated(const std::map<int, std::shared_ptr<XMLNode>>* updatedNodeList);
 //protected:
 //    QString
 

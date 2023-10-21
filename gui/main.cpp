@@ -8,7 +8,7 @@
 #include <misc/treemodel.h>
 #include <misc/treemanipulator.h>
 #include <misc/parentsmodel.h>
-#include <misc/xmlnode.h>
+#include <misc/nodelistmodel.h>
 //#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     //auto xmlProcessor = &Misc::XMLProcessor::getInstance();
 
     auto myDocument = new Misc::MyDocument(engine);
-    auto nodeListModel = new Misc::NodeListModel();
+    auto nodeListModel = new Misc::NodeListModel(myDocument);
 
     auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("Cpp_Misc_My_Document", myDocument);
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
     c->setContextProperty("availableParentsModel", &parentsModel);
-
+    c->setContextProperty("nodeListModel", nodeListModel);
     //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

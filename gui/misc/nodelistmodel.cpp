@@ -1,6 +1,9 @@
 #include "nodelistmodel.h"
 #include "xmlprocessor.h"
 
+
+// see https://forum.qt.io/topic/89567/help-with-model-for-repeater/2
+
 namespace Misc
 {
 
@@ -23,16 +26,16 @@ QVariant NodeListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.row() >= m_nodes.count())
         return QVariant();
 
-    XMLNode i = m_nodes.at(index.row());
+    const XMLNode& i = m_nodes.at(index.row());
 
     switch(role){
 
-    case ROLE_NODE_TITLE: return i.getNodeTitle();
-    case ROLE_NODE_TEXT: return i.getNodeText();
-    case ROLE_PARENT_ID: return i.getNodeParentID();
-    case ROLE_NODE_UID: return i.getNodeUID();
-    case ROLE_NODE_X_POSITION: return i.getNodeXPosition();
-    case ROLE_NODE_Y_POSITION: return i.getNodeYPosition();
+    case ROLE_NODE_TITLE: return i._nodeTitle;
+    case ROLE_NODE_TEXT: return i._nodeText;
+    case ROLE_PARENT_ID: return i._nodeParentID;
+    case ROLE_NODE_UID: return i._nodeUID;
+    case ROLE_NODE_X_POSITION: return i._nodeXPosition;
+    case ROLE_NODE_Y_POSITION: return i._nodeYPosition;;
 
     }
 
@@ -51,31 +54,18 @@ QHash<int, QByteArray> NodeListModel::roleNames() const
     return roles;
 }
 
-QList<XMLNode> NodeListModel::items() const
+QList<XMLNode*> NodeListModel::items() const
 {
     return m_nodes;
 }
 
-void NodeListModel::setItems(const QList<XMLNode> &items)
+void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>>* updatedNodeList)
 {
-    _nodeLookup = _XMLprocessor.getNodes(_engine);
-
     QList<XMLNode*> qmlNodes;
-    for (const auto& entry : _nodeLookup) {
-        XMLNode* qmlNode = new XMLNode();
-
-        qmlNode->setNodeTitle(entry.second->getNodeTitle());
-        qmlNode->setNodeText(entry.second->getNodeText());
-        qmlNode->setNodeUID(entry.second->getNodeUID());
-        qmlNode->setNodeParentID(entry.second->getNodeParentID());
-        qmlNode->setNodeXPosition(entry.second->getNodeXPosition());
-        qmlNode->setNodeXPosition(entry.second->getNodeYPosition());
-        qmlNodes.append(qmlNode);
+    for (const auto entry : *updatedNodeList) {
+        m_nodes.append(entry.second.get());
     }
-
-    beginResetModel();
-    m_nodes = items;
-    endResetModel();
 }
+
 
 }
