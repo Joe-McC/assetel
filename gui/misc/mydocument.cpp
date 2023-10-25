@@ -177,7 +177,10 @@ void MyDocument::getNodes() {
 
     _nodeLookup = _XMLprocessor.getNodes(_engine);
 
-    emit nodeListUpdated(&_nodeLookup);
+    emit nodeListUpdated(_nodeLookup);
+
+    //QList<QObject*> nodes =
+    //return nodes;
 }
 QString MyDocument::getUIDQString()
 {

@@ -1,6 +1,4 @@
 #include "nodelistmodel.h"
-#include "xmlprocessor.h"
-
 
 // see https://forum.qt.io/topic/89567/help-with-model-for-repeater/2
 
@@ -11,6 +9,8 @@ NodeListModel::NodeListModel(QObject *parent, MyDocument *myDocument)
     : QAbstractListModel(parent)
 {
     connect(myDocument, &MyDocument::nodeListUpdated, this, &NodeListModel::handleNodeListUpdated);
+    qDebug() << "myDocument: " << myDocument;
+    qDebug() << "nodeListModel: " << this;
 }
 
 int NodeListModel::rowCount(const QModelIndex &parent) const
@@ -18,24 +18,24 @@ int NodeListModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return m_nodes.count();
+    return m_nodes->count();
 }
 
 QVariant NodeListModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_nodes.count())
+    if (!index.isValid() || index.row() >= m_nodes->count())
         return QVariant();
 
-    const XMLNode& i = m_nodes.at(index.row());
+    const XMLNode* i = m_nodes->at(index.row());
 
     switch(role){
 
-    case ROLE_NODE_TITLE: return i._nodeTitle;
-    case ROLE_NODE_TEXT: return i._nodeText;
-    case ROLE_PARENT_ID: return i._nodeParentID;
-    case ROLE_NODE_UID: return i._nodeUID;
-    case ROLE_NODE_X_POSITION: return i._nodeXPosition;
-    case ROLE_NODE_Y_POSITION: return i._nodeYPosition;;
+    case ROLE_NODE_TITLE: return i->_nodeTitle;
+    case ROLE_NODE_TEXT: return i->_nodeText;
+    case ROLE_PARENT_ID: return i->_nodeParentID;
+    case ROLE_NODE_UID: return i->_nodeUID;
+    case ROLE_NODE_X_POSITION: return i->_nodeXPosition;
+    case ROLE_NODE_Y_POSITION: return i->_nodeYPosition;;
 
     }
 
@@ -56,15 +56,20 @@ QHash<int, QByteArray> NodeListModel::roleNames() const
 
 QList<XMLNode*> NodeListModel::items() const
 {
-    return m_nodes;
+    return *m_nodes;
 }
 
-void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>>* updatedNodeList)
+void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>> updatedNodeList)
 {
-    QList<XMLNode*> qmlNodes;
-    for (const auto entry : *updatedNodeList) {
-        m_nodes.append(entry.second.get());
+    //QList<XMLNode*> qmlNodes;
+    for (const auto entry : updatedNodeList) {
+        //qmlNodes.append(entry.second.get());
+        //m_nodes.append(entry.second.get());
+        XMLNode* node = entry.second.get();
+        m_nodes->append(node);
     }
+
+
 }
 
 

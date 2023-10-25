@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     //auto xmlProcessor = &Misc::XMLProcessor::getInstance();
 
     auto myDocument = new Misc::MyDocument(engine);
-    auto nodeListModel = new Misc::NodeListModel(myDocument);
+    auto nodeListModel = new Misc::NodeListModel(&engine, myDocument);
 
     auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);

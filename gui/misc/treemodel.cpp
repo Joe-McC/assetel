@@ -1,5 +1,4 @@
 #include "treemodel.h"
-#include "misc/mydocument.h"
 #include <iostream>
 
 TreeModel::TreeModel(QObject* parent, Misc::MyDocument *myDocument)
@@ -11,6 +10,9 @@ TreeModel::TreeModel(QObject* parent, Misc::MyDocument *myDocument)
     //connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
     connect(myDocument, &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
     connect(myDocument, &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+
+    qDebug() << "TreeModel: myDocument: " << myDocument;
+    qDebug() << "TreeModel: nodeListModel: " << this;
 
 }
 

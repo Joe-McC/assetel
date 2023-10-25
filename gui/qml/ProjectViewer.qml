@@ -5,7 +5,6 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
 import QtQml.XmlListModel
-import xmlNode
 
 
 Page {
@@ -238,9 +237,13 @@ Page {
     }
 
     Repeater {
-        model: Cpp_Misc_My_Document.nodes
+        model: nodeListModel
 
         delegate: Node {
+            Component.onCompleted: {
+                console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
+            }
+
             Node {
                 title: model.nodeTitle
                 uid: model.nodeUID
@@ -248,9 +251,12 @@ Page {
                 text: model.nodeText
                 xposition: model.nodeXPosition
                 yposition: model.nodeYPosition
+
+                Component.onCompleted: {
+                    console.log("After assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
+                }
             }
         }
-
     }
 
 

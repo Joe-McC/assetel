@@ -32,7 +32,7 @@ public:
         ROLE_NODE_Y_POSITION,
     };
 
-    NodeListModel(QObject* parent = nullptr, MyDocument *myDocument = nullptr);
+    explicit NodeListModel(QObject* parent = nullptr, MyDocument *myDocument = nullptr);
 
     int rowCount(const QModelIndex& node = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -41,10 +41,16 @@ public:
     QList<XMLNode*> items() const;
     //void setItems(const QList<XMLNode> &items);
 
-private:
-    QList<XMLNode*> m_nodes;
 
-    void handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>>* updatedNodeList);
+public slots:
+    void handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
+
+
+private:
+    //QList<XMLNode*>* m_nodes;
+    QList<XMLNode*>* m_nodes = new QList<XMLNode*>;
+
+
 };
 
 }
