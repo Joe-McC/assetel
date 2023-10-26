@@ -241,20 +241,8 @@ Page {
 
         delegate: Node {
             Component.onCompleted: {
-                console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
-            }
-
-            Node {
-                title: model.nodeTitle
-                uid: model.nodeUID
-                parentid: model.nodeParentID
-                text: model.nodeText
-                xposition: model.nodeXPosition
-                yposition: model.nodeYPosition
-
-                Component.onCompleted: {
-                    console.log("After assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
-                }
+                //console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
+                createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition)
             }
         }
     }
