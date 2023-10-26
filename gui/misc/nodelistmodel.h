@@ -14,14 +14,14 @@ class NodeListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    /*struct NodeListItem {
+    struct NodeListItem {
         QString nodeTitle;
         QString nodeText;
         QString nodeParentID;
         QString nodeUID;
         int nodeXPosition;
         int nodeYPosition;
-    };*/
+    };
 
     enum Role {
         ROLE_NODE_TITLE = Qt::UserRole + 1,
@@ -34,12 +34,19 @@ public:
 
     explicit NodeListModel(QObject* parent = nullptr, MyDocument *myDocument = nullptr);
 
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+    //void setNodeList(const QVector<NodeListItem>& nodeList);
+
+    /*
     int rowCount(const QModelIndex& node = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     QList<XMLNode*> items() const;
-    //void setItems(const QList<XMLNode> &items);
+    //void setItems(const QList<XMLNode> &items);*/
 
 
 public slots:
@@ -48,8 +55,8 @@ public slots:
 
 private:
     //QList<XMLNode*>* m_nodes;
-    QList<XMLNode*>* m_nodes = new QList<XMLNode*>;
-
+    //QList<XMLNode*>* m_nodes = new QList<XMLNode*>;
+    std::vector<NodeListItem> _nodeList;
 
 };
 
