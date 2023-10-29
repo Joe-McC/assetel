@@ -8,6 +8,7 @@
 #include <misc/treemodel.h>
 #include <misc/treemanipulator.h>
 #include <misc/parentsmodel.h>
+#include <misc/nodelistmodel.h>
 //#include <misc/xmlwriter.h>
 //#include <misc/folderview.h>
 
@@ -23,26 +24,18 @@ int main(int argc, char *argv[])
     engine.addImportPath("qrc:/modules");
 
     auto utilities = &Misc::Utilities::getInstance();
-    auto myDocument = &Misc::MyDocument::getInstance();
+    //auto myDocument = &Misc::MyDocument::getInstance();
 
-    auto treeModel = new TreeModel(&engine);
+// create XMLProcessor instance here and pass to mydocument and nodemodellist? OR add connections between myDocument and NodeListModel
+    //auto xmlProcessor = &Misc::XMLProcessor::getInstance();
+
+    auto myDocument = new Misc::MyDocument(engine);
+    auto nodeListModel = new Misc::NodeListModel(&engine, myDocument);
+
+    auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
-    auto america = std::make_shared<TreeItem>("America");
-    auto asia = std::make_shared<TreeItem>("Asia");
-    auto europe = std::make_shared<TreeItem>("Europe");
-    auto brazil = std::make_shared<TreeItem>("Brazil");
-    auto canada = std::make_shared<TreeItem>("Canada");
-    auto italy = std::make_shared<TreeItem>("Italy");
-    auto portugal = std::make_shared<TreeItem>("Portugal");
-
-    treeModel->addTopLevelItem(america);
-    treeModel->addTopLevelItem(asia);
-    treeModel->addTopLevelItem(europe);
-    treeModel->addItem(america, brazil);
-    treeModel->addItem(america, canada);
-    treeModel->addItem(europe, italy);
-    treeModel->addItem(europe, portugal);
+    //QList<QObject*> nodes = myDocument->getNodes();
 
     Misc::ParentsModel parentsModel;
 
@@ -56,6 +49,8 @@ int main(int argc, char *argv[])
     c->setContextProperty("Cpp_Misc_My_Document", myDocument);
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
     c->setContextProperty("availableParentsModel", &parentsModel);
+    c->setContextProperty("nodeListModel", nodeListModel);
+    //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -44,17 +44,22 @@ public:
 
     void addChild(const QString &nodeText);
 
-signals:
-    void nodeTitleChanged();
-    void nodeTextChanged();
-
-private:
+    QString _nodeUID;
     QString _nodeTitle;
     QString _nodeText;
     QString _nodeParentID;
-    QString _nodeUID;
     QString _nodeXPosition;
     QString _nodeYPosition;
+
+signals:
+    void nodeTitleChanged();
+    void nodeTextChanged();
+    void nodeParentIDChanged();
+    void nodeUIDChanged();
+    void nodeXPositionChanged();
+    void nodeYPositionChanged();
+private:
+
 };
 
 }

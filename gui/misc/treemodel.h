@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 #include "treeitem.h"
+#include <misc/mydocument.h>
 
 /*!
  * Generic Tree Model.
@@ -13,7 +14,7 @@ class TreeModel : public QAbstractItemModel
    Q_OBJECT
 
 public:
-   explicit TreeModel(QObject* parent = nullptr);
+   explicit TreeModel(QObject* parent = nullptr, Misc::MyDocument *myDocument = nullptr);
    ~TreeModel() override;
 
    int rowCount(const QModelIndex& index) const override;

@@ -16,13 +16,11 @@ Flickable {
     property var currentData
 
     property alias handle: tree.handle
-    //property alias contentItem: tree.contentItem
     property Component highlight: Rectangle {
         color: root.selectedColor
     }
 
     property alias selectionEnabled: tree.selectionEnabled
-    //property alias hoverEnabled: tree.hoverEnabled
 
     property alias color: tree.color
     property alias handleColor: tree.handleColor
@@ -35,13 +33,13 @@ Flickable {
     property alias rowSpacing: tree.rowSpacing
 
     property alias fontMetrics: tree.fontMetrics
-    //property alias font: tree.font
 
-    Rectangle {
+
+    /*Rectangle {
         height: 200
         width: 200
-        color: "blue"
-    }
+        color: root.selectedColor
+    }*/
 
     enum Handle {
         Triangle,
