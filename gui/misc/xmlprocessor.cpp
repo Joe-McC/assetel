@@ -46,22 +46,6 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
     qDebug()<<"The docElem tag is"<<startTag;
     std::cout << "XMLProcessor::getNodes" << '\n';
 
-
-    /*QQuickWindow *window = qobject_cast<QQuickWindow*>(engine->rootObjects().at(0));
-
-    if (!window) {
-        qFatal("Error: Your root item has to be a window.");
-        //return -1;
-    }
-    window->show();
-    QQuickItem *root = window->contentItem();
-
-*/
-
-
-
-
-
     int uid = 1;
     QDomElement domNodes = docElem.firstChild().toElement();
     //QDomNode node = nodes.firstChild();
@@ -97,35 +81,7 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
                 child = child.nextSibling().toElement();
             }
 
-            // Display component data
-            /*std::cout << "title = " << title.toStdString().c_str() << std::endl;
-            std::cout << "text  = " << text.toStdString().c_str() << std::endl;
-            std::cout << "uid = " << uidStr.toStdString().c_str() << std::endl;
-            std::cout << "parentid  = " << parentid.toStdString().c_str() << std::endl;
-            std::cout << "xpos = " << xpos.toStdString().c_str() << std::endl;
-            std::cout << "ypos  = " << ypos.toStdString().c_str() << std::endl;
-*/
-            std::cout << std::endl;
-
             auto nodePtr = std::shared_ptr<XMLNode>(new XMLNode());
-
-
-
-            std::cout << "About to create node" << std::endl;
-
-            /*QQmlComponent component(engine, QUrl(QStringLiteral("qrc:/Node.qml")));
-            QObject *node = component.create();
-            QQmlEngine::setObjectOwnership(node, QQmlEngine::CppOwnership);
-*/
-            //node->setParentItem(root);
-            //node->setParent(engine);
-
-            //QQuickItem *childItem = qobject_cast<QQuickItem*>(node);
-
-
-
-
-            std::cout << "Node created" << std::endl;
 
             nodePtr->setProperty("nodeTitle", title);
             nodePtr->setProperty("nodeText", text);
@@ -136,18 +92,11 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
 
             nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
             uid++;
-
-
-
-            std::cout << "Properties set" << std::endl;
-
         }
 
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
-
-
 
     return nodeList;
 }
@@ -194,16 +143,18 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
 
     /* how do we write a child node into an existing node?? use https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer??? */
 
-    std::cout << "Misc::MyProcessor::writeNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
     if (_XMLfilename.open(QIODevice::ReadWrite))
     {
         std::cout << "File Opened" << std::endl;
         //QTextStream stream(&file);
         //stream << inputXml << Qt::endl;
     }
+
+    std::cout << "XMLProcessor::writeNodes:Filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+
     QTextStream stream( &_XMLfilename );
     stream << _XMLdocument.toString();
-
+    std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
     _XMLfilename.close();
 }
 

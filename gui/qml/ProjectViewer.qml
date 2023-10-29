@@ -69,7 +69,7 @@ Page {
             selectedNameFilter.index: 1
             //filename: Cpp_Misc_My_Document.
             //nameFilters: [Cpp_Misc_My_Document.getFilename]
-            currentFile: "file:///"+Cpp_Misc_My_Document.getFilename()+".xml" //The name of the item that you want to save
+            currentFile: "file:///"+"/dev/"+Cpp_Misc_My_Document.getFilename() //The name of the item that you want to save
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
                 Cpp_Misc_My_Document.saveDocument(currentFile)
@@ -238,7 +238,6 @@ Page {
 
     Repeater {
         model: nodeListModel
-
         delegate: Node {
             Component.onCompleted: {
                 //console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
