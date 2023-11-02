@@ -142,20 +142,20 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
     }
 
     /* how do we write a child node into an existing node?? use https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer??? */
+    // Set nodes as the root element of the XML document
+    _XMLdocument.appendChild(nodes);
 
     if (_XMLfilename.open(QIODevice::ReadWrite))
     {
         std::cout << "File Opened" << std::endl;
-        //QTextStream stream(&file);
-        //stream << inputXml << Qt::endl;
+        std::cout << "XMLProcessor::writeNodes:Filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+
+        QTextStream stream( &_XMLfilename );
+        stream << _XMLdocument.toString();
+        std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
+        _XMLfilename.close();
     }
 
-    std::cout << "XMLProcessor::writeNodes:Filename: " << _XMLfilename.fileName().toStdString() << std::endl;
-
-    QTextStream stream( &_XMLfilename );
-    stream << _XMLdocument.toString();
-    std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
-    _XMLfilename.close();
 }
 
 }

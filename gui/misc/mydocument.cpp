@@ -41,7 +41,7 @@ void MyDocument::saveDocument(const QString &filename)
 
 void MyDocument::saveDocument()
 {
-    //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+    _XMLprocessor.writeNodes(_nodeLookup);
 }
 
 QString MyDocument::getFilename() {
