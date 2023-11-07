@@ -97,6 +97,7 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
+    _XMLfilename.close();
 
     return nodeList;
 }
@@ -156,6 +157,7 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
         _XMLfilename.close();
     }
 
+    _XMLdocument.clear();
 }
 
 }
