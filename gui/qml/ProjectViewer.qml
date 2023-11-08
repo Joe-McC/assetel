@@ -225,11 +225,12 @@ Page {
 
             if (sprite === null) {
                 console.error("Error creating object");
-            } else {
-                // Set properties for the new object (if needed)
-                // ...
-                Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos);
-                Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos);
+            }
+            else {
+                var uid_new = Cpp_Misc_My_Document.addNode(title, text, parentId)
+                Cpp_Misc_My_Document.setNewNodeXPos(uid_new, xpos)
+                Cpp_Misc_My_Document.setNewNodeYPos(uid_new, ypos)
+                availableParentsModel.addParentItem(uid_new, text)
             }
         } else {
             console.error("Error loading component:", component.errorString());

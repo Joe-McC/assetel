@@ -55,10 +55,12 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
     {
         std::cout << "domNodes.tagName() = " << domNodes.tagName().toStdString() << '\n';
         // Check if the child tag name is COMPONENT
-        if (domNodes.tagName()=="Node")
+        if (domNodes.tagName()=="node")
         {
             // Get the first child of the component
             QDomElement child=domNodes.firstChild().toElement();
+
+            std::cout << "child = " << child.tagName().toStdString() << '\n';
 
             QString title;
             QString text;
@@ -89,6 +91,13 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
             nodePtr->setProperty("nodeParentID", parentid);
             nodePtr->setProperty("nodeXPosition", xpos);
             nodePtr->setProperty("nodeYPosition", ypos);
+
+            std::cout << "title = " << title.toStdString() << '\n';
+            std::cout << "text = " << text.toStdString() << '\n';
+            std::cout << "text = " << uidStr.toStdString() << '\n';
+            std::cout << "parentid = " << parentid.toStdString() << '\n';
+            std::cout << "xpos = " << xpos.toStdString() << '\n';
+            std::cout << "ypos = " << ypos.toStdString() << '\n';
 
             nodeList.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(uid, nodePtr));
             uid++;

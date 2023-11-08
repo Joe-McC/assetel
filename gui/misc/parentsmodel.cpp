@@ -20,6 +20,7 @@ void ParentsModel::setParents(const QList<ParentItem>& parents)
 
 void ParentsModel::addParentItem(const QString& nodeId, const QString& displayText)
 {
+    std::cout << "ParentsModel::addParentItem addParentItem: " << nodeId.toStdString() << std::endl;
     beginInsertRows(QModelIndex(), m_parents.size(), m_parents.size());
     m_parents.append({nodeId, displayText});
     endInsertRows();

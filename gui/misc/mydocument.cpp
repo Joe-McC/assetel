@@ -58,6 +58,7 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
     // Check if a parent node ID is provided
     if (!parentNodeId.isEmpty())
     {
+        std::cout << "MyDocument::addNode emit childNodeAdded: " << _uid << std::endl;
         // Add the new node as a child of the parent node
         auto parentNode = _nodeLookup.find(parentNodeId.toInt());
 
