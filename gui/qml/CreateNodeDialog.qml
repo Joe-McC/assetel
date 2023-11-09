@@ -246,17 +246,13 @@ Popup {
                             // Retrieve the instance of ParentsModel
                             var parentsModel = availableParentsModel
 
-                            // Create a new parent item
-                            //var newNodeId = uid
-                            //var newDisplayTitle = nodeDialogTitleInput.text
 
                             // Add the new parent item
                             availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
 
                             // Set the current index to the newly added parent item
                             parentComboBox.currentIndex = availableParentsModel.rowCount() - 1
-                            // Close the dialog
-                            //createnodedialog.close()
+
                         }
                     }
 
@@ -268,6 +264,8 @@ Popup {
 
                     Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
                     Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
+
+                    parent.currentNodes.add({"name": sprite});
 
                     createnodedialog.close()
                     nodeDialogTitleInput.text = "" // Clear the title

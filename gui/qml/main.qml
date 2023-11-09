@@ -61,8 +61,6 @@ ApplicationWindow {
         id: projectviewerpage
         ProjectViewer {
             id: projectviewer
-            //anchors.fill: parent
-            //xmlSource: xmlSource
         }
     }
 

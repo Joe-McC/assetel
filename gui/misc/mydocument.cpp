@@ -25,6 +25,7 @@ void MyDocument::openDocument(const QString &filename)
     _XMLfilename.setFileName(filenameModified);
     _XMLprocessor.setFilename(_XMLfilename);
 
+    _nodeLookup.clear();
     // Loads saved nodes using XMLProcessor and sends signals to NodeListModel, which sends the data to qml.
     getNodes();
 

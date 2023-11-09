@@ -48,6 +48,7 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
+                navigate(projectviewerpage)
                 Cpp_Misc_My_Document.openDocument(currentFile)
             }
         }
@@ -59,6 +60,10 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
+
+                projectviewerpage.active = !projectviewerpage.active
+
+                projectviewerpage.active = !projectviewerpage.active
                 Cpp_Misc_My_Document.openDocument(currentFile)
             }
         }
@@ -67,10 +72,7 @@ Page {
             id: saveDialog
             fileMode: FileDialog.SaveFile
             selectedNameFilter.index: 1
-            //filename: Cpp_Misc_My_Document.
-            //nameFilters: [Cpp_Misc_My_Document.getFilename]
-            currentFile: "file:///"+Cpp_Misc_My_Document.getFilename() //The name of the item that you want to save
-            //folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            currentFile: "file:///"+Cpp_Misc_My_Document.getFilename()+".xml" //The name of the item that you want to save
             onAccepted: {
                 Cpp_Misc_My_Document.saveDocument(currentFile)
             }
@@ -121,11 +123,6 @@ Page {
 
             Button {
                 id: filebutton
-                /*anchors {
-                    top: toolbar.bottom
-                    left:  parent.left
-                }*/
-
                 flat: true
                 icon.width: 24
                 icon.height: 24
@@ -210,7 +207,8 @@ Page {
         id: createnodedialog
     }
 
-    /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
+    property ListModel currentNodes: ListModel {}
+
     function createNode(title, uid, parentId, text, xpos, ypos) {
         var component = Qt.createComponent("Node.qml");
         if (component.status === Component.Ready) {
@@ -231,12 +229,21 @@ Page {
                 Cpp_Misc_My_Document.setNewNodeXPos(uid_new, xpos)
                 Cpp_Misc_My_Document.setNewNodeYPos(uid_new, ypos)
                 availableParentsModel.addParentItem(uid_new, text)
+
+                currentNodes.add({"name": sprite});
             }
         } else {
             console.error("Error loading component:", component.errorString());
         }
     }
 
+    function removeNodes()
+    {
+        for (var i=0; i<currentNodes.count; ++i)
+        {
+            currentNodes.remove(i);
+        }
+     }
     Repeater {
         model: nodeListModel
         delegate: Node {
@@ -254,13 +261,6 @@ Page {
         height: parent.height - 100
         x: 0
         y: 100
-
-        /*anchors {
-            top: parent.top - 100
-            //top: createnodebutton.bottom
-            left: parent.left
-            bottom:  parent.middle
-        }*/
     }
 
     Rectangle {
@@ -291,10 +291,6 @@ Page {
 
         DropArea {
             anchors.fill: parent
-            /*onEntered {
-                drag.source.caught: true
-                ld.active: !ld.active
-            }*/
             onEntered: drag.source.caught = true
             onExited: drag.source.caught = false;
         }
