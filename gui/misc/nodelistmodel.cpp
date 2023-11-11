@@ -55,6 +55,8 @@ QHash<int, QByteArray> NodeListModel::roleNames() const
 
 void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>> updatedNodeList)
 {
+    std::cout << "NodeListModel::handleNodeListUpdated updatedNodeList.size(): " << updatedNodeList.size() << std::endl;
+    _nodeList.clear();
     for (const auto& entry : updatedNodeList) {
         beginResetModel();
         const auto& node = entry.second; // shared_ptr to XMLNode

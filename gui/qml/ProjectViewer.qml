@@ -225,12 +225,12 @@ Page {
                 console.error("Error creating object");
             }
             else {
-                var uid_new = Cpp_Misc_My_Document.addNode(title, text, parentId)
-                Cpp_Misc_My_Document.setNewNodeXPos(uid_new, xpos)
-                Cpp_Misc_My_Document.setNewNodeYPos(uid_new, ypos)
-                availableParentsModel.addParentItem(uid_new, text)
+                //var uid_new = Cpp_Misc_My_Document.addNode(title, text, parentId)
+                //Cpp_Misc_My_Document.setNewNodeXPos(uid_new, xpos)
+                //Cpp_Misc_My_Document.setNewNodeYPos(uid_new, ypos)
+                availableParentsModel.addParentItem(uid, text)
 
-                currentNodes.add({"name": sprite});
+                //currentNodes.add({"name": sprite});
             }
         } else {
             console.error("Error loading component:", component.errorString());
@@ -249,7 +249,9 @@ Page {
         delegate: Node {
             Component.onCompleted: {
                 //console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
+                /*** NEED TO DELETE NODES FIRST TP PREVENT OLD NODE INSTANCES EXISTING AFTER CCHANGE OF STATE***/
                 createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition)
+                availableParentsModel.addParentItem(uid, text)
             }
         }
     }

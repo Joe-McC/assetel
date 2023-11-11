@@ -74,13 +74,15 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
         std::cout << "emit TopLevelNodeAdded: " << _uid << std::endl;
         emit topLevelNodeAdded(_uid, nodeTitle.toStdString());
     }
-    _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
     nodePtr->setNodeTitle(nodeTitle);
     nodePtr->setNodeText(nodeText);
     nodePtr->setNodeParentID(parentNodeId);
     nodePtr->setNodeUID(uidQString);
 
+    _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
+
+    emit nodeListUpdated(_nodeLookup);
 
     return uidQString;
 }
@@ -89,12 +91,15 @@ void MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPositio
 {
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);
+     emit nodeListUpdated(_nodeLookup);
 }
 
 void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
 {
     auto nodeEntry = _nodeLookup.find(uid.toInt());
     nodeEntry->second->setNodeYPosition(nodeYPosition);
+    std::cout << "MyDocument::setNewNodeYPos _nodeLookup.size(): " << _nodeLookup.size() << std::endl;
+    emit nodeListUpdated(_nodeLookup);
 }
 
 void MyDocument::getNodes() {
