@@ -91,24 +91,31 @@ Item {
             }
         }
 
-
         MouseArea {
-            id: mouseArea
             anchors.fill: parent
             drag.target: parent
-            onPressed: {
-                nodedialog.beginDrag = Qt.point(rect.x, rect.y);
-            }
+
             onReleased: {
-                if(!nodedialog.caught) {
-                    backAnimX.from = rect.x;
-                    backAnimX.to = rect.beginDrag.x;
-                    backAnimY.from = rect.y;
-                    backAnimY.to = rect.beginDrag.y;
-                    backAnim.start()
-                }
+                // Handle the drop logic if needed
+                // This event is triggered when the mouse is released after a drag
+                // You can implement logic here for handling the drop position or other actions
             }
+
+            onClicked: {
+                // Handle the click event if needed
+                // This event is triggered when the mouse is clicked (not during a drag)
+                // You can implement logic here for handling click actions
+            }
+
+            /*onPositionChanged: {
+                // Update the position of the dragged item
+                if (drag.active) {
+                    parent.x += drag.delta.x;
+                    parent.y += drag.delta.y;
+                }
+            }*/
         }
+
         ParallelAnimation {
             id: backAnim
             SpringAnimation { id: backAnimX; target: nodedialog; property: "x"; duration: 500; spring: 2; damping: 0.2 }

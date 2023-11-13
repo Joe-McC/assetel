@@ -207,7 +207,8 @@ Page {
         id: createnodedialog
     }
 
-    property ListModel currentNodes: ListModel {}
+
+    property var nodeList: []
 
     function createNode(title, uid, parentId, text, xpos, ypos) {
         var component = Qt.createComponent("Node.qml");
@@ -223,39 +224,37 @@ Page {
 
             if (sprite === null) {
                 console.error("Error creating object");
-            }
-            else {
-                //var uid_new = Cpp_Misc_My_Document.addNode(title, text, parentId)
-                //Cpp_Misc_My_Document.setNewNodeXPos(uid_new, xpos)
-                //Cpp_Misc_My_Document.setNewNodeYPos(uid_new, ypos)
-                availableParentsModel.addParentItem(uid, text)
-
-                //currentNodes.add({"name": sprite});
+            } else {
+                // Add the created node to the list
+                nodeList.push(sprite);
+                availableParentsModel.addParentItem(uid, text);
             }
         } else {
             console.error("Error loading component:", component.errorString());
         }
     }
 
-    function removeNodes()
-    {
-        for (var i=0; i<currentNodes.count; ++i)
-        {
-            currentNodes.remove(i);
-        }
-     }
-    Repeater {
-        model: nodeListModel
-        delegate: Node {
-            Component.onCompleted: {
-                //console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
-                /*** NEED TO DELETE NODES FIRST TP PREVENT OLD NODE INSTANCES EXISTING AFTER CCHANGE OF STATE***/
-                createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition)
-                availableParentsModel.addParentItem(uid, text)
+    function deleteNodes(newUID) {
+        // Iterate through the list of nodes and delete nodes with matching UIDs
+        for (var i = 0; i < nodeList.length; ++i) {
+            if (nodeList[i].uid === newUID) {
+                nodeList[i].destroy();
+                nodeList.splice(i, 1); // Remove the deleted node from the list
+                i--; // Adjust the index after removing an element
             }
         }
     }
 
+    Repeater {
+        model: nodeListModel
+        delegate: Node {
+            Component.onCompleted: {
+                deleteNodes(model.nodeUID); // Call the function to delete nodes with matching UIDs
+                createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
+                availableParentsModel.addParentItem(uid, text);
+            }
+        }
+    }
 
     NodeTreeView {
         id: nodetreeview
