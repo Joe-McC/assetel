@@ -27,6 +27,22 @@ void ParentsModel::addParentItem(const QString& nodeId, const QString& displayTe
     emit countChanged(); // Emit countChanged signal when a new item is added
 }
 
+/*void ParentsModel::deleteParentItem(const QString& nodeId)
+{
+    for (int i = 0; i < m_parents.size(); ++i)
+    {
+        if (m_parents[i].nodeId == nodeId)
+        {
+            beginRemoveRows(QModelIndex(), i, i);
+            m_parents.removeAt(i);
+            endRemoveRows();
+            emit countChanged(); // Emit countChanged signal when an item is deleted
+            break; // No need to continue searching once the item is found and removed
+        }
+    }
+}*/
+
+
 int ParentsModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())

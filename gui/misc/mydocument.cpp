@@ -82,7 +82,7 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
 
     _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
-    //emit nodeListUpdated(_nodeLookup);
+    emit nodeListUpdated(_nodeLookup);
 
     return uidQString;
 }
@@ -105,11 +105,24 @@ void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPositio
 }
 
 void MyDocument::getNodes() {
-    std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
+    std::cout << "MyDocument::getNodes() - called when loading" << "std::endl() \n";
 
     _nodeLookup = _XMLprocessor.getNodes(_engine);
 
-    emit nodeListUpdated(_nodeLookup);
+    for (auto const& nodeEntry : _nodeLookup)
+    {
+        QString title = nodeEntry.second->getNodeTitle();
+        QString text = nodeEntry.second->getNodeText();
+        QString uid = nodeEntry.second->getNodeUID();
+        QString parentid = nodeEntry.second->getNodeParentID();
+        QString xpos = nodeEntry.second->getNodeXPosition();
+        QString ypos = nodeEntry.second->getNodeYPosition();
+
+        addNode(title, text, parentid);
+        setNewNodeXPos(uid, xpos);
+        setNewNodeYPos(uid, ypos);
+    }
+    //emit nodeListUpdated(_nodeLookup);
 }
 QString MyDocument::getUIDQString()
 {

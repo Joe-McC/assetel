@@ -227,7 +227,11 @@ Page {
             } else {
                 // Add the created node to the list
                 nodeList.push(sprite);
-                availableParentsModel.addParentItem(uid, text);
+                availableParentsModel.addParentItem(uid, title);
+
+                //Cpp_Misc_My_Document.addNode(title, text)
+                //Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
+                //Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
             }
         } else {
             console.error("Error loading component:", component.errorString());
@@ -243,6 +247,7 @@ Page {
                 i--; // Adjust the index after removing an element
             }
         }
+        //availableParentsModel.deleteParentItem(newUID)
     }
 
     Repeater {
@@ -251,7 +256,7 @@ Page {
             Component.onCompleted: {
                 deleteNodes(model.nodeUID); // Call the function to delete nodes with matching UIDs
                 createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
-                availableParentsModel.addParentItem(uid, text);
+                //availableParentsModel.addParentItem(uid, text);
             }
         }
     }
