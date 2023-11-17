@@ -92,14 +92,17 @@ void MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPositio
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);
      std::cout << "MyDocument::setNewNodePos nodeXPosition:  " << nodeXPosition.toStdString() << std::endl;
-     emit nodeListUpdated(_nodeLookup);
+     //emit nodeListUpdated(_nodeLookup);
 }
 
 void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
 {
+    std::cout << "MyDocument::setNewNodeYPos uid:  " << uid.toStdString() << std::endl;
     auto nodeEntry = _nodeLookup.find(uid.toInt());
+    std::cout << "MyDocument::setNewNodeYPos nodeYPosition 1:  " << nodeEntry->second->getNodeYPosition().toStdString() << std::endl;
     nodeEntry->second->setNodeYPosition(nodeYPosition);
     std::cout << "MyDocument::setNewNodeYPos _nodeLookup.size(): " << _nodeLookup.size() << std::endl;
+    std::cout << "MyDocument::setNewNodeYPos nodeYPosition 2:  " << nodeEntry->second->getNodeYPosition().toStdString() << std::endl;
     std::cout << "MyDocument::setNewNodeYPos nodeYPosition:  " << nodeYPosition.toStdString() << std::endl;
     emit nodeListUpdated(_nodeLookup);
 }

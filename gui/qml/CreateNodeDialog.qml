@@ -248,7 +248,7 @@ Popup {
 
 
                             // Add the new parent item
-                            availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
+                            //availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
 
                             // Set the current index to the newly added parent item
                             parentComboBox.currentIndex = availableParentsModel.rowCount() - 1

@@ -232,6 +232,7 @@ Page {
                 //Cpp_Misc_My_Document.addNode(title, text)
                 //Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
                 //Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
+                console.info("ProjectViewer createNode")
             }
         } else {
             console.error("Error loading component:", component.errorString());
