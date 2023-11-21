@@ -211,6 +211,19 @@ Page {
     property var nodeList: []
 
     function createNode(title, uid, parentId, text, xpos, ypos) {
+        console.log("createNode title: ", title)
+        console.log("createNode uid: ", uid)
+        console.log("createNode parentId: ", parentId)
+        console.log("createNode text: ", text)
+        console.log("createNode xpos: ", xpos)
+        console.log("createNode ypos: ", ypos)
+        //console.log("createNode xpos.toInt(): ", xpos.toInt())
+        //console.log("createNode ypos.toInt(): ", ypos.toInt())
+        // Convert string xpos and ypos to integers
+
+        var xPosition = parseInt(xpos);
+        var yPosition = parseInt(ypos);
+
         var component = Qt.createComponent("Node.qml");
         if (component.status === Component.Ready) {
             var sprite = component.createObject(projectviewer, {
@@ -218,8 +231,8 @@ Page {
                 "uid": uid.toString(),
                 "parentid": parentId.toString(),
                 "text": text,
-                "x": xpos,
-                "y": ypos
+                "x": xPosition,
+                "y": yPosition
             });
 
             if (sprite === null) {
@@ -288,6 +301,9 @@ Page {
 
     Rectangle {
         id: droparea
+
+        property bool isMouseOverDropArea: false // New property to track mouse over
+
         anchors {
             top: parent.top
             right:  parent.right
@@ -298,8 +314,17 @@ Page {
 
         DropArea {
             anchors.fill: parent
-            onEntered: drag.source.caught = true
-            onExited: drag.source.caught = false;
+
+            onEntered: {
+                // Handle the logic when a node is entered into the drop area
+                droparea.isMouseOverDropArea = true;
+            }
+
+            onExited: {
+                // Handle the logic when a node is exited from the drop area
+                droparea.isMouseOverDropArea = false;
+            }
         }
+
     }
 }

@@ -35,9 +35,10 @@ public:
     void getNodes();
 
 Q_SIGNALS:
-    // Signals emitted to TreeModel.qml
+    // Signals emitted to TreeModel
     void topLevelNodeAdded(const int &nodeId, const std::string &nodeTitle);
     void childNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId);
+    //Signals emitted to NodeListModel
     void nodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
 
 

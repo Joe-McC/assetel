@@ -19,8 +19,8 @@ public:
         QString nodeText;
         QString nodeParentID;
         QString nodeUID;
-        int nodeXPosition;
-        int nodeYPosition;
+        QString nodeXPosition;
+        QString nodeYPosition;
     };
 
     enum Role {

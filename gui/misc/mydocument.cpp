@@ -51,6 +51,7 @@ QString MyDocument::getFilename() {
 
 QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
+    emit nodeListUpdated(_nodeLookup);
     _uid++;//  ::_uidCount++;
     auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
 
@@ -82,7 +83,7 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
 
     _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
-    emit nodeListUpdated(_nodeLookup);
+    //emit nodeListUpdated(_nodeLookup);
 
     return uidQString;
 }
@@ -92,6 +93,9 @@ void MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPositio
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);
      std::cout << "MyDocument::setNewNodePos nodeXPosition:  " << nodeXPosition.toStdString() << std::endl;
+
+       std::cout << "MyDocument::setNewNodePos _nodeXPosition:  " << nodeEntry->second->_nodeXPosition.toStdString() << std::endl;
+         std::cout << "MyDocument::setNewNodePos getNodeXPosition():  " << nodeEntry->second->getNodeXPosition().toStdString() << std::endl;
      //emit nodeListUpdated(_nodeLookup);
 }
 
@@ -99,10 +103,7 @@ void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPositio
 {
     std::cout << "MyDocument::setNewNodeYPos uid:  " << uid.toStdString() << std::endl;
     auto nodeEntry = _nodeLookup.find(uid.toInt());
-    std::cout << "MyDocument::setNewNodeYPos nodeYPosition 1:  " << nodeEntry->second->getNodeYPosition().toStdString() << std::endl;
     nodeEntry->second->setNodeYPosition(nodeYPosition);
-    std::cout << "MyDocument::setNewNodeYPos _nodeLookup.size(): " << _nodeLookup.size() << std::endl;
-    std::cout << "MyDocument::setNewNodeYPos nodeYPosition 2:  " << nodeEntry->second->getNodeYPosition().toStdString() << std::endl;
     std::cout << "MyDocument::setNewNodeYPos nodeYPosition:  " << nodeYPosition.toStdString() << std::endl;
     emit nodeListUpdated(_nodeLookup);
 }

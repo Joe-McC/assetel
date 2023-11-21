@@ -256,7 +256,7 @@ Popup {
                         }
                     }
 
-                    var xpos = 300;
+                    var xpos = 500;
                     var ypos = 300;
 
 //////////////////// USE IDS FROM MY Cpp_Misc_My_Document. Also, this should not happen here. Only add a new node based on what is in Cpp_Misc_My_Document (i.e. when loading an old doc or when a new node has been added_

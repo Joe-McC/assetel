@@ -19,8 +19,8 @@ Item {
         width: 200
         height: 100
         z: mouseArea.drag.active ||  mouseArea.pressed ? 2 : 1
-        x: 500
-        y:  100
+        x: xposition
+        y:  yposition
         property point beginDrag
         property bool caught: false
         border { width:2; color: "black" }
@@ -79,8 +79,54 @@ Item {
                 }
             }
         }
-
+/*
         onXChanged: {
+            //if (nodedialog.isMouseOverDropArea) {
+                console.log("Node.qml setNewNodeXPos: ", x)
+                Cpp_Misc_My_Document.setNewNodeXPos(uid, x)
+            //}
+        }
+
+        onYChanged: {
+            //if (nodedialog.isMouseOverDropArea) {
+                console.log("Node.qml setNewNodeYPos: ", y)
+                Cpp_Misc_My_Document.setNewNodeYPos(uid, y)
+            //}
+        }
+
+       MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            drag.target: nodedialog
+
+            onPressed: {
+                nodedialog.beginDrag = Qt.point(nodedialog.x, nodedialog.y);
+            }
+
+            onPositionChanged: {
+                //if (nodedialog.caught) {
+                    //nodedialog.x += mouseArea.drag.delta.x;
+                    //nodedialog.y += mouseArea.drag.delta.y;
+                    //nodedialog.x += mouseArea.mouseXChanged();
+                    //nodedialog.y += mouseArea.mouseXChanged();
+                nodedialog.x = mouseArea.mouseX
+                nodedialog.y = mouseArea.mouseY
+                console.log("Node.qml onPositionChanged x: ", nodedialog.x)
+                console.log("Node.qml onPositionChanged y: ", nodedialog.y)
+                //}
+            }
+
+            onReleased: {
+                nodedialog.x = mouseArea.mouseX
+                nodedialog.y = mouseArea.mouseY
+                console.log("Node.qml onReleased x: ", nodedialog.x)
+                console.log("Node.qml onReleased y: ", nodedialog.y)
+                // Add your logic if needed when the mouse is released
+            }
+        }
+*/
+
+        /*onXChanged: {
             if (mouseArea.drag.active) {
                 Cpp_Misc_My_Document.setNewNodeXPos(uid, x)
             }
@@ -89,31 +135,71 @@ Item {
             if (mouseArea.drag.active) {
               Cpp_Misc_My_Document.setNewNodeYPos(uid, y)
             }
-        }
+        }*/
 
 
         MouseArea {
             id: mouseArea
             anchors.fill: parent
             drag.target: parent
+
             onPressed: {
-                nodedialog.beginDrag = Qt.point(x, y);
+                nodedialog.beginDrag = Qt.point(nodedialog.x, nodedialog.y);
             }
+
             onReleased: {
-                if(!nodedialog.caught) {
-                    backAnimX.from = x;
-                    backAnimX.to = beginDrag.x;
-                    backAnimY.from = y;
-                    backAnimY.to = beginDrag.y;
-                    backAnim.start()
+                if (droparea.isMouseOverDropArea) {
+                    var mousePos = mouseArea.mapToItem(projectviewer, mouse.x, mouse.y);
+                    Cpp_Misc_My_Document.setNewNodeXPos(uid, mousePos.x);
+                    Cpp_Misc_My_Document.setNewNodeYPos(uid, mousePos.y);
                 }
+                nodedialog.x = nodedialog.beginDrag.x;  // Reset the position
+                nodedialog.y = nodedialog.beginDrag.y;
+            }
+
+            onPositionChanged: {
+                nodedialog.x = mouseArea.mouseX;
+                nodedialog.y = mouseArea.mouseY;
             }
         }
-        ParallelAnimation {
+
+
+        /*MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            drag.target: parent
+            onPressed: {
+                nodedialog.beginDrag = Qt.point(nodedialog.x, nodedialog.y);
+            }
+
+            onReleased: {
+                if (droparea.isMouseOverDropArea) {
+                    var mousePos = drag.target.mapToItem(projectviewer, drag.target.width / 2, drag.target.height / 2);
+                    Cpp_Misc_My_Document.setNewNodeXPos(uid, mousePos.x);
+                    Cpp_Misc_My_Document.setNewNodeYPos(uid, mousePos.y);
+                }
+            }
+
+        }*/
+        /*ParallelAnimation {
             id: backAnim
             SpringAnimation { id: backAnimX; target: nodedialog; property: "x"; duration: 500; spring: 2; damping: 0.2 }
             SpringAnimation { id: backAnimY; target: nodedialog; property: "y"; duration: 500; spring: 2; damping: 0.2 }
-        }
+        }*/
     }
 
+    /*Rectangle {
+        anchors {
+            top: parent.top
+            right:  parent.right
+            bottom:  parent.bottom
+        }
+        width: parent.width / 2
+        color: "gold"
+        DropArea {
+            anchors.fill: parent
+            onEntered: drag.source.caught = true;
+            onExited: drag.source.caught = false;
+        }
+    }*/
 }
