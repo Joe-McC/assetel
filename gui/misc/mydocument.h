@@ -28,8 +28,8 @@ public:
     Q_INVOKABLE void saveDocument();
     Q_INVOKABLE QString getFilename();
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");
-    Q_INVOKABLE void setNewNodeXPos(const QString &uid, const QString &nodeXPosition);
-    Q_INVOKABLE void setNewNodeYPos(const QString &uid, const QString &nodeYPosition);
+    Q_INVOKABLE void setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition);
+    //Q_INVOKABLE void setNewNodeYPos(const QString &uid, const QString &nodeYPosition);
     //Q_INVOKABLE QList<QObject*> getNodesForQml();
 
     void getNodes();

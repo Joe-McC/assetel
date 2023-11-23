@@ -56,11 +56,26 @@ QHash<int, QByteArray> NodeListModel::roleNames() const
 void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>> updatedNodeList)
 {
     std::cout << "NodeListModel::handleNodeListUpdated updatedNodeList.size(): " << updatedNodeList.size() << std::endl;
-    //_nodeList.clear();
+
     for (const auto& entry : updatedNodeList) {
-        beginResetModel();
         const auto& node = entry.second; // shared_ptr to XMLNode
 
+        // Check if a node with the same UID already exists in _nodeList
+        auto existingNodeIter = std::find_if(_nodeList.begin(), _nodeList.end(),
+            [&node](const NodeListItem& listItem) {
+                return listItem.nodeUID == node->getNodeUID();
+            });
+
+        if (existingNodeIter != _nodeList.end()) {
+            // Node with the same UID exists, remove it
+            int index = std::distance(_nodeList.begin(), existingNodeIter);
+            beginRemoveRows(QModelIndex(), index, index);
+            _nodeList.erase(existingNodeIter);
+            endRemoveRows();
+        }
+
+        // Add the updated node to _nodeList
+        beginInsertRows(QModelIndex(), _nodeList.size(), _nodeList.size());
         NodeListItem listItem;
         listItem.nodeTitle = node->getNodeTitle();
         listItem.nodeText = node->getNodeText();
@@ -68,18 +83,10 @@ void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>
         listItem.nodeUID = node->getNodeUID();
         listItem.nodeXPosition = node->getNodeXPosition();
         listItem.nodeYPosition = node->getNodeYPosition();
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeTitle: " << listItem.nodeTitle.toStdString() << std::endl;
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeText: " << listItem.nodeText.toStdString()  << std::endl;
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeParentID: " << listItem.nodeParentID.toStdString()  << std::endl;
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeUID: " << listItem.nodeUID.toStdString()  << std::endl;
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeXPosition: " << listItem.nodeXPosition.toStdString() << std::endl;
-        std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeYPosition: " << listItem.nodeYPosition.toStdString() << std::endl;
-        //std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeXPosition  STRING: " << node->getNodeXPosition().toStdString() << std::endl;
-        //std::cout << "NodeListModel::handleNodeListUpdated listItem.nodeYPosition STRING: " << node->getNodeYPosition().toStdString() << std::endl;
-
         _nodeList.push_back(listItem);
-        endResetModel();
+        endInsertRows();
     }
 }
+
 
 }

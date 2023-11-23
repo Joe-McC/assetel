@@ -1,5 +1,5 @@
 import QtQuick //2.15
-import QtQuick.Controls //2.15
+import QtQuick.Controls
 import QtQuick.Layouts //2.15
 import QtQuick.Dialogs
 
@@ -137,6 +137,18 @@ Item {
             }
         }*/
 
+        // Reset the position after a short delay
+        Timer {
+            id: timer
+            interval: 1000 // Adjust the delay as needed
+            onTriggered: {
+                nodedialog.x = nodedialog.beginDrag.x;
+                nodedialog.y = nodedialog.beginDrag.y;
+                // Restore visibility
+                nodedialog.visible = true;
+            }
+            repeat: false
+        }
 
         MouseArea {
             id: mouseArea
@@ -150,18 +162,37 @@ Item {
             onReleased: {
                 if (droparea.isMouseOverDropArea) {
                     var mousePos = mouseArea.mapToItem(projectviewer, mouse.x, mouse.y);
-                    Cpp_Misc_My_Document.setNewNodeXPos(uid, mousePos.x);
-                    Cpp_Misc_My_Document.setNewNodeYPos(uid, mousePos.y);
+                    Cpp_Misc_My_Document.setNewNodeXandYPos(uid, mousePos.x, mousePos.y);
+                    //Cpp_Misc_My_Document.setNewNodeYPos(uid, mousePos.y);
+                    timer.start()
+
+                    // Temporarily hide the node
+                    nodedialog.visible = false;
+
                 }
-                nodedialog.x = nodedialog.beginDrag.x;  // Reset the position
-                nodedialog.y = nodedialog.beginDrag.y;
             }
 
-            onPositionChanged: {
-                nodedialog.x = mouseArea.mouseX;
-                nodedialog.y = mouseArea.mouseY;
+            // Add ParallelAnimation
+            ParallelAnimation {
+                SpringAnimation {
+                    target: nodedialog
+                    property: "x"
+                    duration: 500 // Set the duration as needed
+                    spring: 2
+                    damping: 0.2
+                }
+                SpringAnimation {
+                    target: nodedialog
+                    property: "y"
+                    duration: 500 // Set the duration as needed
+                    spring: 2
+                    damping: 0.2
+                }
             }
         }
+
+
+
 
 
         /*MouseArea {
@@ -180,8 +211,8 @@ Item {
                 }
             }
 
-        }*/
-        /*ParallelAnimation {
+        }
+        ParallelAnimation {
             id: backAnim
             SpringAnimation { id: backAnimX; target: nodedialog; property: "x"; duration: 500; spring: 2; damping: 0.2 }
             SpringAnimation { id: backAnimY; target: nodedialog; property: "y"; duration: 500; spring: 2; damping: 0.2 }
