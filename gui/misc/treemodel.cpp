@@ -6,10 +6,11 @@ TreeModel::TreeModel(QObject* parent, Misc::MyDocument *myDocument)
      _rootItem{new TreeItem()}
 {
     // Connect the signals to slots
-    //connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
-    //connect(&Misc::MyDocument::getInstance(), &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+
     connect(myDocument, &Misc::MyDocument::topLevelNodeAdded, this, &TreeModel::handleTopLevelNodeAdded);
     connect(myDocument, &Misc::MyDocument::childNodeAdded, this, &TreeModel::handleChildNodeAdded);
+    connect(myDocument, &Misc::MyDocument::clearNodes, this, &TreeModel::handleClearNodes);
+
 
     qDebug() << "TreeModel: myDocument: " << myDocument;
     qDebug() << "TreeModel: nodeListModel: " << this;
@@ -213,16 +214,22 @@ void TreeModel::handleChildNodeAdded(const int &nodeId, const std::string &nodeT
 
     auto parentItem = _nodeList.at(parentNodeId);
 
-
-    /*TreeItem parentItem(nodeId);
-    std::shared_ptr<TreeItem> parentItemPtr = std::make_shared<TreeItem>(parentItem);
-    TreeItem childItem(nodeId);
-    std::shared_ptr<TreeItem> childItemPtr = std::make_shared<TreeItem>(childItem);
-    */
     std::cout << "handleChildNodeAdded nodeid: " << nodeId << std::endl;
     std::cout << "handleChildNodeAdded parentNodeId: " << parentNodeId << std::endl;
 
 
     addItem(parentItem, childItem);
     //addItem(parentItemPtr, childItemPtr);
+}
+
+void TreeModel::handleClearNodes()
+{
+    std::cout << "TreeModel::handleClearNodes : " << std::endl;
+    emit layoutAboutToBeChanged();
+    beginResetModel();
+    _rootItem = std::make_shared<TreeItem>();
+    endResetModel();
+    emit layoutChanged();
+
+    _nodeList.clear();
 }

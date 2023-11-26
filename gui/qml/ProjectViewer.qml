@@ -104,6 +104,20 @@ Page {
                     saveDialog.open()
                 }
             }
+            MenuItem {
+                text: qsTr("Close")
+                onTriggered: {
+                    Cpp_Misc_My_Document.closeDocument()
+                    nodeListModel.modelCleared = true
+
+                    console.log("Model is cleared. Deleting all nodes.");
+                    // Delete all nodes in the nodeList
+                    for (var i = 0; i < nodeList.length; ++i) {
+                        nodeList[i].destroy();
+                    }
+                    nodeList = []; // Clear the nodeList
+                }
+            }
         }
 
         Menu {
@@ -254,26 +268,28 @@ Page {
 
     function deleteNodes(newUID) {
         // Iterate through the list of nodes and delete nodes with matching UIDs
-        for (var i = 0; i < nodeList.length; ++i) {
-            if (nodeList[i].uid === newUID) {
-                nodeList[i].destroy();
-                nodeList.splice(i, 1); // Remove the deleted node from the list
-                i--; // Adjust the index after removing an element
+        for (var j = 0; j < nodeList.length; ++j) {
+            if (nodeList[j].uid === newUID) {
+                nodeList[j].destroy();
+                nodeList.splice(j, 1); // Remove the deleted node from the list
+                j--; // Adjust the index after removing an element
             }
         }
-        //availableParentsModel.deleteParentItem(newUID)
     }
+
 
     Repeater {
         model: nodeListModel
         delegate: Node {
+            property bool clearNodesCompleted: false
+
             Component.onCompleted: {
-                deleteNodes(model.nodeUID); // Call the function to delete nodes with matching UIDs
+                deleteNodes(model.nodeUID);
                 createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
-                //availableParentsModel.addParentItem(uid, text);
             }
         }
     }
+
 
     NodeTreeView {
         id: nodetreeview

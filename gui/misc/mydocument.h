@@ -26,11 +26,10 @@ public:
     Q_INVOKABLE void openDocument(const QString &filename);
     Q_INVOKABLE void saveDocument(const QString &filename);
     Q_INVOKABLE void saveDocument();
+    Q_INVOKABLE void closeDocument();
     Q_INVOKABLE QString getFilename();
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");
     Q_INVOKABLE void setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition);
-    //Q_INVOKABLE void setNewNodeYPos(const QString &uid, const QString &nodeYPosition);
-    //Q_INVOKABLE QList<QObject*> getNodesForQml();
 
     void getNodes();
 
@@ -40,6 +39,7 @@ Q_SIGNALS:
     void childNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId);
     //Signals emitted to NodeListModel
     void nodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
+    void clearNodes();
 
 
 //protected:

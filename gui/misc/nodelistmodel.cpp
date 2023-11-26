@@ -7,6 +7,7 @@ NodeListModel::NodeListModel(QObject *parent, MyDocument *myDocument)
     : QAbstractListModel(parent)
 {
     connect(myDocument, &MyDocument::nodeListUpdated, this, &NodeListModel::handleNodeListUpdated);
+    connect(myDocument, &MyDocument::clearNodes, this, &NodeListModel::handleClearNodes);
 }
 
 
@@ -88,5 +89,11 @@ void NodeListModel::handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode>
     }
 }
 
+void NodeListModel::handleClearNodes() {
+    std::cout << "NodeListModel::handleClearNodes : " << std::endl;
+    beginResetModel();
+    _nodeList.clear();
+    endResetModel();
+}
 
 }

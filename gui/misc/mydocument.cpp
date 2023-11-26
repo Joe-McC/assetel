@@ -45,6 +45,13 @@ void MyDocument::saveDocument()
     _XMLprocessor.writeNodes(_nodeLookup);
 }
 
+void MyDocument::closeDocument()
+{
+    _nodeLookup.clear();
+    emit clearNodes();
+}
+
+
 QString MyDocument::getFilename() {
     return _XMLfilename.fileName();
 }

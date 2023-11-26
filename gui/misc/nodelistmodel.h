@@ -38,9 +38,10 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+
 public slots:
     void handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
-
+    void handleClearNodes();
 
 private:
     std::vector<NodeListItem> _nodeList;

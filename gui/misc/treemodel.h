@@ -51,6 +51,7 @@ public slots:
 
    void handleTopLevelNodeAdded(const int &nodeId, const std::string &nodeTitle);
    void handleChildNodeAdded(const int &nodeId, const std::string &nodeTitle, const int &parentNodeId);
+   void handleClearNodes();
 
 private:
    //TreeItem* internalPointer(const QModelIndex& index) const;
