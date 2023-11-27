@@ -1,27 +1,105 @@
+// ConnectorItem.cpp
 #include "xmlconnector.h"
-#include <iostream>
-/*void XMLConnector::insert(std::unique_ptr<AbstractAsseteltem> item, int index)
+#include <QPainter>
+
+
+XMLConnector::XMLConnector(QQuickItem* parent)
+    : QQuickPaintedItem(parent), isDragging(false), isResizing(false)
 {
-    // we don't anything here as a XMLConnector is a Leaf Component
-    std::cout << "Cannot insert into leaf component";
+    setAcceptHoverEvents(true);
 }
 
-void XMLConnector::remove(std::unique_ptr<AbstractAsseteltem> item )
+void XMLConnector::paint(QPainter* painter)
 {
-    // we don't anything here as a XMLConnector is a Leaf Component
-    std::cout << "Cannot remove from leaf component";
-}*/
-
-//std::unique_ptr<AbstractAsseteltem> getParent();
-
-std::pair<float, float> XMLConnector::getPosition()
-{
-    return m_Pos;
+    painter->drawLine(startPoint, endPoint);
 }
 
-void XMLConnector::setPosition(std::pair<float, float> position)
+void XMLConnector::mousePressEvent(QMouseEvent* event)
 {
-    m_Pos = position;
+    if (event->button() == Qt::LeftButton)
+    {
+        isDragging = true;
+        isResizing = false;
+        startPoint = event->pos();
+        endPoint = event->pos();
+        update();
+    }
 }
+
+void XMLConnector::mouseMoveEvent(QMouseEvent* event)
+{
+    if (isDragging)
+    {
+        endPoint = event->pos();
+        update();
+    }
+    else if (isResizing)
+    {
+        endPoint = event->pos();
+        update();
+    }
+}
+
+void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (isDragging && event->button() == Qt::LeftButton)
+    {
+        endPoint = event->pos();
+        isDragging = false;
+        update();
+    }
+    else if (isResizing && event->button() == Qt::LeftButton)
+    {
+        endPoint = event->pos();
+        isResizing = false;
+        update();
+    }
+}
+
+bool XMLConnector::contains(const QPointF &point)
+{
+    const qreal epsilon = 5.0; // Set your own epsilon value
+    qreal distance1 = QLineF(startPoint, endPoint).length();
+    qreal distance2 = QLineF(startPoint, point).length() + QLineF(endPoint, point).length();
+
+    return qAbs(distance1 - distance2) < epsilon;
+}
+
+void XMLConnector::hoverMoveEvent(QHoverEvent *event)
+{
+    if (isResizing)
+    {
+        endPoint = event->position();
+        update();
+    }
+}
+
+void XMLConnector::hoverEnterEvent(QHoverEvent *event)
+{
+    if (contains(event->position()))
+    {
+        setCursor(Qt::SizeHorCursor);
+    }
+    else
+    {
+        setCursor(Qt::ArrowCursor);
+    }
+}
+
+void XMLConnector::hoverLeaveEvent(QHoverEvent *event)
+{
+    setCursor(Qt::ArrowCursor);
+}
+
+bool XMLConnector::isPointOnLine(const QPointF &point)
+{
+    const qreal epsilon = 5.0; // Set your own epsilon value
+    qreal distance = QLineF(startPoint, endPoint).length();
+    qreal distanceToStart = QLineF(startPoint, point).length();
+    qreal distanceToEnd = QLineF(endPoint, point).length();
+
+    return qAbs(distance - (distanceToStart + distanceToEnd)) < epsilon;
+}
+
 
 

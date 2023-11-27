@@ -9,8 +9,7 @@
 #include <misc/treemanipulator.h>
 #include <misc/parentsmodel.h>
 #include <misc/nodelistmodel.h>
-//#include <misc/xmlwriter.h>
-//#include <misc/folderview.h>
+#include <misc/xmlconnector.h>
 
 int main(int argc, char *argv[])
 {
@@ -51,6 +50,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("availableParentsModel", &parentsModel);
     c->setContextProperty("nodeListModel", nodeListModel);
     //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
+     qmlRegisterType<XMLConnector>("Misc", 1, 0, "XMLConnector");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

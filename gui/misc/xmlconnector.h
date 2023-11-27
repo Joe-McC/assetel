@@ -1,25 +1,36 @@
+// ConnectorItem.h
 #ifndef XMLCONNECTOR_H
 #define XMLCONNECTOR_H
 
-#include "abstractasseteltem.h"
+#include <QQuickPaintedItem>
+#include <QPointF>
+#include <QHoverEvent>
+#include <QCursor>
 
-class XMLConnector : AbstractAsseteltem
+class XMLConnector : public QQuickPaintedItem
 {
+    Q_OBJECT
 public:
-    XMLConnector();
-    //void insert(std::unique_ptr<AbstractAsseteltem> item, int index) override;
-    //void remove(std::unique_ptr<AbstractAsseteltem> item) override;
-    //std::unique_ptr<AbstractAsseteltem> getParent();
-    //std::shared_ptr<AbstractAsseteltem> getChild(int index) override;
-    std::pair<float, float> getPosition() override;
-    void setPosition(std::pair<float, float>) override;
+    XMLConnector(QQuickItem* parent = nullptr);
 
+    void paint(QPainter* painter) override;
+
+protected:
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void hoverMoveEvent(QHoverEvent* event) override;
+    void hoverEnterEvent(QHoverEvent* event) override;
+    void hoverLeaveEvent(QHoverEvent* event) override;
 
 private:
-    std::pair<float, float> m_Pos;
+    QPointF startPoint;
+    QPointF endPoint;
+    bool isDragging;
+    bool isResizing;
 
+    bool contains(const QPointF& point);
+    bool isPointOnLine(const QPointF& point);
 };
-
-
 
 #endif // XMLCONNECTOR_H

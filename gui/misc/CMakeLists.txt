@@ -5,9 +5,6 @@ add_library(misc STATIC
     xmlelement.h xmlelement.cpp
     xmlconnector.h xmlconnector.cpp
     xmlnode.h xmlnode.cpp
-    #treemodel.h treemodel.cpp
-    #treeitem.h treeitem.cpp
-    #treemanipulator.h treemanipulator.cpp
     customtype.h customtype.cpp
     parentsmodel.h parentsmodel.cpp
     xmlprocessor.h xmlprocessor.cpp
