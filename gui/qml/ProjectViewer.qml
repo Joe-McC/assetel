@@ -121,14 +121,24 @@ Page {
         }
 
         Menu {
-            id: createnodemenu
+            id: projectmenu
+            MenuItem {
+                text: qsTr("Add Connector")
+                onTriggered: {
+                    var component;
+                    var sprite;
+                    component = Qt.createComponent("Connector.qml");
+                    sprite = component.createObject(parent, {"xposition": 300, "yposition": 500});
 
+                }
+            }
             MenuItem {
                 text: qsTr("Create Node")
                 //shortcut: StandardKey.ZoomIn
                 onTriggered: createnodedialog.open()
             }
         }
+
 
         RowLayout {
             spacing: app.spacing
@@ -150,7 +160,7 @@ Page {
             }
 
             Button {
-                id: createnodebutton
+                id: projectbutton
                 //anchors {
                 //    top: toolbar.bottom
                 //    left:  parent.left
@@ -164,7 +174,7 @@ Page {
                 //icon.source: "qrc:/icons/bug.svg"
                 text: qsTr("Create Use Case")
                 onClicked: {
-                    createnodemenu.open()
+                    projectmenu.open()
                 }
             }
 
