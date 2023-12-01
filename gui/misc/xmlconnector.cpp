@@ -4,9 +4,10 @@
 
 
 XMLConnector::XMLConnector(QQuickItem* parent)
-    : QQuickPaintedItem(parent), isDragging(false), isResizing(false)
+    : QQuickPaintedItem(parent), isDragging(true), isResizing(true)
 {
     setAcceptHoverEvents(true);
+    setEnabled(true);
 }
 
 void XMLConnector::paint(QPainter* painter)

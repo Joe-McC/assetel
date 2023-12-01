@@ -4,7 +4,7 @@ import QtQuick.Layouts //2.15
 import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
-import QtQml.XmlListModel
+
 
 
 Page {
@@ -125,11 +125,24 @@ Page {
             MenuItem {
                 text: qsTr("Add Connector")
                 onTriggered: {
-                    var component;
-                    var sprite;
-                    component = Qt.createComponent("Connector.qml");
-                    sprite = component.createObject(parent, {"xposition": 300, "yposition": 500});
+                    var component = Qt.createComponent("Connector.qml");
 
+                    if (component.status === Component.Ready) {
+                        var connectorItem = component.createObject(parent, {
+                            "startPoint": Qt.point(0, 0), // Adjust as needed
+                            "endPoint": Qt.point(100, 100) // Adjust as needed
+                        });
+
+                        if (connectorItem !== null) {
+                            // Optional: Set additional properties or connect signals here
+                            connectorItem.x = 500;
+                            connectorItem.y = 500;
+                        } else {
+                            console.error("Error creating Connector.qml component");
+                        }
+                    } else {
+                        console.error("Error loading Connector.qml component");
+                    }
                 }
             }
             MenuItem {
