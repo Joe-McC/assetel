@@ -17,6 +17,7 @@ Page {
     header: ToolBar {
         id: toolbar
         height: 48
+        z: 1
 
         //
         // Background gradient
@@ -125,7 +126,8 @@ Page {
             MenuItem {
                 text: qsTr("Add Connector")
                 onTriggered: {
-                    var component = Qt.createComponent("Connector.qml");
+                    drawingpane.createConnector()
+                    /*var component = Qt.createComponent("Connector.qml");
 
                     if (component.status === Component.Ready) {
                         var connectorItem = component.createObject(parent, {
@@ -142,7 +144,7 @@ Page {
                         }
                     } else {
                         console.error("Error loading Connector.qml component");
-                    }
+                    }*/
                 }
             }
             MenuItem {
@@ -245,7 +247,7 @@ Page {
     }
 
 
-    property var nodeList: []
+    /*property var nodeList: []
 
     function createNode(title, uid, parentId, text, xpos, ypos) {
         console.log("createNode title: ", title)
@@ -298,8 +300,15 @@ Page {
                 j--; // Adjust the index after removing an element
             }
         }
-    }
+    }*/
 
+    DrawingPane {
+        id: drawingpane
+        width: parent.width//Math.abs(endPoint.x - startPoint.x)
+        height: parent.height - 48//Math.abs(endPoint.y - startPoint.y)
+        anchors.left: parent.left//Math.abs(endPoint.x - startPoint.x)
+        anchors.bottom: parent.bottom//Math.abs(endPoint.y - startPoint.y)
+    }
 
     Repeater {
         model: nodeListModel
@@ -307,8 +316,8 @@ Page {
             property bool clearNodesCompleted: false
 
             Component.onCompleted: {
-                deleteNodes(model.nodeUID);
-                createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
+                drawingpane.deleteNodes(model.nodeUID);
+                drawingpane.createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
             }
         }
     }

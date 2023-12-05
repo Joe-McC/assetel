@@ -59,7 +59,7 @@ void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
 
 bool XMLConnector::contains(const QPointF &point)
 {
-    const qreal epsilon = 5.0; // Set your own epsilon value
+    const qreal epsilon = 10.0; // Set your own epsilon value
     qreal distance1 = QLineF(startPoint, endPoint).length();
     qreal distance2 = QLineF(startPoint, point).length() + QLineF(endPoint, point).length();
 
@@ -94,7 +94,7 @@ void XMLConnector::hoverLeaveEvent(QHoverEvent *event)
 
 bool XMLConnector::isPointOnLine(const QPointF &point)
 {
-    const qreal epsilon = 5.0; // Set your own epsilon value
+    const qreal epsilon = 10.0; // Set your own epsilon value
     qreal distance = QLineF(startPoint, endPoint).length();
     qreal distanceToStart = QLineF(startPoint, point).length();
     qreal distanceToEnd = QLineF(endPoint, point).length();

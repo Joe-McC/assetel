@@ -14,6 +14,7 @@
         <file>TreeViewItem.qml</file>
         <file>icons/checkmark_black.png</file>
         <file>CreateNodeDialog.qml</file>
+        <file>DrawingPane.qml</file>
         <file>Connector.qml</file>
     </qresource>
 </RCC>

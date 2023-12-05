@@ -11,6 +11,7 @@ Item {
     property string text
     property int xposition
     property int yposition
+    z: 1
 
     Rectangle {
         id: nodedialog

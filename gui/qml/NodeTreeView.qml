@@ -17,6 +17,7 @@ Window {
 
     ColumnLayout {
         anchors.fill: parent
+        z: 1
 
         Text {
             id: titlelabel
