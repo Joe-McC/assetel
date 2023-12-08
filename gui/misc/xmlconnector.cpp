@@ -7,12 +7,42 @@ XMLConnector::XMLConnector(QQuickItem* parent)
     : QQuickPaintedItem(parent), isDragging(true), isResizing(true)
 {
     setAcceptHoverEvents(true);
+    setStartPoint(QPoint(400,400));
+    setEndPoint(QPoint(500,500));
     setEnabled(true);
 }
 
 void XMLConnector::paint(QPainter* painter)
 {
     painter->drawLine(startPoint, endPoint);
+}
+
+QPointF XMLConnector::getStartPoint() const
+{
+    return startPoint;
+}
+
+void XMLConnector::setStartPoint(const QPointF& point)
+{
+    if (startPoint != point) {
+        startPoint = point;
+        emit startPointChanged();
+        update();
+    }
+}
+
+QPointF XMLConnector::getEndPoint() const
+{
+    return endPoint;
+}
+
+void XMLConnector::setEndPoint(const QPointF& point)
+{
+    if (endPoint != point) {
+        endPoint = point;
+        emit endPointChanged();
+        update();
+    }
 }
 
 void XMLConnector::mousePressEvent(QMouseEvent* event)
@@ -43,6 +73,8 @@ void XMLConnector::mouseMoveEvent(QMouseEvent* event)
 
 void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
 {
+
+
     if (isDragging && event->button() == Qt::LeftButton)
     {
         endPoint = event->pos();
@@ -55,6 +87,8 @@ void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
         isResizing = false;
         update();
     }
+
+    qDebug() << "mouseReleaseEvent endPoint:" << endPoint;
 }
 
 bool XMLConnector::contains(const QPointF &point)

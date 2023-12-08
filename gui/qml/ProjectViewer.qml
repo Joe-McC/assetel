@@ -308,6 +308,20 @@ Page {
         height: parent.height - 48//Math.abs(endPoint.y - startPoint.y)
         anchors.left: parent.left//Math.abs(endPoint.x - startPoint.x)
         anchors.bottom: parent.bottom//Math.abs(endPoint.y - startPoint.y)
+
+        property int mouseX: 0
+        property int mouseY: 0
+
+        // Use a MouseArea to capture mouse events
+        /*MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                // Update the custom properties when the mouse is clicked
+                drawingpane.mouseX = event.x;
+                drawingpane.mouseY = event.y;
+            }
+        }*/
+
     }
 
     Repeater {

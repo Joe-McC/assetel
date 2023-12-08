@@ -11,9 +11,20 @@ class XMLConnector : public QQuickPaintedItem
 {
     Q_OBJECT
 public:
-    XMLConnector(QQuickItem* parent = nullptr);
+    //XMLConnector(QPointF initialStartPoint = QPointF(), QPointF initialEndPoint = QPointF(), QQuickItem* parent = nullptr);
 
+    XMLConnector(QQuickItem* parent = nullptr);
     void paint(QPainter* painter) override;
+
+    QPointF getStartPoint() const;
+    void setStartPoint(const QPointF& point);
+
+    QPointF getEndPoint() const;
+    void setEndPoint(const QPointF& point);
+
+signals:
+    void startPointChanged();
+    void endPointChanged();
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;

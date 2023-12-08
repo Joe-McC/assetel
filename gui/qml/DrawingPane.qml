@@ -12,10 +12,8 @@ Rectangle {
     function createConnector() {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
-            var connectorItem = component.createObject(parent, {
-                "startPoint": Qt.point(400, 400), // Adjust as needed
-                "endPoint": Qt.point(450, 450) // Adjust as needed
-            });
+            var connectorItem = component.createObject(parent, {});
+
 
             if (connectorItem !== null) {
                 // Optional: Set additional properties or connect signals here
