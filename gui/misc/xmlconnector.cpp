@@ -6,6 +6,7 @@
 XMLConnector::XMLConnector(QQuickItem* parent)
     : QQuickPaintedItem(parent), isDragging(true), isResizing(true)
 {
+    setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
     setStartPoint(QPoint(400,400));
     setEndPoint(QPoint(500,500));
@@ -51,24 +52,31 @@ void XMLConnector::mousePressEvent(QMouseEvent* event)
     {
         isDragging = true;
         isResizing = false;
-        startPoint = event->pos();
-        endPoint = event->pos();
+        //startPoint = event->pos();
+        //endPoint = event->pos();
         update();
     }
+    qDebug() << "mousePressEvent startPoint:" << startPoint;
+    qDebug() << "mousePressEvent endPoint:" << endPoint;
 }
 
 void XMLConnector::mouseMoveEvent(QMouseEvent* event)
 {
     if (isDragging)
     {
+        isDragging = false;
         endPoint = event->pos();
         update();
     }
     else if (isResizing)
     {
+        isResizing = false;
         endPoint = event->pos();
         update();
     }
+    isDragging = false;
+
+    qDebug() << "mouseMoveEvent endPoint:" << endPoint;
 }
 
 void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
@@ -77,18 +85,27 @@ void XMLConnector::mouseReleaseEvent(QMouseEvent* event)
 
     if (isDragging && event->button() == Qt::LeftButton)
     {
+        qDebug() << "mouseReleaseEvent isDragging";
+        qDebug() << "mouseReleaseEvent startPoint:" << startPoint;
+        qDebug() << "mouseReleaseEvent endPoint:" << endPoint;
         endPoint = event->pos();
         isDragging = false;
         update();
     }
     else if (isResizing && event->button() == Qt::LeftButton)
     {
+        qDebug() << "mouseReleaseEvent isResizing";
+        qDebug() << "mouseReleaseEvent startPoint:" << startPoint;
+        qDebug() << "mouseReleaseEvent endPoint:" << endPoint;
         endPoint = event->pos();
         isResizing = false;
         update();
     }
 
-    qDebug() << "mouseReleaseEvent endPoint:" << endPoint;
+    update();
+
+
+
 }
 
 bool XMLConnector::contains(const QPointF &point)
