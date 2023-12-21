@@ -35,10 +35,13 @@ protected:
     void hoverLeaveEvent(QHoverEvent* event) override;
 
 private:
-    QPointF startPoint;
-    QPointF endPoint;
-    bool isDragging;
-    bool isResizing;
+    QPointF _startPoint;
+    QPointF _endPoint;
+    bool _isDragging;
+    bool _isResizingEnd;
+    bool _init;
+    bool _startPointLocal;
+    bool _endPointLocal;
 
     bool contains(const QPointF& point);
     bool isPointOnLine(const QPointF& point);
