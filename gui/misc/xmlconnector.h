@@ -9,7 +9,15 @@
 
 class XMLConnector : public QQuickPaintedItem
 {
+
     Q_OBJECT
+    Q_PROPERTY(QString connectorUID READ getConnectorUID WRITE setConnectorUID NOTIFY connectorUIDChanged)
+    Q_PROPERTY(QString connectorXPosition READ getConnectorXPosition WRITE setConnectorXPosition NOTIFY connectorXPositionChanged)
+    Q_PROPERTY(QString connectorYPosition READ getConnectorYPosition WRITE setConnectorYPosition NOTIFY connectorYPositionChanged)
+    Q_PROPERTY(QString nodeStartID READ getNodeStartID WRITE setNodeStartID NOTIFY nodeStartUIDChanged)
+    Q_PROPERTY(QString nodeEndID READ getNodeEndID WRITE setNodeEndID NOTIFY nodeEndIDChanged)
+
+
 public:
     //XMLConnector(QPointF initialStartPoint = QPointF(), QPointF initialEndPoint = QPointF(), QQuickItem* parent = nullptr);
 
@@ -22,7 +30,35 @@ public:
     QPointF getEndPoint() const;
     void setEndPoint(const QPointF& point);
 
+
+    void setConnectorUID(const QString &uid);
+    QString getConnectorUID();
+
+    void setConnectorXPosition(const QString &xpos);
+    QString getConnectorXPosition();
+
+    void setConnectorYPosition(const QString &xpos);
+    QString getConnectorYPosition();
+
+    void setNodeStartID(const QString &startID);
+    QString getNodeStartID();
+
+    void setNodeEndID(const QString &endID);
+    QString getNodeEndID();
+
+    QString _connectorUID;
+    QString _connectorXPosition;
+    QString _connectorYPosition;
+    QString _nodeStartID;
+    QString _nodeEndID;
+
 signals:
+    void connectorUIDChanged();
+    void connectorXPositionChanged();
+    void connectorYPositionChanged();
+    void nodeStartIDChanged();
+    void nodeEndIDhanged();
+
     void startPointChanged();
     void endPointChanged();
 

@@ -4,7 +4,9 @@
 
 //issues:
 //1. Add dragging
-//2. Existing instances don't work when a new connector is created
+//2. Existing instances don't work when a new connector is created --think we need to add a Repeater in DrawingPane.qml, so first need to create a ConnectorModel.
+//   Here, we would need to create a myDocument function which would add the connector instance to the model.
+//3. Create Node Dialog disappears on first attempt when a connector has been created.
 
 XMLConnector::XMLConnector(QQuickItem* parent)
     : QQuickPaintedItem(parent), _isDragging(true), _isResizingEnd(false), _startPointLocal(false), _endPointLocal(false)
