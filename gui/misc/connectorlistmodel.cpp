@@ -6,8 +6,8 @@ namespace Misc
 ConnectorListModel::ConnectorListModel(QObject *parent, MyDocument *myDocument)
     : QAbstractListModel(parent)
 {
-    connect(myDocument, &MyDocument::nodeListUpdated, this, &ConnectorListModel::handleConnectorListUpdated);
-    connect(myDocument, &MyDocument::clearNodes, this, &ConnectorListModel::handleClearConnectors);
+    connect(myDocument, &MyDocument::connectorListUpdated, this, &ConnectorListModel::handleConnectorListUpdated);
+    connect(myDocument, &MyDocument::clearConnectors, this, &ConnectorListModel::handleClearConnectors);
 }
 
 

@@ -107,15 +107,6 @@ void MyDocument::setNewNodeXandYPos (const QString &uid, const QString &nodeXPos
      emit nodeListUpdated(_nodeLookup);
 }
 
-/*void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
-{
-    std::cout << "MyDocument::setNewNodeYPos uid:  " << uid.toStdString() << std::endl;
-    auto nodeEntry = _nodeLookup.find(uid.toInt());
-    nodeEntry->second->setNodeYPosition(nodeYPosition);
-    std::cout << "MyDocument::setNewNodeYPos nodeYPosition:  " << nodeYPosition.toStdString() << std::endl;
-    emit nodeListUpdated(_nodeLookup);
-}*/
-
 void MyDocument::getNodes() {
     std::cout << "MyDocument::getNodes() - called when loading" << "std::endl() \n";
 
@@ -148,5 +139,23 @@ QString MyDocument::getUIDQString()
    }
    return QString::fromStdString(uid);
 }
+
+QString addConnector() {
+
+    return uid;
+}
+
+void setNewConnectorXandYPos(const QString &uid, const QString &connectorXPosition, const QString &connectorYPosition) {
+
+}
+
+void setNewConnectorStartNode(const QString &uid, const QString &nodeUid) {
+
+}
+
+void setNewConnectorEndNode(const QString &uid, const QString &nodeUid) {
+
+}
+
 
 }

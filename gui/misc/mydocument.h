@@ -7,6 +7,7 @@
 #include <QString>
 #include <iostream>
 #include "xmlnode.h"
+#include "xmlconnector.h"
 #include "xmlprocessor.h"
 #include <QQmlApplicationEngine>
 
@@ -28,10 +29,17 @@ public:
     Q_INVOKABLE void saveDocument();
     Q_INVOKABLE void closeDocument();
     Q_INVOKABLE QString getFilename();
+
     Q_INVOKABLE QString addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId = "");
     Q_INVOKABLE void setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition);
 
+    Q_INVOKABLE QString addConnector();
+    Q_INVOKABLE void setNewConnectorXandYPos(const QString &uid, const QString &connectorXPosition, const QString &connectorYPosition);
+    Q_INVOKABLE void setNewConnectorStartNode(const QString &uid, const QString &nodeUid);
+    Q_INVOKABLE void setNewConnectorEndNode(const QString &uid, const QString &nodeUid);
+
     void getNodes();
+    void getConnectors();
 
 Q_SIGNALS:
     // Signals emitted to TreeModel
@@ -40,6 +48,9 @@ Q_SIGNALS:
     //Signals emitted to NodeListModel
     void nodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
     void clearNodes();
+    //Signals emitted to ConnectorListModel
+    void connectorListUpdated(std::map<int, std::shared_ptr<XMLConnector> > updatedNodeList);
+    void clearConnectors();
 
 
 //protected:
