@@ -23,6 +23,7 @@ public:
     MyDocument(QQmlApplicationEngine &engine);
 
     std::map<int, std::shared_ptr<XMLNode>> _nodeLookup;
+    std::map<int, std::shared_ptr<XMLConnector>> _connectorLookup;
 
     Q_INVOKABLE void openDocument(const QString &filename);
     Q_INVOKABLE void saveDocument(const QString &filename);
@@ -60,10 +61,11 @@ private:
 
     QQmlApplicationEngine* _engine;
     inline static int _uid;
+    inline static int _connectorUid;
     inline static QFile _XMLfilename;
     inline static XMLProcessor _XMLprocessor;
 
-    QString getUIDQString();
+    QString getUIDQString(int uid_int);
 };
 
 

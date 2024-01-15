@@ -14,7 +14,7 @@ class XMLConnector : public QQuickPaintedItem
     Q_PROPERTY(QString connectorUID READ getConnectorUID WRITE setConnectorUID NOTIFY connectorUIDChanged)
     Q_PROPERTY(QString connectorXPosition READ getConnectorXPosition WRITE setConnectorXPosition NOTIFY connectorXPositionChanged)
     Q_PROPERTY(QString connectorYPosition READ getConnectorYPosition WRITE setConnectorYPosition NOTIFY connectorYPositionChanged)
-    Q_PROPERTY(QString nodeStartID READ getNodeStartID WRITE setNodeStartID NOTIFY nodeStartUIDChanged)
+    Q_PROPERTY(QString nodeStartID READ getNodeStartID WRITE setNodeStartID NOTIFY nodeStartIDChanged)
     Q_PROPERTY(QString nodeEndID READ getNodeEndID WRITE setNodeEndID NOTIFY nodeEndIDChanged)
 
 
@@ -57,7 +57,7 @@ signals:
     void connectorXPositionChanged();
     void connectorYPositionChanged();
     void nodeStartIDChanged();
-    void nodeEndIDhanged();
+    void nodeEndIDChanged();
 
     void startPointChanged();
     void endPointChanged();
