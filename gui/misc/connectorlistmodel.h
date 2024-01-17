@@ -16,16 +16,16 @@ class ConnectorListModel : public QAbstractListModel
 public:
     struct ConnectorListItem {
         QString connectorUID;
-        QString connectorXPosition;
-        QString connectorYPosition;
+        QPointF connectorStartPosition;
+        QPointF connectorEndPosition;
         QString nodeStartID;
         QString nodeEndID;
     };
 
     enum Role {
         ROLE_CONNECTOR_ID = Qt::UserRole + 1,
-        ROLE_CONNECTOR_X_POS,
-        ROLE_CONNECTOR_Y_POS,
+        ROLE_CONNECTOR_START_POS,
+        ROLE_CONNECTOR_END_POS,
         ROLE_NODE_START_ID,
         ROLE_NODE_END_ID,
     };
@@ -38,7 +38,7 @@ public:
 
 
 public slots:
-    void handleConnectorListUpdated(std::map<int, std::shared_ptr<XMLConnector> > updatedNodeList);
+    void handleConnectorListUpdated(std::map<int, std::shared_ptr<Misc::XMLConnector> > updatedNodeList);
     void handleClearConnectors();
 
 private:

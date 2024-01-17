@@ -7,13 +7,18 @@
 #include <QHoverEvent>
 #include <QCursor>
 
+namespace Misc
+{
+
 class XMLConnector : public QQuickPaintedItem
 {
 
     Q_OBJECT
     Q_PROPERTY(QString connectorUID READ getConnectorUID WRITE setConnectorUID NOTIFY connectorUIDChanged)
-    Q_PROPERTY(QString connectorXPosition READ getConnectorXPosition WRITE setConnectorXPosition NOTIFY connectorXPositionChanged)
-    Q_PROPERTY(QString connectorYPosition READ getConnectorYPosition WRITE setConnectorYPosition NOTIFY connectorYPositionChanged)
+    Q_PROPERTY(QString connectorXPositionStart READ getConnectorXPositionStart WRITE setConnectorXPositionStart NOTIFY connectorXPositionStartChanged)
+    Q_PROPERTY(QString connectorYPositionStart READ getConnectorYPositionStart WRITE setConnectorYPositionStart NOTIFY connectorYPositionStartChanged)
+    Q_PROPERTY(QString connectorXPositionEnd READ getConnectorXPositionEnd WRITE setConnectorXPositionEnd NOTIFY connectorXPositionEndChanged)
+    Q_PROPERTY(QString connectorYPositionEnd READ getConnectorYPositionEnd WRITE setConnectorYPositionEnd NOTIFY connectorYPositionEndChanged)
     Q_PROPERTY(QString nodeStartID READ getNodeStartID WRITE setNodeStartID NOTIFY nodeStartIDChanged)
     Q_PROPERTY(QString nodeEndID READ getNodeEndID WRITE setNodeEndID NOTIFY nodeEndIDChanged)
 
@@ -30,15 +35,14 @@ public:
     QPointF getEndPoint() const;
     void setEndPoint(const QPointF& point);
 
-
     void setConnectorUID(const QString &uid);
     QString getConnectorUID();
 
-    void setConnectorXPosition(const QString &xpos);
-    QString getConnectorXPosition();
+    void setConnectorPositionStart(const QPointF &pos);
+    QPointF getConnectorPositionStart();
 
-    void setConnectorYPosition(const QString &xpos);
-    QString getConnectorYPosition();
+    void setConnectorPositionEnd(const QPointF &pos);
+    QPointF getConnectorPositionEnd();
 
     void setNodeStartID(const QString &startID);
     QString getNodeStartID();
@@ -47,15 +51,15 @@ public:
     QString getNodeEndID();
 
     QString _connectorUID;
-    QString _connectorXPosition;
-    QString _connectorYPosition;
+    QPointF _connectorStartPosition;
+    QPointF _connectorEndPosition;
     QString _nodeStartID;
     QString _nodeEndID;
 
 signals:
     void connectorUIDChanged();
-    void connectorXPositionChanged();
-    void connectorYPositionChanged();
+    void connectorStartPosChanged();
+    void connectorEndPosChanged();
     void nodeStartIDChanged();
     void nodeEndIDChanged();
 
@@ -82,5 +86,7 @@ private:
     bool contains(const QPointF& point);
     bool isPointOnLine(const QPointF& point);
 };
+
+}
 
 #endif // XMLCONNECTOR_H

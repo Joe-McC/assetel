@@ -27,9 +27,9 @@ QVariant ConnectorListModel::data(const QModelIndex& index, int role) const
     switch (role) {
     case ROLE_CONNECTOR_ID:
         return QVariant(listItem.connectorUID);
-    case ROLE_CONNECTOR_X_POS:
+    case ROLE_CONNECTOR_START_POS:
         return QVariant(listItem.connectorXPosition);
-    case ROLE_CONNECTOR_Y_POS:
+    case ROLE_CONNECTOR_END_POS:
         return QVariant(listItem.connectorYPosition);
     case ROLE_NODE_START_ID:
         return QVariant(listItem.nodeStartID);
@@ -43,18 +43,18 @@ QHash<int, QByteArray> ConnectorListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[ROLE_CONNECTOR_ID] = "connectorID";
-    roles[ROLE_CONNECTOR_X_POS] = "connectorXPos";
-    roles[ROLE_CONNECTOR_Y_POS] = "connectorYPos";
+    roles[ROLE_CONNECTOR_START_POS] = "connectorStartPos";
+    roles[ROLE_CONNECTOR_END_POS] = "connectorEndPos";
     roles[ROLE_NODE_START_ID] = "nodeStartID";
     roles[ROLE_NODE_END_ID] = "nodeEndID";
     return roles;
 }
 
-void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_ptr<XMLConnector>> updatedNodeList)
+void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_ptr<Misc::XMLConnector>> updatedConnectorList)
 {
-    std::cout << "NodeListModel::handleNodeListUpdated updatedNodeList.size(): " << updatedNodeList.size() << std::endl;
+    std::cout << "NodeListModel::handleNodeListUpdated updatedNodeList.size(): " << updatedConnectorList.size() << std::endl;
 
-    for (const auto& entry : updatedNodeList) {
+    for (const auto& entry : updatedConnectorList) {
         const auto& connector = entry.second; // shared_ptr to XMLNode
 
         // Check if a node with the same UID already exists in _nodeList
@@ -75,8 +75,8 @@ void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_pt
         beginInsertRows(QModelIndex(), _connectorList.size(), _connectorList.size());
         ConnectorListItem listItem;
         listItem.connectorUID = connector->getConnectorUID();
-        listItem.connectorXPosition = connector->getConnectorXPosition();
-        listItem.connectorYPosition = connector->getConnectorYPosition();
+        listItem.connectorStartPosition = connector->getConnectorPositionStart();
+        listItem.connectorEndPosition = connector->getConnectorPositionEnd();
         listItem.nodeStartID = connector->getNodeStartID();
         listItem.nodeEndID = connector->getNodeEndID();
         _connectorList.push_back(listItem);

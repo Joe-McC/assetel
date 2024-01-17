@@ -8,6 +8,9 @@
 //   Here, we would need to create a myDocument function which would add the connector instance to the model.
 //3. Create Node Dialog disappears on first attempt when a connector has been created.
 
+namespace Misc
+{
+
 XMLConnector::XMLConnector(QQuickItem* parent)
     : QQuickPaintedItem(parent), _isDragging(true), _isResizingEnd(false), _startPointLocal(false), _endPointLocal(false)
 {
@@ -45,6 +48,56 @@ void XMLConnector::setEndPoint(const QPointF& point)
         emit endPointChanged();
         update();
     }
+}
+
+void XMLConnector::setConnectorUID(const QString &uid)
+{
+    _connectorUID = uid;
+}
+
+QString XMLConnector::getConnectorUID()
+{
+    return _connectorUID;
+}
+
+void XMLConnector::setConnectorPositionStart(const QPointF &pos)
+{
+    _connectorStartPosition = pos;
+}
+
+QPointF XMLConnector::setConnectorPositionStart()
+{
+    return _connectorStartPosition;
+}
+
+void XMLConnector::setConnectorPositionEnd(const QPointF &pos)
+{
+    _connectorEndPosition = pos;
+}
+
+QPointF XMLConnector::getConnectorPositionEnd()
+{
+    return _connectorEndPosition;
+}
+
+void XMLConnector::setNodeStartID(const QString &startID)
+{
+    _nodeStartID = startID;
+}
+
+QString XMLConnector::getNodeStartID()
+{
+    return _nodeStartID;
+}
+
+void XMLConnector::setNodeEndID(const QString &endID)
+{
+    _nodeEndID = endID;
+}
+
+QString XMLConnector::getNodeEndID()
+{
+    return _nodeEndID;
 }
 
 void XMLConnector::paint(QPainter *painter)
@@ -225,3 +278,4 @@ bool XMLConnector::isPointOnLine(const QPointF &point)
     return qAbs(distance - (distanceToStart + distanceToEnd)) < epsilon;
 }
 
+}

@@ -145,7 +145,7 @@ QString MyDocument::addConnector() {
     //std::shared_ptr<XMLConnector> > updatedNodeList
     emit connectorListUpdated(_connectorLookup);
     _connectorUid++;//  ::_uidCount++;
-    auto connectorPtr = std::shared_ptr< XMLConnector>(new XMLConnector());
+    auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
 
     QString uidQString = getUIDQString(_connectorUid);
 
@@ -164,7 +164,7 @@ QString MyDocument::addConnector() {
     */
 
     connectorPtr->setConnectorUID(uidQString);
-    _connectorLookup.insert(std::pair<int, std::shared_ptr<XMLConnector>>(_connectorUid, connectorPtr));
+    _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
 
     emit nodeListUpdated(_nodeLookup);
 
