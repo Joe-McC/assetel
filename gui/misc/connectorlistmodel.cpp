@@ -1,5 +1,6 @@
 #include "connectorlistmodel.h"
 
+
 namespace Misc
 {
 
@@ -28,9 +29,9 @@ QVariant ConnectorListModel::data(const QModelIndex& index, int role) const
     case ROLE_CONNECTOR_ID:
         return QVariant(listItem.connectorUID);
     case ROLE_CONNECTOR_START_POS:
-        return QVariant(listItem.connectorXPosition);
+        return QVariant(listItem.connectorStartPosition);
     case ROLE_CONNECTOR_END_POS:
-        return QVariant(listItem.connectorYPosition);
+        return QVariant(listItem.connectorEndPosition);
     case ROLE_NODE_START_ID:
         return QVariant(listItem.nodeStartID);
     case ROLE_NODE_END_ID:

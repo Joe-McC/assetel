@@ -7,30 +7,27 @@ import Misc
 
 Rectangle {
     z: 0
-    //color: parent.color
+
+    property var connectorList: []
 
     function createConnector() {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
             var connectorItem = component.createObject(parent, {});
 
-
             if (connectorItem !== null) {
                 // Optional: Set additional properties or connect signals here
                 connectorItem.x = 500;
                 connectorItem.y = 500;
+                connectorList.push(connectorItem);
+                uid = qsTr(Cpp_Misc_My_Document.addConnector());
             } else {
                 console.error("Error creating Connector.qml component");
             }
         } else {
             console.error("Error loading Connector.qml component");
         }
-
     }
-
-
-
-
 
     property var nodeList: []
 
@@ -41,9 +38,6 @@ Rectangle {
         console.log("createNode text: ", text)
         console.log("createNode xpos: ", xpos)
         console.log("createNode ypos: ", ypos)
-        //console.log("createNode xpos.toInt(): ", xpos.toInt())
-        //console.log("createNode ypos.toInt(): ", ypos.toInt())
-        // Convert string xpos and ypos to integers
 
         var xPosition = parseInt(xpos);
         var yPosition = parseInt(ypos);
@@ -65,10 +59,6 @@ Rectangle {
                 // Add the created node to the list
                 nodeList.push(sprite);
                 availableParentsModel.addParentItem(uid, title);
-
-                //Cpp_Misc_My_Document.addNode(title, text)
-                //Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
-                //Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
                 console.info("ProjectViewer createNode")
             }
         } else {

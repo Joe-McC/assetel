@@ -111,6 +111,11 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
     return nodeList;
 }
 
+std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApplicationEngine *engine)
+{
+    return connectorList;
+}
+
 void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup)
 {
     QDomElement nodes = _XMLdocument.createElement("nodes");
@@ -167,6 +172,10 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
     }
 
     _XMLdocument.clear();
+}
+
+void writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup) {
+
 }
 
 }

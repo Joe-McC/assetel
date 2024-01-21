@@ -65,7 +65,7 @@ void XMLConnector::setConnectorPositionStart(const QPointF &pos)
     _connectorStartPosition = pos;
 }
 
-QPointF XMLConnector::setConnectorPositionStart()
+QPointF XMLConnector::getConnectorPositionStart()
 {
     return _connectorStartPosition;
 }

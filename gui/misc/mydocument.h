@@ -35,10 +35,11 @@ public:
     Q_INVOKABLE void setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition);
 
     Q_INVOKABLE QString addConnector();
-    Q_INVOKABLE void setNewConnectorXandYPos(const QString &uid, const QString &connectorXPosition, const QString &connectorYPosition);
-    Q_INVOKABLE void setNewConnectorStartNode(const QString &uid, const QString &nodeUid);
-    Q_INVOKABLE void setNewConnectorEndNode(const QString &uid, const QString &nodeUid);
 
+    void setNewConnectorStartNode(const QString &uid, const QString &nodeUid);
+    void setNewConnectorEndNode(const QString &uid, const QString &nodeUid);
+
+    void setNewConnectorPos(const QString &uid, const QPointF &connectorStartPosition, const QPointF &connectorEndPosition);
     void getNodes();
     void getConnectors();
 
