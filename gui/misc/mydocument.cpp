@@ -40,6 +40,7 @@ void MyDocument::saveDocument(const QString &filename)
     _connectorLookup.emplace(_connectorUid, connectorEntry->second);
 
     _XMLprocessor.writeConnectors(_connectorLookup);
+    _XMLprocessor.closeDocument();
 }
 
 void MyDocument::saveDocument()
@@ -53,7 +54,7 @@ void MyDocument::saveDocument()
     _connectorLookup.emplace(_connectorUid, connectorEntry->second);
 
     _XMLprocessor.writeConnectors(_connectorLookup);
-
+    _XMLprocessor.closeDocument();
 }
 
 void MyDocument::closeDocument()

@@ -22,10 +22,11 @@ class XMLProcessor
 public:
     XMLProcessor();
     void setFilename(QFile &filename);
+    void closeDocument();
     std::map<int, std::shared_ptr<XMLNode>> getNodes(QQmlApplicationEngine *engine);
     std::map<int, std::shared_ptr<XMLConnector>> getConnectors(QQmlApplicationEngine *engine);
     void writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLookup);
-    void writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup);
+    void writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup);
 
 private:
     inline static QFile _XMLfilename;

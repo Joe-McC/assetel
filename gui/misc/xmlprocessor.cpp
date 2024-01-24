@@ -18,6 +18,11 @@ void XMLProcessor::setFilename(QFile &filename)
 
 }
 
+void XMLProcessor::closeDocument()
+{
+    _XMLfilename.close();
+}
+
 std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEngine *engine)
 {
     std::cout << "Misc::MyProcessor::getNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
@@ -106,7 +111,6 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
-    _XMLfilename.close();
 
     return nodeList;
 }
@@ -163,7 +167,7 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
         QTextStream stream( &_XMLfilename );
         stream << _XMLdocument.toString();
         std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
-        _XMLfilename.close();
+        //_XMLfilename.close();
     }
 
     _XMLdocument.clear();
@@ -217,7 +221,6 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
             QString nodeStartID;
             QString nodeEndID;
 
-
             // Read each child of the component node
             while (!child.isNull())
             {
@@ -240,14 +243,6 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
             conectorPtr->setProperty("nodeStartID", nodeStartID);
             conectorPtr->setProperty("nodeEndID", nodeEndID);
 
-
-            /*std::cout << "title = " << title.toStdString() << '\n';
-            std::cout << "text = " << text.toStdString() << '\n';
-            std::cout << "text = " << uidStr.toStdString() << '\n';
-            std::cout << "parentid = " << parentid.toStdString() << '\n';
-            std::cout << "xpos = " << xpos.toStdString() << '\n';
-            std::cout << "ypos = " << ypos.toStdString() << '\n';*/
-
             connectorList.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(uid, conectorPtr));
             uid++;
         }
@@ -255,34 +250,30 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
         // Next component
         domNodes = domNodes.nextSibling().toElement();
     }
-    _XMLfilename.close();
+    //_XMLfilename.close();
 
     return connectorList;
 }
 
-void XMLProcessor::writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup) {
+void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup) {
     QDomElement connectors = _XMLdocument.createElement("connectors");
-    /*QString connectorUID;
-    QString connectorPositionStart;
-    QString connectorPositionEnd;
-    QString nodeStartID;
-    QString nodeEndID;
-*/
+
     for (auto const& connectorEntry : connectorLookup)
     {
-        QDomElement connector = _XMLdocument.createElement("node");
+        QDomElement connector = _XMLdocument.createElement("connector");
         connectors.appendChild(connector);
 
         QDomElement connectorUID = _XMLdocument.createElement("connectoruid");
         connector.appendChild(connectorUID);
         QDomText connectorUIDValue = _XMLdocument.createTextNode(connectorEntry.second->getConnectorUID());
+        qDebug() << "connectorUIDValue:" << connectorEntry.second->getConnectorUID();
         connectorUID.appendChild(connectorUIDValue);
 
         QDomElement connectorPositionStart = _XMLdocument.createElement("posstart");
         connector.appendChild(connectorPositionStart);
         qreal startX = connectorEntry.second->getConnectorPositionStart().x();
         QString startXStr = QString::number(startX);
-        qreal startY = connectorEntry.second->getConnectorPositionStart().x();
+        qreal startY = connectorEntry.second->getConnectorPositionStart().y();
         QString startYStr = QString::number(startY);
         QDomText connectorPositionStartValue = _XMLdocument.createTextNode(startXStr + ',' + startYStr);
         connectorPositionStart.appendChild(connectorPositionStartValue);
@@ -290,9 +281,13 @@ void XMLProcessor::writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &
         QDomElement connectorPositionEnd = _XMLdocument.createElement("posend");
         connector.appendChild(connectorPositionEnd);
         qreal endX = connectorEntry.second->getConnectorPositionEnd().x();
+        qDebug() << "endX:" << endX;
         QString endXStr = QString::number(endX);
-        qreal endY = connectorEntry.second->getConnectorPositionEnd().x();
+        qDebug() << "endXStr:" << endXStr;
+        qreal endY = connectorEntry.second->getConnectorPositionEnd().y();
+        qDebug() << "endY:" << endY;
         QString endYStr = QString::number(endY);
+        qDebug() << "endYStr:" << endYStr;
         QDomText connectorPositionEndValue = _XMLdocument.createTextNode(endXStr + ',' + endYStr);
         connectorPositionEnd.appendChild(connectorPositionEndValue);
 
@@ -301,7 +296,7 @@ void XMLProcessor::writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &
         QDomText nodeStartIDValue = _XMLdocument.createTextNode(connectorEntry.second->getNodeStartID());
         nodeStartID.appendChild(nodeStartID);
 
-        QDomElement nodeEndID = _XMLdocument.createElement("xpos");
+        QDomElement nodeEndID = _XMLdocument.createElement("nodeendid");
         connector.appendChild(nodeEndID);
         QDomText nodeXPosValue = _XMLdocument.createTextNode(connectorEntry.second->getNodeEndID());
         nodeEndID.appendChild(nodeXPosValue);
@@ -311,16 +306,17 @@ void XMLProcessor::writeConnector(std::map<int, std::shared_ptr<XMLConnector>> &
     // Set nodes as the root element of the XML document
     _XMLdocument.appendChild(connectors);
 
-    if (_XMLfilename.open(QIODevice::ReadWrite))
-    {
-        std::cout << "File Opened" << std::endl;
-        std::cout << "XMLProcessor::writeNodes:Filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+    //if (_XMLfilename.open(QIODevice::ReadWrite))
+    //{
+    //    std::cout << "File Opened" << std::endl;
+    //    std::cout << "XMLProcessor::writeNodes:Filename: " << _XMLfilename.fileName().toStdString() << std::endl;
 
-        QTextStream stream( &_XMLfilename );
-        stream << _XMLdocument.toString();
-        std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
-        _XMLfilename.close();
-    }
+    QTextStream stream( &_XMLfilename );
+    stream << _XMLdocument.toString();
+
+    //    std::cout << "XMLProcessor::writeNodes: " << stream.string() << std::endl;
+        //_XMLfilename.close();
+    //}
 
     _XMLdocument.clear();
 }
