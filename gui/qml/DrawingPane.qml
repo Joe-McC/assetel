@@ -13,14 +13,19 @@ Rectangle {
     function createConnector() {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
-            var connectorItem = component.createObject(parent, {});
+            uid = qsTr(Cpp_Misc_My_Document.addConnector());
+            var connectorItem = component.createObject(parent, {
+                "uid": uniqueId // Pass the UID from Main.qml
+            });
+
+            //var connectorItem = component.createObject(parent, {});
 
             if (connectorItem !== null) {
                 // Optional: Set additional properties or connect signals here
                 connectorItem.x = 500;
                 connectorItem.y = 500;
                 connectorList.push(connectorItem);
-                uid = qsTr(Cpp_Misc_My_Document.addConnector());
+
             } else {
                 console.error("Error creating Connector.qml component");
             }

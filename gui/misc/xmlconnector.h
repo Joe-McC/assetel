@@ -7,6 +7,7 @@
 #include <QHoverEvent>
 #include <QCursor>
 
+
 namespace Misc
 {
 

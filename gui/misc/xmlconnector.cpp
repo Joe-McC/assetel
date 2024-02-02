@@ -207,11 +207,11 @@ void XMLConnector::mouseMoveEvent(QMouseEvent *event)
 {
     if (_isResizingEnd) {
         if (_startPointLocal) {
-            qDebug() << "mouseMoveEvent _isResizingStart";
+            //qDebug() << "mouseMoveEvent _isResizingStart";
             _startPoint = event->pos();
         }
         if (_endPointLocal) {
-            qDebug() << "mouseMoveEvent _isResizingEnd";
+            //qDebug() << "mouseMoveEvent _isResizingEnd";
             _endPoint = event->pos();
         }
     }
@@ -238,7 +238,7 @@ void XMLConnector::hoverMoveEvent(QHoverEvent *event)
 {
     if (_isResizingEnd) {
         if (_startPointLocal) {
-            qDebug() << "hoverMoveEvent _startPointLocal";
+            //qDebug() << "hoverMoveEvent _startPointLocal";
             _startPoint = event->pos();
              update();
         }
