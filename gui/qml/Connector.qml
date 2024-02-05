@@ -2,26 +2,26 @@
 import QtQuick 2.15
 import Misc
 
-Rectangle {
+Line {
     z: 0
 
     property int uid: -1 // Default value, indicating no UID assigned yet
 
-    //signal connectorMoved(int uid, int x, int y);
-
     Connections {
         target: xmlconnector
 
-        onPositionChanged: {
+        onXChanged: {
             console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
 
             // Call the C++ functions with the updated positions and UID
-            Cpp_Misc_My_Document.updatedXPos(uid, xmlconnector.x);
-            Cpp_Misc_My_Document.updatedYPos(uid, xmlconnector.y);
+            Cpp_Misc_My_Document.updatedXPos(uid, xmlconnector.x1, xmlconnector.x2);
+        }
 
-            // Emit a signal to notify other parts of the application
-            //connectorMoved(uid, xmlconnector.x, xmlconnector.y);
+        onYChanged: {
+            console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
+
+            // Call the C++ functions with the updated positions and UID
+            Cpp_Misc_My_Document.updatedYPos(uid, xmlconnector.y1, xmlconnector.y2);
         }
     }
-
 }
