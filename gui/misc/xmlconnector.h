@@ -16,12 +16,12 @@ class XMLConnector : public QQuickPaintedItem
 
     Q_OBJECT
     Q_PROPERTY(QString connectorUID READ getConnectorUID WRITE setConnectorUID NOTIFY connectorUIDChanged)
-    /*Q_PROPERTY(QString connectorXPositionStart READ getConnectorXPositionStart WRITE setConnectorXPositionStart NOTIFY connectorXPositionStartChanged)
+    Q_PROPERTY(QString connectorXPositionStart READ getConnectorXPositionStart WRITE setConnectorXPositionStart NOTIFY connectorXPositionStartChanged)
     Q_PROPERTY(QString connectorYPositionStart READ getConnectorYPositionStart WRITE setConnectorYPositionStart NOTIFY connectorYPositionStartChanged)
     Q_PROPERTY(QString connectorXPositionEnd READ getConnectorXPositionEnd WRITE setConnectorXPositionEnd NOTIFY connectorXPositionEndChanged)
-    Q_PROPERTY(QString connectorYPositionEnd READ getConnectorYPositionEnd WRITE setConnectorYPositionEnd NOTIFY connectorYPositionEndChanged)*/
-    Q_PROPERTY(QPointF connectorPositionStart READ getConnectorPositionStart WRITE setConnectorPositionStart NOTIFY connectorStartPosChanged)
-    Q_PROPERTY(QPointF connectorPositionEnd READ getConnectorPositionEnd WRITE setConnectorPositionEnd NOTIFY connectorEndPosChanged)
+    Q_PROPERTY(QString connectorYPositionEnd READ getConnectorYPositionEnd WRITE setConnectorYPositionEnd NOTIFY connectorYPositionEndChanged)
+    //Q_PROPERTY(QPointF connectorPositionStart READ getConnectorPositionStart WRITE setConnectorPositionStart NOTIFY connectorStartPosChanged)
+    //Q_PROPERTY(QPointF connectorPositionEnd READ getConnectorPositionEnd WRITE setConnectorPositionEnd NOTIFY connectorEndPosChanged)
     Q_PROPERTY(QString nodeStartID READ getNodeStartID WRITE setNodeStartID NOTIFY nodeStartIDChanged)
     Q_PROPERTY(QString nodeEndID READ getNodeEndID WRITE setNodeEndID NOTIFY nodeEndIDChanged)
 
@@ -41,11 +41,17 @@ public:
     void setConnectorUID(const QString &uid);
     QString getConnectorUID();
 
-    void setConnectorPositionStart(const QPointF &pos);
-    QPointF getConnectorPositionStart();
+    void setConnectorXPositionStart(const qreal &pos);
+    qreal getConnectorXPositionStart();
 
-    void setConnectorPositionEnd(const QPointF &pos);
-    QPointF getConnectorPositionEnd();
+    void setConnectorYPositionStart(const qreal &pos);
+    qreal getConnectorYPositionStart();
+
+    void setConnectorXPositionEnd(const qreal &pos);
+    qreal getConnectorXPositionEnd();
+
+    void setConnectorYPositionEnd(const qreal &pos);
+    qreal getConnectorYPositionEnd();
 
     void setNodeStartID(const QString &startID);
     QString getNodeStartID();
@@ -54,8 +60,14 @@ public:
     QString getNodeEndID();
 
     QString _connectorUID;
-    QPointF _connectorStartPosition;
-    QPointF _connectorEndPosition;
+    //QPointF _connectorStartPosition;
+    //QPointF _connectorEndPosition;
+
+    qreal _connectorStartPositionX;
+    qreal _connectorStartPositionY;
+    qreal _connectorEndPositionX;
+    qreal _connectorEndPositionY;
+
     QString _nodeStartID;
     QString _nodeEndID;
 

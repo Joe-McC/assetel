@@ -16,16 +16,20 @@ class ConnectorListModel : public QAbstractListModel
 public:
     struct ConnectorListItem {
         QString connectorUID;
-        QPointF connectorStartPosition;
-        QPointF connectorEndPosition;
+        qreal connectorStartPositionX;
+        qreal connectorStartPositionY;
+        qreal connectorEndPositionX;
+        qreal connectorEndPositionY;
         QString nodeStartID;
         QString nodeEndID;
     };
 
     enum Role {
         ROLE_CONNECTOR_ID = Qt::UserRole + 1,
-        ROLE_CONNECTOR_START_POS,
-        ROLE_CONNECTOR_END_POS,
+        ROLE_CONNECTOR_START_POS_X,
+        ROLE_CONNECTOR_START_POS_Y,
+        ROLE_CONNECTOR_END_POS_X,
+        ROLE_CONNECTOR_END_POS_Y,
         ROLE_NODE_START_ID,
         ROLE_NODE_END_ID,
     };

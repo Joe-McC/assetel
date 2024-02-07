@@ -14,14 +14,16 @@ Line {
             console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
 
             // Call the C++ functions with the updated positions and UID
-            Cpp_Misc_My_Document.updatedXPos(uid, xmlconnector.x1, xmlconnector.x2);
+            Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, xmlconnector.x2);
+            Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, xmlconnector.x2);
         }
 
         onYChanged: {
             console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
 
             // Call the C++ functions with the updated positions and UID
-            Cpp_Misc_My_Document.updatedYPos(uid, xmlconnector.y1, xmlconnector.y2);
+            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, xmlconnector.y1);
+            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, xmlconnector.y2);
         }
     }
 }

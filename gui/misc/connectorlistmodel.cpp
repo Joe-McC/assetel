@@ -28,9 +28,13 @@ QVariant ConnectorListModel::data(const QModelIndex& index, int role) const
     switch (role) {
     case ROLE_CONNECTOR_ID:
         return QVariant(listItem.connectorUID);
-    case ROLE_CONNECTOR_START_POS:
+    case ROLE_CONNECTOR_X_START_POS:
         return QVariant(listItem.connectorStartPosition);
-    case ROLE_CONNECTOR_END_POS:
+    case ROLE_CONNECTOR_Y_START_POS:
+        return QVariant(listItem.connectorEndPosition);
+    case ROLE_CONNECTOR_X_END_POS:
+        return QVariant(listItem.connectorStartPosition);
+    case ROLE_CONNECTOR_Y_END_POS:
         return QVariant(listItem.connectorEndPosition);
     case ROLE_NODE_START_ID:
         return QVariant(listItem.nodeStartID);
@@ -76,8 +80,12 @@ void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_pt
         beginInsertRows(QModelIndex(), _connectorList.size(), _connectorList.size());
         ConnectorListItem listItem;
         listItem.connectorUID = connector->getConnectorUID();
-        listItem.connectorStartPosition = connector->getConnectorPositionStart();
-        listItem.connectorEndPosition = connector->getConnectorPositionEnd();
+        listItem.connectorXStartPosition = connector->getConnectorXPositionStart();
+        listItem.connectorYStartPosition = connector->getConnectorYPositionStart();
+
+        listItem.connectorXEndPosition = connector->getConnectorXPositionEnd();
+        listItem.connectorYEndPosition = connector->getConnectorYPositionEnd();
+
         listItem.nodeStartID = connector->getNodeStartID();
         listItem.nodeEndID = connector->getNodeEndID();
         _connectorList.push_back(listItem);

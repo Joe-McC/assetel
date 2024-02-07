@@ -60,6 +60,47 @@ QString XMLConnector::getConnectorUID()
     return _connectorUID;
 }
 
+void XMLConnector::setConnectorXPositionStart(const qreal &pos)
+{
+    _connectorStartPositionX = pos;
+}
+
+qreal XMLConnector::getConnectorXPositionStart()
+{
+    return _connectorStartPositionX;
+}
+
+void XMLConnector::setConnectorYPositionStart(const qreal &pos)
+{
+    _connectorStartPositionY = pos;
+}
+
+qreal XMLConnector::getConnectorYPositionStart()
+{
+    return _connectorStartPositionY;
+}
+
+void XMLConnector::setConnectorXPositionEnd(const qreal &pos)
+{
+    _connectorEndPositionX = pos;
+}
+
+qreal XMLConnector::getConnectorXPositionEnd()
+{
+    return _connectorEndPositionX;
+}
+
+void XMLConnector::setConnectorYPositionEnd(const qreal &pos)
+{
+    _connectorEndPositionY = pos;
+}
+
+qreal XMLConnector::getConnectorYPositionEnd()
+{
+    return _connectorEndPositionY;
+}
+
+/*
 void XMLConnector::setConnectorPositionStart(const QPointF &pos)
 {
     _connectorStartPosition = pos;
@@ -79,6 +120,7 @@ QPointF XMLConnector::getConnectorPositionEnd()
 {
     return _connectorEndPosition;
 }
+*/
 
 void XMLConnector::setNodeStartID(const QString &startID)
 {
@@ -245,7 +287,7 @@ void XMLConnector::hoverMoveEvent(QHoverEvent *event)
         if (_endPointLocal) {
             qDebug() << "hoverMoveEvent _endPointLocal";
             _endPoint = event->pos();
-             update();
+            update();
         }
 
     }

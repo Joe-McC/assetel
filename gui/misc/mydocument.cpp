@@ -34,8 +34,10 @@ void MyDocument::saveDocument(const QString &filename)
     _XMLprocessor.writeNodes(_nodeLookup);
 
     auto connectorEntry = _connectorLookup.find(_connectorUid);
-    auto posStart = connectorEntry->second->getConnectorPositionStart();
-    auto posEnd = connectorEntry->second->getConnectorPositionEnd();
+    auto posStartX = connectorEntry->second->getConnectorXPositionStart();
+    auto posStartY = connectorEntry->second->getConnectorYPositionStart();
+    auto posEndX = connectorEntry->second->getConnectorXPositionEnd();
+    auto posEndY = connectorEntry->second->getConnectorXPositionEnd();
 
     _connectorLookup.emplace(_connectorUid, connectorEntry->second);
 
@@ -48,8 +50,10 @@ void MyDocument::saveDocument()
     _XMLprocessor.writeNodes(_nodeLookup);
 
     auto connectorEntry = _connectorLookup.find(_connectorUid);
-    auto posStart = connectorEntry->second->getConnectorPositionStart();
-    auto posEnd = connectorEntry->second->getConnectorPositionEnd();
+    auto posStartX = connectorEntry->second->getConnectorXPositionStart();
+    auto posStartY = connectorEntry->second->getConnectorYPositionStart();
+    auto posEndX = connectorEntry->second->getConnectorXPositionEnd();
+    auto posEndY = connectorEntry->second->getConnectorXPositionEnd();
 
     _connectorLookup.emplace(_connectorUid, connectorEntry->second);
 
@@ -165,26 +169,47 @@ QString MyDocument::addConnector() {
 }
 
 
-void MyDocument::setNewConnectorPos(const QString &uid, const QPointF &connectorStartPosition, const QPointF &connectorEndPosition) {
+/*void MyDocument::setNewConnectorPos(const QString &uid, const qreal &connectorStartPosition, const qreal &connectorEndPosition) {
     auto connectorEntry = _connectorLookup.find(uid.toInt());
-    connectorEntry->second->setConnectorPositionStart(connectorStartPosition);
-    connectorEntry->second->setConnectorPositionEnd(connectorEndPosition);
+    connectorEntry->second->setConnectorXPositionStart(connectorStartPosition);
+    connectorEntry->second->setConnectorYPositionStart(connectorStartPosition);
+
+    connectorEntry->second->setConnectorXPositionEnd(connectorEndPosition);
+    connectorEntry->second->setConnectorYPositionEnd(connectorStartPosition);
 
     emit connectorListUpdated(_connectorLookup);
 }
+*/
 
-void MyDocument::updatedXPos(int uid, const qreal xpos1, const qreal xpos2)
+void MyDocument::updatedConnectorStartXPos(int uid, const qreal xpos)
 {
     // convert pos end and pos start attributes to startx, starty, endx, endy
     auto connectorEntry = _connectorLookup.find(uid);
-    connectorEntry->second->setConnectorPositionEnd();
+    connectorEntry->second->setConnectorXPositionStart(xpos);
 }
 
-void MyDocument::updatedYPos(int uid, const qreal ypos1, const qreal ypos2)
+
+void MyDocument::updatedConnectorStartYPos(int uid, const qreal ypos)
 {
     // convert pos end and pos start attributes to startx, starty, endx, endy
     auto connectorEntry = _connectorLookup.find(uid);
-    connectorEntry->second->setConnectorPositionEnd();
+    connectorEntry->second->setConnectorYPositionStart(ypos);
+}
+
+
+void MyDocument::updatedConnectorEndXPos(int uid, const qreal xpos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorXPositionEnd(xpos);
+}
+
+
+void MyDocument::updatedConnectorEndYPos(int uid, const qreal ypos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorYPositionEnd(ypos);
 }
 
 void MyDocument::setNewConnectorStartNode(const QString &uid, const QString &connectorStartNodeX)
