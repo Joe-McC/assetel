@@ -16,10 +16,10 @@ class ConnectorListModel : public QAbstractListModel
 public:
     struct ConnectorListItem {
         QString connectorUID;
-        qreal connectorStartPositionX;
-        qreal connectorStartPositionY;
-        qreal connectorEndPositionX;
-        qreal connectorEndPositionY;
+        QString connectorStartPositionX;
+        QString connectorStartPositionY;
+        QString connectorEndPositionX;
+        QString connectorEndPositionY;
         QString nodeStartID;
         QString nodeEndID;
     };

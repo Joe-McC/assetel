@@ -60,42 +60,42 @@ QString XMLConnector::getConnectorUID()
     return _connectorUID;
 }
 
-void XMLConnector::setConnectorXPositionStart(const qreal &pos)
+void XMLConnector::setConnectorXPositionStart(const QString &pos)
 {
     _connectorStartPositionX = pos;
 }
 
-qreal XMLConnector::getConnectorXPositionStart()
+QString XMLConnector::getConnectorXPositionStart()
 {
     return _connectorStartPositionX;
 }
 
-void XMLConnector::setConnectorYPositionStart(const qreal &pos)
+void XMLConnector::setConnectorYPositionStart(const QString &pos)
 {
     _connectorStartPositionY = pos;
 }
 
-qreal XMLConnector::getConnectorYPositionStart()
+QString XMLConnector::getConnectorYPositionStart()
 {
     return _connectorStartPositionY;
 }
 
-void XMLConnector::setConnectorXPositionEnd(const qreal &pos)
+void XMLConnector::setConnectorXPositionEnd(const QString &pos)
 {
     _connectorEndPositionX = pos;
 }
 
-qreal XMLConnector::getConnectorXPositionEnd()
+QString XMLConnector::getConnectorXPositionEnd()
 {
     return _connectorEndPositionX;
 }
 
-void XMLConnector::setConnectorYPositionEnd(const qreal &pos)
+void XMLConnector::setConnectorYPositionEnd(const QString &pos)
 {
     _connectorEndPositionY = pos;
 }
 
-qreal XMLConnector::getConnectorYPositionEnd()
+QString XMLConnector::getConnectorYPositionEnd()
 {
     return _connectorEndPositionY;
 }

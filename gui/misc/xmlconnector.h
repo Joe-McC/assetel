@@ -41,17 +41,17 @@ public:
     void setConnectorUID(const QString &uid);
     QString getConnectorUID();
 
-    void setConnectorXPositionStart(const qreal &pos);
-    qreal getConnectorXPositionStart();
+    void setConnectorXPositionStart(const QString &pos);
+    QString getConnectorXPositionStart();
 
-    void setConnectorYPositionStart(const qreal &pos);
-    qreal getConnectorYPositionStart();
+    void setConnectorYPositionStart(const QString &pos);
+    QString getConnectorYPositionStart();
 
-    void setConnectorXPositionEnd(const qreal &pos);
-    qreal getConnectorXPositionEnd();
+    void setConnectorXPositionEnd(const QString &pos);
+    QString getConnectorXPositionEnd();
 
-    void setConnectorYPositionEnd(const qreal &pos);
-    qreal getConnectorYPositionEnd();
+    void setConnectorYPositionEnd(const QString &pos);
+    QString getConnectorYPositionEnd();
 
     void setNodeStartID(const QString &startID);
     QString getNodeStartID();
@@ -63,18 +63,20 @@ public:
     //QPointF _connectorStartPosition;
     //QPointF _connectorEndPosition;
 
-    qreal _connectorStartPositionX;
-    qreal _connectorStartPositionY;
-    qreal _connectorEndPositionX;
-    qreal _connectorEndPositionY;
+    QString _connectorStartPositionX;
+    QString _connectorStartPositionY;
+    QString _connectorEndPositionX;
+    QString _connectorEndPositionY;
 
     QString _nodeStartID;
     QString _nodeEndID;
 
 signals:
     void connectorUIDChanged();
-    void connectorStartPosChanged();
-    void connectorEndPosChanged();
+    void connectorXPositionStartChanged();
+    void connectorYPositionStartChanged();
+    void connectorXPositionEndChanged();
+    void connectorYPositionEndChanged();
     void nodeStartIDChanged();
     void nodeEndIDChanged();
 

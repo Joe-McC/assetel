@@ -216,8 +216,10 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
 
             std::cout << "child = " << child.tagName().toStdString() << '\n';
             QString connectorUID;
-            QString connectorPositionStart;
-            QString connectorPositionEnd;
+            QString connectorPositionStartX;
+            QString connectorPositionStartY;
+            QString connectorPositionEndX;
+            QString connectorPositionEndY;
             QString nodeStartID;
             QString nodeEndID;
 
@@ -226,8 +228,10 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
             {
                 // Read Name and value
                 if (child.tagName()=="connectoruid") connectorUID = child.firstChild().toText().data();
-                if (child.tagName()=="connectorposstart") connectorPositionStart = child.firstChild().toText().data();
-                if (child.tagName()=="connectorposend") connectorPositionEnd = child.firstChild().toText().data();
+                if (child.tagName()=="connectorposstartX") connectorPositionStartX = child.firstChild().toText().data();
+                if (child.tagName()=="connectorposstartY") connectorPositionStartY = child.firstChild().toText().data();
+                if (child.tagName()=="connectorposendX") connectorPositionEndX = child.firstChild().toText().data();
+                if (child.tagName()=="connectorposendY") connectorPositionEndY = child.firstChild().toText().data();
                 if (child.tagName()=="nodestartid") nodeStartID = child.firstChild().toText().data();
                 if (child.tagName()=="nodeendid") nodeEndID = child.firstChild().toText().data();
 
@@ -238,8 +242,10 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
             auto conectorPtr = std::shared_ptr<XMLConnector>(new XMLConnector());
 
             conectorPtr->setProperty("connectorUID", connectorUID);
-            conectorPtr->setProperty("connectorPositionStart", connectorPositionStart);
-            conectorPtr->setProperty("connectorPositionEnd", connectorPositionEnd);
+            conectorPtr->setProperty("connectorPositionStartX", connectorPositionStartX);
+            conectorPtr->setProperty("connectorPositionStartY", connectorPositionStartY);
+            conectorPtr->setProperty("connectorPositionEndX", connectorPositionEndX);
+            conectorPtr->setProperty("connectorPositionEndY", connectorPositionEndY);
             conectorPtr->setProperty("nodeStartID", nodeStartID);
             conectorPtr->setProperty("nodeEndID", nodeEndID);
 
@@ -269,27 +275,45 @@ void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> 
         qDebug() << "connectorUIDValue:" << connectorEntry.second->getConnectorUID();
         connectorUID.appendChild(connectorUIDValue);
 
-        QDomElement connectorPositionStart = _XMLdocument.createElement("posstart");
-        connector.appendChild(connectorPositionStart);
-        qreal startX = connectorEntry.second->getConnectorPositionStart().x();
-        QString startXStr = QString::number(startX);
-        qreal startY = connectorEntry.second->getConnectorPositionStart().y();
-        QString startYStr = QString::number(startY);
-        QDomText connectorPositionStartValue = _XMLdocument.createTextNode(startXStr + ',' + startYStr);
+        QDomElement connectorPositionStartX = _XMLdocument.createElement("posstartx");
+        connector.appendChild(connectorPositionStartX);
+        QDomText connectorPositionStartXValue = _XMLdocument.createTextNode(connectorEntry.second->getConnectorXPositionStart());
+        connectorPositionStartX.appendChild(connectorPositionStartXValue);
+
+        QDomElement connectorPositionStartY = _XMLdocument.createElement("posstarty");
+        connector.appendChild(connectorPositionStartY);
+        QDomText connectorPositionStartYValue = _XMLdocument.createTextNode(connectorEntry.second->getConnectorYPositionStart());
+        connectorPositionStartY.appendChild(connectorPositionStartYValue);
+
+        QDomElement connectorPositionEndX = _XMLdocument.createElement("posendx");
+        connector.appendChild(connectorPositionEndX);
+        QDomText connectorPositionEndXValue = _XMLdocument.createTextNode(connectorEntry.second->getConnectorXPositionEnd());
+        connectorPositionEndX.appendChild(connectorPositionEndXValue);
+
+        QDomElement connectorPositionEndY = _XMLdocument.createElement("posendy");
+        connector.appendChild(connectorPositionEndY);
+        QDomText connectorPositionEndYValue = _XMLdocument.createTextNode(connectorEntry.second->getConnectorYPositionEnd());
+        connectorPositionEndY.appendChild(connectorPositionEndYValue);
+
+        /*QString startY = connectorEntry.second->getConnectorYPositionStart();
+        //QString startYStr = QString::number(startY);
+        QDomText connectorPositionStartValue = _XMLdocument.createTextNode(startX + ',' + startY);
         connectorPositionStart.appendChild(connectorPositionStartValue);
 
         QDomElement connectorPositionEnd = _XMLdocument.createElement("posend");
         connector.appendChild(connectorPositionEnd);
-        qreal endX = connectorEntry.second->getConnectorPositionEnd().x();
+        QString endX = connectorEntry.second->getConnectorXPositionEnd();
         qDebug() << "endX:" << endX;
-        QString endXStr = QString::number(endX);
-        qDebug() << "endXStr:" << endXStr;
-        qreal endY = connectorEntry.second->getConnectorPositionEnd().y();
+        //QString endXStr = QString::number(endX);
+        //qDebug() << "endXStr:" << endXStr;
+        QString endY = connectorEntry.second->getConnectorYPositionEnd();
         qDebug() << "endY:" << endY;
-        QString endYStr = QString::number(endY);
-        qDebug() << "endYStr:" << endYStr;
-        QDomText connectorPositionEndValue = _XMLdocument.createTextNode(endXStr + ',' + endYStr);
+        //QString endYStr = QString::number(endY);
+        //qDebug() << "endYStr:" << endYStr;
+        QDomText connectorPositionEndValue = _XMLdocument.createTextNode(endX + ',' + endY);
         connectorPositionEnd.appendChild(connectorPositionEndValue);
+        */
+
 
         QDomElement nodeStartID = _XMLdocument.createElement("nodestartid");
         connector.appendChild(nodeStartID);
