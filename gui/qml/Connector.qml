@@ -1,29 +1,22 @@
-// Connector.qml
 import QtQuick 2.15
+import QtQuick.Shapes 1.15
 import Misc
 
-Line {
-    z: 0
+XMLConnector {
+    id: xmlconnector
+    anchors.fill: parent
 
     property int uid: -1 // Default value, indicating no UID assigned yet
 
-    Connections {
-        target: xmlconnector
+    onXChanged: {
+        // Call the C++ functions with the updated positions and UID
+        Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, xmlconnector.connectorXPositionStart);
+        Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, xmlconnector.connectorXPositionEnd);
+    }
 
-        onXChanged: {
-            console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
-
-            // Call the C++ functions with the updated positions and UID
-            Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, xmlconnector.x2);
-            Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, xmlconnector.x2);
-        }
-
-        onYChanged: {
-            console.log("Connector.qml moved to:", xmlconnector.x, xmlconnector.y);
-
-            // Call the C++ functions with the updated positions and UID
-            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, xmlconnector.y1);
-            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, xmlconnector.y2);
-        }
+    onYChanged: {
+        // Call the C++ functions with the updated positions and UID
+        Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, xmlconnector.connectorYPositionStart);
+        Cpp_Misc_My_Document.updatedConnectorEndYPos(uid, xmlconnector.connectorYPositionEnd);
     }
 }

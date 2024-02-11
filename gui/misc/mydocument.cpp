@@ -111,7 +111,7 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
     return uidQString;
 }
 
-void MyDocument::setNewNodeXandYPos (const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition)
+void MyDocument::setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition)
 {
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);

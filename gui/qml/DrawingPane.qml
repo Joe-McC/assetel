@@ -10,12 +10,14 @@ Rectangle {
 
     property var connectorList: []
 
+    property var uid
+
     function createConnector() {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
             uid = qsTr(Cpp_Misc_My_Document.addConnector());
             var connectorItem = component.createObject(parent, {
-                "uid": uniqueId // Pass the UID from Main.qml
+                "uid": uid // Pass the UID from Main.qml
             });
 
             //var connectorItem = component.createObject(parent, {});
