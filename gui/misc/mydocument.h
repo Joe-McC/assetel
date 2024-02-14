@@ -17,7 +17,6 @@ namespace Misc
 class MyDocument : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(QList<QObject*> nodes READ getNodes CONSTANT)
 
 public:
     MyDocument(QQmlApplicationEngine &engine);

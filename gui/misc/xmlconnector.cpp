@@ -63,6 +63,7 @@ QString XMLConnector::getConnectorUID()
 void XMLConnector::setConnectorXPositionStart(const QString &pos)
 {
     _connectorStartPositionX = pos;
+    emit connectorXPositionStartChanged();
 }
 
 QString XMLConnector::getConnectorXPositionStart()
@@ -73,6 +74,7 @@ QString XMLConnector::getConnectorXPositionStart()
 void XMLConnector::setConnectorYPositionStart(const QString &pos)
 {
     _connectorStartPositionY = pos;
+    emit connectorYPositionStartChanged();
 }
 
 QString XMLConnector::getConnectorYPositionStart()
@@ -83,6 +85,7 @@ QString XMLConnector::getConnectorYPositionStart()
 void XMLConnector::setConnectorXPositionEnd(const QString &pos)
 {
     _connectorEndPositionX = pos;
+    emit connectorXPositionEndChanged();
 }
 
 QString XMLConnector::getConnectorXPositionEnd()
@@ -93,34 +96,13 @@ QString XMLConnector::getConnectorXPositionEnd()
 void XMLConnector::setConnectorYPositionEnd(const QString &pos)
 {
     _connectorEndPositionY = pos;
+    emit connectorYPositionEndChanged();
 }
 
 QString XMLConnector::getConnectorYPositionEnd()
 {
     return _connectorEndPositionY;
 }
-
-/*
-void XMLConnector::setConnectorPositionStart(const QPointF &pos)
-{
-    _connectorStartPosition = pos;
-}
-
-QPointF XMLConnector::getConnectorPositionStart()
-{
-    return _connectorStartPosition;
-}
-
-void XMLConnector::setConnectorPositionEnd(const QPointF &pos)
-{
-    _connectorEndPosition = pos;
-}
-
-QPointF XMLConnector::getConnectorPositionEnd()
-{
-    return _connectorEndPosition;
-}
-*/
 
 void XMLConnector::setNodeStartID(const QString &startID)
 {
@@ -148,6 +130,16 @@ void XMLConnector::paint(QPainter *painter)
     painter->setPen(QPen(Qt::black, 2));
 
     painter->drawLine(_startPoint, _endPoint);
+
+    setConnectorXPositionStart(QString::number(_startPoint.x()));
+    setConnectorYPositionStart(QString::number(_startPoint.y()));
+    setConnectorXPositionEnd(QString::number(_endPoint.x()));
+    setConnectorYPositionEnd(QString::number(_endPoint.y()));
+
+    qDebug() << "XMLConnector::paint _startPoint.x(): " << _startPoint.x();
+    qDebug() << "XMLConnector::paint _startPoint.y(): " << _startPoint.y();
+    qDebug() << "XMLConnector::paint _endPoint.x(): " << _endPoint.x();
+    qDebug() << "XMLConnector::paint _endPoint.x(): " << _endPoint.y();
 }
 
 void XMLConnector::mousePressEvent(QMouseEvent *event)

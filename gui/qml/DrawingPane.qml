@@ -15,7 +15,7 @@ Rectangle {
     function createConnector() {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
-            uid = qsTr(Cpp_Misc_My_Document.addConnector());
+            uid = Cpp_Misc_My_Document.addConnector();
             var connectorItem = component.createObject(parent, {
                 "uid": uid // Pass the UID from Main.qml
             });
