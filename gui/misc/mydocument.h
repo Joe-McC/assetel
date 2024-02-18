@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE void setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition);
 
     Q_INVOKABLE QString addConnector();
+    void addConnector(const QString &uid);
     //Q_INVOKABLE void updatedXPos(int uid, const qreal xpos1, const qreal xpos2);
     //Q_INVOKABLE void updatedYPos(int uid, const qreal xpos1, const qreal xpos2);
 
@@ -42,8 +43,8 @@ public:
     Q_INVOKABLE void updatedConnectorEndXPos(int uid, const QString &xpos);
     Q_INVOKABLE void updatedConnectorEndYPos(int uid, const QString &ypos);
 
-    void setNewConnectorStartNode(const QString &uid, const QString &nodeUid);
-    void setNewConnectorEndNode(const QString &uid, const QString &nodeUid);
+    void setNewConnectorStartNode(int uid, const QString &nodeUid);
+    void setNewConnectorEndNode(int uid, const QString &nodeUid);
 
     void setNewConnectorPos(const QString &uid, const QPointF &connectorStartPosition, const QPointF &connectorEndPosition);
     void getNodes();

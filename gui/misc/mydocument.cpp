@@ -22,8 +22,9 @@ void MyDocument::openDocument(const QString &filename)
     _nodeLookup.clear();
     // Loads saved nodes using XMLProcessor and sends signals to NodeListModel, which sends the data to qml.
     getNodes();
+    getConnectors();
 
-    return;
+    //return;
 }
 
 void MyDocument::saveDocument(const QString &filename)
@@ -134,6 +135,43 @@ void MyDocument::getNodes() {
     }
 }
 
+void MyDocument::getConnectors() {
+    std::cout << "MyDocument::getConnectors() - called when loading" << std::endl;
+
+    _connectorLookup = _XMLprocessor.getConnectors(_engine);
+
+    for (auto const& connectorEntry : _connectorLookup)
+    {
+        /*QString title = nodeEntry.second->getNodeTitle();
+        QString text = nodeEntry.second->getNodeText();
+        QString uid = nodeEntry.second->getNodeUID();
+        QString parentid = nodeEntry.second->getNodeParentID();
+        QString xpos = nodeEntry.second->getNodeXPosition();
+        QString ypos = nodeEntry.second->getNodeYPosition();*/
+
+
+        QString connectorXPositionStart = connectorEntry.second->getConnectorXPositionStart();
+        QString connectorYPositionStart = connectorEntry.second->getConnectorYPositionStart();
+        QString connectorXPositionEnd = connectorEntry.second->getConnectorXPositionEnd();
+        QString connectorYPositionEnd = connectorEntry.second->getConnectorYPositionEnd();
+        QString connectorUID = connectorEntry.second->getConnectorUID();
+        QString nodeStartID = connectorEntry.second->getNodeStartID();
+        QString nodeEndID = connectorEntry.second->getNodeEndID();
+
+        addConnector();
+
+        updatedConnectorStartXPos(connectorUID.toInt(), connectorXPositionStart);
+        updatedConnectorStartYPos(connectorUID.toInt(), connectorYPositionStart);
+        updatedConnectorEndXPos(connectorUID.toInt(), connectorXPositionEnd);
+        updatedConnectorEndXPos(connectorUID.toInt(), connectorYPositionEnd);
+        setNewConnectorStartNode(connectorUID.toInt(), nodeStartID);
+        setNewConnectorEndNode(connectorUID.toInt(), nodeEndID);
+
+        //addNode(title, text, parentid);
+        //setNewNodeXandYPos(uid, xpos, ypos);
+    }
+}
+
 QString MyDocument::getUIDQString(int uid_int)
 {
    std::string uid = std::to_string(uid_int);
@@ -146,8 +184,16 @@ QString MyDocument::getUIDQString(int uid_int)
    return QString::fromStdString(uid);
 }
 
-QString MyDocument::addConnector() {
+void MyDocument::addConnector(const QString& uid) {
+    auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
+    connectorPtr->setConnectorUID(uid);
+    _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
+
     emit connectorListUpdated(_connectorLookup);
+}
+
+QString MyDocument::addConnector() {
+    //emit connectorListUpdated(_connectorLookup);
     _connectorUid++;//  ::_uidCount++;
     auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
 
@@ -156,7 +202,7 @@ QString MyDocument::addConnector() {
     connectorPtr->setConnectorUID(uidQString);
     _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
 
-    emit nodeListUpdated(_nodeLookup);
+    emit connectorListUpdated(_connectorLookup);
 
     return uidQString;
 }
@@ -197,15 +243,15 @@ void MyDocument::updatedConnectorEndYPos(int uid, const QString &ypos)
     std::cout << "MyDocument::updatedConnectorEndYPos xpos:  " << ypos.toStdString() << ", uid: " << uid << std::endl;
 }
 
-void MyDocument::setNewConnectorStartNode(const QString &uid, const QString &connectorStartNodeX)
+void MyDocument::setNewConnectorStartNode(int uid, const QString &connectorStartNodeX)
 {
-    auto connectorEntry = _connectorLookup.find(uid.toInt());
+    auto connectorEntry = _connectorLookup.find(uid);
     connectorEntry->second->setNodeStartID(connectorStartNodeX);
 }
 
-void MyDocument::setNewConnectorEndNode(const QString &uid, const QString &connectorStartNodeY)
+void MyDocument::setNewConnectorEndNode(int uid, const QString &connectorStartNodeY)
 {
-    auto connectorEntry = _connectorLookup.find(uid.toInt());
+    auto connectorEntry = _connectorLookup.find(uid);
     connectorEntry->second->setNodeEndID(connectorStartNodeY);
 }
 
