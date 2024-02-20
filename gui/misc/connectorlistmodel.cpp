@@ -59,10 +59,10 @@ QHash<int, QByteArray> ConnectorListModel::roleNames() const
 
 void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_ptr<Misc::XMLConnector>> updatedConnectorList)
 {
-    std::cout << "NodeListModel::handleNodeListUpdated updatedNodeList.size(): " << updatedConnectorList.size() << std::endl;
+    std::cout << "ConnectorListModel::handleConnectorListUpdated updatedConnectorList.size(): " << updatedConnectorList.size() << std::endl;
 
     for (const auto& entry : updatedConnectorList) {
-        const auto& connector = entry.second; // shared_ptr to XMLNode
+        const auto& connector = entry.second;
 
         // Check if a node with the same UID already exists in _nodeList
         auto existingNodeIter = std::find_if(_connectorList.begin(), _connectorList.end(),

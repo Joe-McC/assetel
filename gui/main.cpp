@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
     auto myDocument = new Misc::MyDocument(engine);
     auto nodeListModel = new Misc::NodeListModel(&engine, myDocument);
+    auto connectorListModel = new Misc::ConnectorListModel(&engine, myDocument);
 
     auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("treeManipulator", QVariant::fromValue(treeManipulator));
     c->setContextProperty("availableParentsModel", &parentsModel);
     c->setContextProperty("nodeListModel", nodeListModel);
+    c->setContextProperty("connectorListModel", connectorListModel);
     //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
     qmlRegisterType<Misc::XMLConnector>("Misc", 1, 0, "XMLConnector");
 

@@ -158,7 +158,10 @@ void MyDocument::getConnectors() {
         QString nodeStartID = connectorEntry.second->getNodeStartID();
         QString nodeEndID = connectorEntry.second->getNodeEndID();
 
-        addConnector();
+        auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
+
+        connectorPtr->setConnectorUID(connectorUID);
+        _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
 
         updatedConnectorStartXPos(connectorUID.toInt(), connectorXPositionStart);
         updatedConnectorStartYPos(connectorUID.toInt(), connectorYPositionStart);
@@ -166,6 +169,12 @@ void MyDocument::getConnectors() {
         updatedConnectorEndXPos(connectorUID.toInt(), connectorYPositionEnd);
         setNewConnectorStartNode(connectorUID.toInt(), nodeStartID);
         setNewConnectorEndNode(connectorUID.toInt(), nodeEndID);
+
+        emit connectorListUpdated(_connectorLookup);
+
+        //delete the following?
+        //addConnector(connectorUID);
+
 
         //addNode(title, text, parentid);
         //setNewNodeXandYPos(uid, xpos, ypos);
@@ -188,6 +197,8 @@ void MyDocument::addConnector(const QString& uid) {
     auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
     connectorPtr->setConnectorUID(uid);
     _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
+
+    std::cout << "MyDocument::addConnector emit MyDocument::addConnector " << std::endl;
 
     emit connectorListUpdated(_connectorLookup);
 }
