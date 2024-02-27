@@ -19,6 +19,7 @@ int NodeListModel::rowCount(const QModelIndex& parent) const
 
 QVariant NodeListModel::data(const QModelIndex& index, int role) const
 {
+    std::cout << "NodeListModel::data : " <<  std::endl;
     if (!index.isValid() || index.row() >= _nodeList.size())
         return QVariant();
 

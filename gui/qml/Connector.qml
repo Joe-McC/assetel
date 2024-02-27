@@ -6,7 +6,7 @@ XMLConnector {
     id: xmlconnector
     anchors.fill: parent
 
-    property int uid: -1 // Default value, indicating no UID assigned yet
+    property string uid // Default value, indicating no UID assigned yet
 
     // Signal handlers for property changes
     onConnectorXPositionStartChanged: {

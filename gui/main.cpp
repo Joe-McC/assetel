@@ -36,8 +36,6 @@ int main(int argc, char *argv[])
     auto treeModel = new TreeModel(&engine, myDocument);
     auto treeManipulator = new TreeManipulator(*treeModel, &engine);
 
-    //QList<QObject*> nodes = myDocument->getNodes();
-
     Misc::ParentsModel parentsModel;
 
     // Configure dark UI
@@ -52,7 +50,7 @@ int main(int argc, char *argv[])
     c->setContextProperty("availableParentsModel", &parentsModel);
     c->setContextProperty("nodeListModel", nodeListModel);
     c->setContextProperty("connectorListModel", connectorListModel);
-    //qmlRegisterType<Misc::XMLNode>("xmlNode", 1, 0, "XMLNode");
+
     qmlRegisterType<Misc::XMLConnector>("Misc", 1, 0, "XMLConnector");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

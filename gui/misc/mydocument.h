@@ -42,9 +42,8 @@ public:
     Q_INVOKABLE void updatedConnectorStartYPos(int uid, const QString &ypos);
     Q_INVOKABLE void updatedConnectorEndXPos(int uid, const QString &xpos);
     Q_INVOKABLE void updatedConnectorEndYPos(int uid, const QString &ypos);
-
-    void setNewConnectorStartNode(int uid, const QString &nodeUid);
-    void setNewConnectorEndNode(int uid, const QString &nodeUid);
+    Q_INVOKABLE void setNewConnectorStartNode(int uid, const QString &nodeUid);
+    Q_INVOKABLE void setNewConnectorEndNode(int uid, const QString &nodeUid);
 
     void setNewConnectorPos(const QString &uid, const QPointF &connectorStartPosition, const QPointF &connectorEndPosition);
     void getNodes();

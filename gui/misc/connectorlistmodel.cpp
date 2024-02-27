@@ -20,6 +20,7 @@ int ConnectorListModel::rowCount(const QModelIndex& parent) const
 
 QVariant ConnectorListModel::data(const QModelIndex& index, int role) const
 {
+    std::cout << "ConnectorListModel::data : " <<  std::endl;
     if (!index.isValid() || index.row() >= _connectorList.size())
         return QVariant();
 
@@ -27,6 +28,7 @@ QVariant ConnectorListModel::data(const QModelIndex& index, int role) const
 
     switch (role) {
     case ROLE_CONNECTOR_ID:
+        std::cout << "ConnectorListModel::data listItem.connectorUID: " << listItem.connectorUID.toStdString() << std::endl;
         return QVariant(listItem.connectorUID);
     case ROLE_CONNECTOR_START_POS_X:
         return QVariant(listItem.connectorStartPositionX);
@@ -64,21 +66,31 @@ void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_pt
     for (const auto& entry : updatedConnectorList) {
         const auto& connector = entry.second;
 
-        // Check if a node with the same UID already exists in _nodeList
-        auto existingNodeIter = std::find_if(_connectorList.begin(), _connectorList.end(),
-            [&connector](const ConnectorListItem& listItem) {
-                return listItem.connectorUID == connector->getConnectorUID();
-            });
-
-        if (existingNodeIter != _connectorList.end()) {
-            // Node with the same UID exists, remove it
-            int index = std::distance(_connectorList.begin(), existingNodeIter);
-            beginRemoveRows(QModelIndex(), index, index);
-            _connectorList.erase(existingNodeIter);
-            endRemoveRows();
+        // Check if all necessary data is available
+        if (connector->getConnectorUID().isEmpty() ||
+            connector->getConnectorXPositionStart().isEmpty() ||
+            connector->getConnectorYPositionStart().isEmpty() ||
+            connector->getConnectorXPositionEnd().isEmpty() ||
+            connector->getConnectorYPositionEnd().isEmpty()) {
+            // Skip adding this connector as it lacks necessary data
+            continue;
         }
 
-        // Add the updated node to _nodeList
+        /*// Check if a connector with the same UID already exists in _connectorList
+        auto existingConnectorIter = std::find_if(_connectorList.begin(), _connectorList.end(),
+                                                  [&connector](const ConnectorListItem& listItem) {
+                                                      return listItem.connectorUID == connector->getConnectorUID();
+                                                  });
+
+        if (existingConnectorIter != _connectorList.end()) {
+            // Connector with the same UID exists, remove it
+            int index = std::distance(_connectorList.begin(), existingConnectorIter);
+            beginRemoveRows(QModelIndex(), index, index);
+            _connectorList.erase(existingConnectorIter);
+            endRemoveRows();
+        }
+*/
+        // Add the updated connector to _connectorList
         beginInsertRows(QModelIndex(), _connectorList.size(), _connectorList.size());
         ConnectorListItem listItem;
         listItem.connectorUID = connector->getConnectorUID();
@@ -86,11 +98,22 @@ void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_pt
         listItem.connectorStartPositionY = connector->getConnectorYPositionStart();
         listItem.connectorEndPositionX = connector->getConnectorXPositionEnd();
         listItem.connectorEndPositionY = connector->getConnectorYPositionEnd();
-
         listItem.nodeStartID = connector->getNodeStartID();
         listItem.nodeEndID = connector->getNodeEndID();
+
+        // Output debug information
+        std::cout << "listItem.connectorUID : " << listItem.connectorUID.toStdString() << std::endl;
+        std::cout << "listItem.connectorStartPositionX : " << listItem.connectorStartPositionX.toStdString() << std::endl;
+        std::cout << "listItem.connectorStartPositionY : " << listItem.connectorStartPositionY.toStdString() << std::endl;
+        std::cout << "listItem.connectorEndPositionX : " << listItem.connectorEndPositionX.toStdString() << std::endl;
+        std::cout << "listItem.connectorEndPositionY : " << listItem.connectorEndPositionY.toStdString() << std::endl;
+        std::cout << "listItem.nodeStartID : " << listItem.nodeStartID.toStdString() << std::endl;
+        std::cout << "listItem.nodeEndID : " << listItem.nodeEndID.toStdString() << std::endl;
+
         _connectorList.push_back(listItem);
         endInsertRows();
+
+        emit modelPopulated();
     }
 }
 

@@ -40,9 +40,11 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+signals:
+    void modelPopulated(); // New signal indicating model population completion
 
 public slots:
-    void handleConnectorListUpdated(std::map<int, std::shared_ptr<Misc::XMLConnector> > updatedNodeList);
+    void handleConnectorListUpdated(std::map<int, std::shared_ptr<Misc::XMLConnector> > updatedConnectorList);
     void handleClearConnectors();
 
 private:

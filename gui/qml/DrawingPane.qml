@@ -36,6 +36,30 @@ Rectangle {
         }
     }
 
+    function createConnectorFromLoad(connUid, startX, startY, endX, endY, startNode, EndNode) {
+        var component = Qt.createComponent("Connector.qml");
+        if (component.status === Component.Ready) {
+
+            console.log("connUid: ", connUid)
+
+            var connectorItem = component.createObject(parent, {
+                "uid": connUid // Pass the UID from Main.qml
+            });
+
+            connectorList.push(connectorItem);
+
+            Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, startX);
+            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, startY);
+            Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, endX);
+            Cpp_Misc_My_Document.updatedConnectorEndYPos(uid, endY);
+            Cpp_Misc_My_Document.setNewConnectorStartNode(uid, startNode);
+            Cpp_Misc_My_Document.setNewConnectorEndNode(uid, EndNode);
+
+        } else {
+            console.error("Error loading Connector.qml component");
+        }
+    }
+
     property var nodeList: []
 
     function createNode(title, uid, parentId, text, xpos, ypos) {
@@ -84,4 +108,15 @@ Rectangle {
         }
     }
 
+
+    function deleteConnectors(newUID) {
+        // Iterate through the list of nodes and delete nodes with matching UIDs
+        for (var j = 0; j < connectorList.length; ++j) {
+            if (connectorList[j].uid === newUID) {
+                connectorList[j].destroy();
+                connectorList.splice(j, 1); // Remove the deleted node from the list
+                j--; // Adjust the index after removing an element
+            }
+        }
+    }
 }
