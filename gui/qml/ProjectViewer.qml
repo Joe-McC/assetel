@@ -248,7 +248,7 @@ Page {
     Repeater {
         model: connectorListModel
 
-        delegate: Connector {
+        delegate: Item {
             property bool clearConnectorsCompleted: false
 
             Component.onCompleted: {

@@ -166,7 +166,7 @@ void MyDocument::getConnectors() {
         updatedConnectorStartXPos(connectorUID.toInt(), connectorXPositionStart);
         updatedConnectorStartYPos(connectorUID.toInt(), connectorYPositionStart);
         updatedConnectorEndXPos(connectorUID.toInt(), connectorXPositionEnd);
-        updatedConnectorEndXPos(connectorUID.toInt(), connectorYPositionEnd);
+        updatedConnectorEndYPos(connectorUID.toInt(), connectorYPositionEnd);
         setNewConnectorStartNode(connectorUID.toInt(), nodeStartID);
         setNewConnectorEndNode(connectorUID.toInt(), nodeEndID);
 
@@ -251,7 +251,7 @@ void MyDocument::updatedConnectorEndYPos(int uid, const QString &ypos)
     // convert pos end and pos start attributes to startx, starty, endx, endy
     auto connectorEntry = _connectorLookup.find(uid);
     connectorEntry->second->setConnectorYPositionEnd(ypos);
-    std::cout << "MyDocument::updatedConnectorEndYPos xpos:  " << ypos.toStdString() << ", uid: " << uid << std::endl;
+    std::cout << "MyDocument::updatedConnectorEndYPos ypos:  " << ypos.toStdString() << ", uid: " << uid << std::endl;
 }
 
 void MyDocument::setNewConnectorStartNode(int uid, const QString &connectorStartNodeX)

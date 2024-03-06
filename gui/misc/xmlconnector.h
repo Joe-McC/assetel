@@ -25,6 +25,7 @@ class XMLConnector : public QQuickPaintedItem
 public:
 
     XMLConnector(QQuickItem* parent = nullptr);
+
     void paint(QPainter* painter) override;
 
     QPointF getStartPoint() const;
@@ -75,6 +76,15 @@ signals:
 
     void startPointChanged();
     void endPointChanged();
+
+public slots:
+    void handleSetConnectorXPositionStartSignal(const QString &pos);
+    void handleSetConnectorYPositionStartSignal(const QString &pos);
+    void handleSetConnectorXPositionEndSignal(const QString &pos);
+    void handleSetConnectorYPositionEndSignal(const QString &pos);
+    void handleSetNodeStartIDSignal(const QString &startID);
+    void handleSetNodeEndIDSignal(const QString &endID);
+
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;

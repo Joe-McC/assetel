@@ -16,7 +16,7 @@ Rectangle {
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
             uid = Cpp_Misc_My_Document.addConnector();
-            var connectorItem = component.createObject(parent, {
+            var connectorItem = component.createObject(projectviewer, {
                 "uid": uid // Pass the UID from Main.qml
             });
 
@@ -36,24 +36,52 @@ Rectangle {
         }
     }
 
-    function createConnectorFromLoad(connUid, startX, startY, endX, endY, startNode, EndNode) {
+    function createConnectorFromLoad(connUid, startX, startY, endX, endY, startNode, endNode) {
+        console.debug("************* createConnectorFromLoad ***************");
         var component = Qt.createComponent("Connector.qml");
         if (component.status === Component.Ready) {
 
             console.log("connUid: ", connUid)
 
-            var connectorItem = component.createObject(parent, {
-                "uid": connUid // Pass the UID from Main.qml
+            var connectorItem = component.createObject(projectviewer, {
+                "connectorUID": connUid,
+                "connectorXPositionStart": startX,
+                "connectorYPositionStart": startY,
+                "connectorXPositionEnd": endX,
+                "connectorYPositionEnd": endY,
+                "nodeStartID": startNode,
+                "nodeEndID": endNode,
             });
+
+            if (connectorItem !== null) {
+                //we want to initalise the properties of the connector and set them in xmconnector.cpp
+
+
+                console.debug("************* set properties ***************");
+                // Optional: Set additional properties or connect signals here
+
+                connectorItem.connectorUID = connUid;
+                connectorItem.connectorXPositionStart = startX;
+                connectorItem.connectorYPositionStart = startY;
+                connectorItem.connectorXPositionEnd = endX;
+                connectorItem.connectorYPositionEnd = endY;
+                connectorItem.nodeStartID = startNode;
+                connectorItem.nodeEndID = endNode;
+
+                connectorList.push(connectorItem);
+
+            } else {
+                console.error("Error creating Connector.qml component");
+            }
 
             connectorList.push(connectorItem);
 
-            Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, startX);
+            /*Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, startX);
             Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, startY);
             Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, endX);
             Cpp_Misc_My_Document.updatedConnectorEndYPos(uid, endY);
             Cpp_Misc_My_Document.setNewConnectorStartNode(uid, startNode);
-            Cpp_Misc_My_Document.setNewConnectorEndNode(uid, EndNode);
+            Cpp_Misc_My_Document.setNewConnectorEndNode(uid, endNode);*/
 
         } else {
             console.error("Error loading Connector.qml component");
