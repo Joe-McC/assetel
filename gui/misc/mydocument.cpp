@@ -142,14 +142,6 @@ void MyDocument::getConnectors() {
 
     for (auto const& connectorEntry : _connectorLookup)
     {
-        /*QString title = nodeEntry.second->getNodeTitle();
-        QString text = nodeEntry.second->getNodeText();
-        QString uid = nodeEntry.second->getNodeUID();
-        QString parentid = nodeEntry.second->getNodeParentID();
-        QString xpos = nodeEntry.second->getNodeXPosition();
-        QString ypos = nodeEntry.second->getNodeYPosition();*/
-
-
         QString connectorXPositionStart = connectorEntry.second->getConnectorXPositionStart();
         QString connectorYPositionStart = connectorEntry.second->getConnectorYPositionStart();
         QString connectorXPositionEnd = connectorEntry.second->getConnectorXPositionEnd();
@@ -171,13 +163,6 @@ void MyDocument::getConnectors() {
         setNewConnectorEndNode(connectorUID.toInt(), nodeEndID);
 
         emit connectorListUpdated(_connectorLookup);
-
-        //delete the following?
-        //addConnector(connectorUID);
-
-
-        //addNode(title, text, parentid);
-        //setNewNodeXandYPos(uid, xpos, ypos);
     }
 }
 

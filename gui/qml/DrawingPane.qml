@@ -54,9 +54,6 @@ Rectangle {
             });
 
             if (connectorItem !== null) {
-                //we want to initalise the properties of the connector and set them in xmconnector.cpp
-
-
                 console.debug("************* set properties ***************");
                 // Optional: Set additional properties or connect signals here
 
@@ -75,13 +72,6 @@ Rectangle {
             }
 
             connectorList.push(connectorItem);
-
-            /*Cpp_Misc_My_Document.updatedConnectorStartXPos(uid, startX);
-            Cpp_Misc_My_Document.updatedConnectorStartYPos(uid, startY);
-            Cpp_Misc_My_Document.updatedConnectorEndXPos(uid, endX);
-            Cpp_Misc_My_Document.updatedConnectorEndYPos(uid, endY);
-            Cpp_Misc_My_Document.setNewConnectorStartNode(uid, startNode);
-            Cpp_Misc_My_Document.setNewConnectorEndNode(uid, endNode);*/
 
         } else {
             console.error("Error loading Connector.qml component");

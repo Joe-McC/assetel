@@ -19,35 +19,9 @@ XMLConnector::XMLConnector(QQuickItem* parent)
 {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
-    //setStartPoint(QPoint(400,400));
-    //setEndPoint(QPoint(410,410));
     setEnabled(true);
     _init = true;
     std::cout << "XMLConnector::XMLConnector CONSTRUCTOR" << std::endl;
-
-
-    connect(parent, SIGNAL(setConnectorXPositionStartSignal(QString)),
-            this, SLOT(handleSetConnectorXPositionStartSignal(QString)));
-
-    connect(parent, SIGNAL(setConnectorYPositionStartSignal(QString)),
-            this, SLOT(handleSetConnectorYPositionStartSignal(QString)));
-
-    connect(parent, SIGNAL(setConnectorXPositionEndSignal(QString)),
-            this, SLOT(handleSetConnectorXPositionEndSignal(QString)));
-
-    connect(parent, SIGNAL(setConnectorYPositionEndSignal(QString)),
-            this, SLOT(handleSetConnectorYPositionEndSignal(QString)));
-
-    connect(parent, SIGNAL(setConnectorUIDSignal(QString)),
-            this, SLOT(handleSetConnectorUIDSignal(QString)));
-
-    connect(parent, SIGNAL(setNodeStartIDSignal(QString)),
-            this, SLOT(handleSetNodeStartIDSignal(QString)));
-
-    connect(parent, SIGNAL(setNodeEndIDSignal(QString)),
-            this, SLOT(handleSetNodeEndIDSignal(QString)));
-
-
 }
 
 
@@ -178,44 +152,8 @@ QString XMLConnector::getNodeEndID()
     return _nodeEndID;
 }
 
-void XMLConnector::handleSetConnectorXPositionStartSignal(const QString &pos) {
-    std::cout << "XMLConnector::setConnectorXPositionStartFromQML:  " << pos.toStdString() << std::endl;
-    setConnectorXPositionStart(pos);
-}
-
-void XMLConnector::handleSetConnectorYPositionStartSignal(const QString &pos) {
-    std::cout << "XMLConnector::setConnectorYPositionStartFromQML:  " << pos.toStdString() << std::endl;
-    setConnectorYPositionStart(pos);
-}
-
-void XMLConnector::handleSetConnectorXPositionEndSignal(const QString &pos) {
-    std::cout << "XMLConnector::setConnectorXPositionEndFromQML:  " << pos.toStdString() << std::endl;
-    setConnectorXPositionEnd(pos);
-}
-
-void XMLConnector::handleSetConnectorYPositionEndSignal(const QString &pos) {
-    std::cout << "XMLConnector::setConnectorYPositionEndFromQML:  " << pos.toStdString() << std::endl;
-    setConnectorYPositionEnd(pos);
-}
-
-void XMLConnector::handleSetNodeStartIDSignal(const QString &startID) {
-    setNodeStartID(startID);
-}
-
-void XMLConnector::handleSetNodeEndIDSignal(const QString &endID) {
-    setNodeEndID(endID);
-}
-
 void XMLConnector::paint(QPainter *painter)
 {
-    /*_startPoint.setX(_connectorStartPositionX.toDouble());
-    _startPoint.setY(_connectorStartPositionY.toDouble());
-    _endPoint.setX(_connectorEndPositionX.toDouble());
-    _endPoint.setY(_connectorEndPositionY.toDouble());*/
-
-
-    //getConnectorXPositionStart
-
     std::cout << "XMLConnector::_connectorStartPositionX:  " << _connectorStartPositionX.toStdString() << std::endl;
     std::cout << "XMLConnector::_connectorStartPositionY:  " << _connectorStartPositionY.toStdString() << std::endl;
     std::cout << "XMLConnector::_connectorEndPositionX:  " << _connectorEndPositionX.toStdString() << std::endl;
@@ -230,11 +168,6 @@ void XMLConnector::paint(QPainter *painter)
     painter->setPen(QPen(Qt::black, 2));
 
     painter->drawLine(_startPoint, _endPoint);
-
-    /*setConnectorXPositionStart(QString::number(_startPoint.x()));
-    setConnectorYPositionStart(QString::number(_startPoint.y()));
-    setConnectorXPositionEnd(QString::number(_endPoint.x()));
-    setConnectorYPositionEnd(QString::number(_endPoint.y()));*/
 
     qDebug() << "XMLConnector::paint _connectorUID(): " << _connectorUID;
     qDebug() << "XMLConnector::paint _startPoint.x(): " << _startPoint.x();

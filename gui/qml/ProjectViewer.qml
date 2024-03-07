@@ -274,49 +274,6 @@ Page {
         }
     }
 
-
-    /*Repeater {
-        model: connectorListModel
-        delegate: Connector {
-            property bool clearConnectorsCompleted: false
-
-
-            ///////////////////// data() isn't being called /////////////////////
-            Component.onCompleted: {
-                drawingpane.deleteConnectors(model.connectorUID);
-                drawingpane.createConnectorFromLoad(connectorListModel.connectorID, connectorListModel.connectorStartPosX, connectorListModel.connectorStartPosY, connectorListModel.connectorEndPosX, connectorListModel.connectorEndPosY, connectorListModel.nodeStartID, connectorListModel.nodeEndID);
-                for (var i = 0; i < connectorListModel.count; ++i) {
-                    var modelData = connectorListModel.get(i);
-                    console.log("model.connectorUID: ", modelData.connectorID)
-                    console.log("model.connectorStartPositionX: ", modelData.connectorStartPosX)
-                    console.log("model.connectorStartPositionY: ", modelData.connectorStartPosY)
-                    console.log("model.connectorEndPositionX: ", modelData.connectorEndPosX)
-                    console.log("model.connectorEndPositionY: ", modelData.connectorEndPosY)
-                    console.log("model.nodeStartID: ", modelData.nodeStartID)
-                    console.log("model.nodeEndID: ", modelData.nodeEndID)
-                    var connectorComponent = Qt.createComponent("Connector.qml");
-                    if (connectorComponent.status === Component.Ready) {
-                        var connectorItem = connectorComponent.createObject(connectorRepeater, {
-                            "connectorUID": modelData.connectorUID,
-                            "connectorStartPositionX": modelData.connectorStartPositionX,
-                            "connectorStartPositionY": modelData.connectorStartPositionY,
-                            "connectorEndPositionX": modelData.connectorEndPositionX,
-                            "connectorEndPositionY": modelData.connectorEndPositionY,
-                            "nodeStartID": modelData.nodeStartID,
-                            "nodeEndID": modelData.nodeEndID
-                        });
-
-                        if (connectorItem === null) {
-                            console.error("Error creating Connector component:", connectorComponent.errorString());
-                        }
-                    } else {
-                        console.error("Error loading Connector.qml:", connectorComponent.errorString());
-                    }
-                }
-            }
-        }
-    }
-*/
     NodeTreeView {
         id: nodetreeview
         width: layerviewwidth

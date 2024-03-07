@@ -76,20 +76,6 @@ void ConnectorListModel::handleConnectorListUpdated(std::map<int, std::shared_pt
             continue;
         }
 
-        /*// Check if a connector with the same UID already exists in _connectorList
-        auto existingConnectorIter = std::find_if(_connectorList.begin(), _connectorList.end(),
-                                                  [&connector](const ConnectorListItem& listItem) {
-                                                      return listItem.connectorUID == connector->getConnectorUID();
-                                                  });
-
-        if (existingConnectorIter != _connectorList.end()) {
-            // Connector with the same UID exists, remove it
-            int index = std::distance(_connectorList.begin(), existingConnectorIter);
-            beginRemoveRows(QModelIndex(), index, index);
-            _connectorList.erase(existingConnectorIter);
-            endRemoveRows();
-        }
-*/
         // Add the updated connector to _connectorList
         beginInsertRows(QModelIndex(), _connectorList.size(), _connectorList.size());
         ConnectorListItem listItem;
