@@ -18,14 +18,36 @@ void XMLProcessor::setFilename(QFile &filename)
 
 }
 
-void XMLProcessor::closeDocument()
+
+void XMLProcessor::openDocument()
 {
+    std::cout << "Misc::MyProcessor::getNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+    if (_XMLfilename.open(QIODevice::ReadWrite))
+    {
+        std::cout << "File Opened" << std::endl;
+    }
+
+    //QDomDocument _XMLdocument;
+    QString error;
+    int line, column;
+
+    if (!_XMLdocument.setContent(&_XMLfilename, &error, &line, &column))
+    {
+        qDebug() << "XMLProcessor::setFilename failed to set content of newly opened file";
+        qDebug() << "Error:" << error << "in line " << line << "column" << column;
+        _XMLfilename.close();
+    }
+}
+
+
+void XMLProcessor::closeDocument()
+{    
     _XMLfilename.close();
 }
 
 std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEngine *engine)
 {
-    std::cout << "Misc::MyProcessor::getNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
+    /*std::cout << "Misc::MyProcessor::getNodes filename: " << _XMLfilename.fileName().toStdString() << std::endl;
     if (_XMLfilename.open(QIODevice::ReadWrite))
     {
         std::cout << "File Opened" << std::endl;
@@ -40,12 +62,10 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
         qDebug() << "XMLProcessor::setFilename failed to parse file";
         qDebug() << "Error:" << error << "in line " << line << "column" << column;
         _XMLfilename.close();
-    }
+    }*/
 
     std::map<int, std::shared_ptr<XMLNode>> nodeList;
 
-    // print out the element names of all elements that are direct children
-    // of the outermost element.
     QDomElement docElem = _XMLdocument.documentElement();
     QString startTag = docElem.tagName();
     qDebug()<<"The docElem tag is"<<startTag;
@@ -53,13 +73,13 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
 
     int uid = 1;
     QDomElement domNodes = docElem.firstChild().toElement();
-    //QDomNode node = nodes.firstChild();
+
 
     // Loop while there is a child
     while(!domNodes.isNull())
     {
         std::cout << "domNodes.tagName() = " << domNodes.tagName().toStdString() << '\n';
-        // Check if the child tag name is COMPONENT
+        // Check if the child tag name is node
         if (domNodes.tagName()=="node")
         {
             // Get the first child of the component
@@ -108,8 +128,10 @@ std::map<int, std::shared_ptr<XMLNode>> XMLProcessor::getNodes(QQmlApplicationEn
             uid++;
         }
 
+        qDebug()<<"getNodes() The domNodes tag is"<<domNodes.tagName();
         // Next component
         domNodes = domNodes.nextSibling().toElement();
+
     }
 
     return nodeList;
@@ -124,12 +146,23 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
         return;
     }
 
-    QDomElement nodes = _XMLdocument.createElement("nodes");
+    // check if root element is equal to "nodes"
+    if (_XMLdocument.documentElement().tagName() != "nodes")
+    {
+        _nodes = _XMLdocument.createElement("nodes");
+        //_XMLdocument.appendChild(nodes);
+    }
+    else
+    {
+        _nodes = _XMLdocument.documentElement();
+    }
+
+    //QDomElement nodes = _XMLdocument.createElement("nodes");
 
     for (auto const& nodeEntry : nodeLookup)
     {
         QDomElement node = _XMLdocument.createElement("node");
-        nodes.appendChild(node);
+        _nodes.appendChild(node);
 
         QDomElement nodeTitle = _XMLdocument.createElement("title");
         node.appendChild(nodeTitle);
@@ -164,7 +197,7 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
 
     /* how do we write a child node into an existing node?? use https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer??? */
     // Set nodes as the root element of the XML document
-    _XMLdocument.appendChild(nodes);
+    //_XMLdocument.appendChild(nodes);
 
     if (fileOpened)
     {
@@ -177,7 +210,7 @@ void XMLProcessor::writeNodes(std::map<int, std::shared_ptr<XMLNode>> &nodeLooku
         //_XMLfilename.close();
     }
 
-    _XMLdocument.clear();
+    //_XMLdocument.clear();
 }
 
 std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApplicationEngine *engine)
@@ -189,20 +222,118 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
 
     std::map<int, std::shared_ptr<XMLConnector>> connectorList;
 
-    // print out the element names of all elements that are direct children
-    // of the outermost element.
+    // reset reading _XMLdocument
+    _XMLdocument.clear();
+
     QDomElement docElem = _XMLdocument.documentElement();
-    QString startTag = docElem.tagName();
-    qDebug()<<"The docElem tag is"<<startTag;
+    //QString startTag = docElem.tagName();
+    //qDebug()<<"The docElem tag is"<<startTag;
     std::cout << "XMLProcessor::getConnectors" << '\n';
 
-    int uid = 1;
-    QDomElement domConnectors = docElem.firstChild().toElement();
+    //int uid = 1;
+    //QDomElement domConnectors = docElem.firstChildElement("connector");
 
+    //QDomElement domConnectors = docElem.firstChild().toElement();
+    // Get next element if the domConnectors is not equal to 'Connectors'
+    /*while (docElem.tagName() != "connectors")
+    {
+        docElem = docElem.nextSibling().toElement();
+        qDebug()<<"The domConnectors tag is"<< docElem.tagName();
+    }*/
+
+    //QDomElement domConnectors = docElem.firstChild().toElement();
+
+
+
+    // You can iterate over the top-level elements
+    /*QDomNodeList topLevelElements = _XMLdocument.elementsByTagName("connectors");
+
+    qDebug()<<"topLevelElements.count() : " << topLevelElements.count();
+
+    for (int i = 0; i < topLevelElements.count(); ++i) {
+        QDomElement topLevelElement = topLevelElements.at(i).toElement();
+        QString tagName = topLevelElement.tagName();
+*/
+
+
+    QString startTag = docElem.tagName();
     qDebug()<<"The docElem tag is"<<startTag;
+    std::cout << "XMLProcessor::getNodes" << '\n';
+
+    int uid = 1;
+    QDomElement domNodes = docElem.firstChild().toElement();
 
     // Loop while there is a child
-    while(!domConnectors.isNull())
+    while(!domNodes.isNull())
+    {
+        std::cout << "domNodes.tagName() = " << domNodes.tagName().toStdString() << '\n';
+        // Check if the child tag name is node
+        //if (domNodes.tagName()=="node")
+        if (domNodes.tagName() == "connectors") {
+            //QDomElement domConnectors = topLevelElement.firstChildElement("connector");
+
+            // Get the first child of the component
+            QDomElement child = domNodes.firstChild().toElement();
+
+            //std::cout << "child = " << child.tagName().toStdString() << '\n';
+            QString connectorUID;
+            QString connectorPositionStartX;
+            QString connectorPositionStartY;
+            QString connectorPositionEndX;
+            QString connectorPositionEndY;
+            QString nodeStartID;
+            QString nodeEndID;
+
+            // Read each child of the component node
+            while (!child.isNull())
+            {
+                QString tagname = child.tagName();
+                // Read Name and value
+                if (child.tagName()=="connectoruid") connectorUID = child.firstChild().toText().data();
+                if (child.tagName()=="posstartx") connectorPositionStartX = child.firstChild().toText().data();
+                if (child.tagName()=="posstarty") connectorPositionStartY = child.firstChild().toText().data();
+                if (child.tagName()=="posendx") connectorPositionEndX = child.firstChild().toText().data();
+                if (child.tagName()=="posendy") connectorPositionEndY = child.firstChild().toText().data();
+                if (child.tagName()=="nodestartid") nodeStartID = child.firstChild().toText().data();
+                if (child.tagName()=="nodeendid") nodeEndID = child.firstChild().toText().data();
+
+                // Next child
+                child = child.nextSibling().toElement();
+            }
+
+            auto conectorPtr = std::shared_ptr<XMLConnector>(new XMLConnector());
+
+            conectorPtr->setConnectorUID(connectorUID);
+            conectorPtr->setConnectorXPositionStart(connectorPositionStartX);
+            conectorPtr->setConnectorYPositionStart(connectorPositionStartY);
+            conectorPtr->setConnectorXPositionEnd(connectorPositionEndX);
+            conectorPtr->setConnectorYPositionEnd(connectorPositionEndY);
+            conectorPtr->setNodeStartID(nodeStartID);
+            conectorPtr->setNodeEndID(nodeEndID);
+
+            std::cout << "connectorUID = " << connectorUID.toStdString() << '\n';
+            std::cout << "connectorPositionStartX = " << connectorPositionStartX.toStdString() << '\n';
+            std::cout << "connectorPositionStartY = " << connectorPositionStartY.toStdString() << '\n';
+            std::cout << "connectorPositionEndX = " << connectorPositionEndX.toStdString() << '\n';
+            std::cout << "connectorPositionEndY = " << connectorPositionEndY.toStdString() << '\n';
+            std::cout << "nodeStartID = " << nodeStartID.toStdString() << '\n';
+            std::cout << "nodeEndID = " << nodeEndID.toStdString() << '\n';
+
+            connectorList.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(connectorUID.toInt(), conectorPtr));
+            //uid++;
+
+            // Continue processing connectors
+        } else
+            // get the next child
+            domNodes = domNodes.nextSibling().toElement();
+
+        //}
+    }
+    return connectorList;
+}
+
+    // Loop while there is a child
+    /*while(!domConnectors.isNull())
     {
         std::cout << "domNodes.tagName() = " << domConnectors.tagName().toStdString() << '\n';
         // Check if the child tag name is COMPONENT
@@ -262,10 +393,10 @@ std::map<int, std::shared_ptr<XMLConnector>> XMLProcessor::getConnectors(QQmlApp
         // Next component
         domConnectors = domConnectors.nextSibling().toElement();
     }
-    //_XMLfilename.close();
+    //_XMLfilename.close();*/
 
-    return connectorList;
-}
+    //
+//}
 
 void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> &connectorLookup) {
 
@@ -275,12 +406,18 @@ void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> 
         return;
     }
 
-    QDomElement connectors = _XMLdocument.createElement("connectors");
+
+    //_nodes.
+    //QDomElement connectors = _XMLdocument.createElement("connectors");
+
+    //_nodes.appendChild(connectors);
 
     for (auto const& connectorEntry : connectorLookup)
     {
         QDomElement connector = _XMLdocument.createElement("connector");
-        connectors.appendChild(connector);
+        //connectors.appendChild(connector);
+        _nodes.appendChild(connector);
+
 
         QDomElement connectorUID = _XMLdocument.createElement("connectoruid");
         connector.appendChild(connectorUID);
@@ -311,7 +448,7 @@ void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> 
         QDomElement nodeStartID = _XMLdocument.createElement("nodestartid");
         connector.appendChild(nodeStartID);
         QDomText nodeStartIDValue = _XMLdocument.createTextNode(connectorEntry.second->getNodeStartID());
-        nodeStartID.appendChild(nodeStartID);
+        nodeStartID.appendChild(nodeStartIDValue);
 
         QDomElement nodeEndID = _XMLdocument.createElement("nodeendid");
         connector.appendChild(nodeEndID);
@@ -319,9 +456,12 @@ void XMLProcessor::writeConnectors(std::map<int, std::shared_ptr<XMLConnector>> 
         nodeEndID.appendChild(nodeEndIDValue);
     }
 
+
+    _XMLdocument.appendChild(_nodes);
+
     /* how do we write a child node into an existing node?? use https://stackoverflow.com/questions/45814463/modify-an-xml-file-qxmlstreamreader-writer??? */
     // Set nodes as the root element of the XML document
-    _XMLdocument.appendChild(connectors);
+    //_XMLdocument.appendChild(connectors);
 
     //if (_XMLfilename.open(QIODevice::ReadWrite))
     //{

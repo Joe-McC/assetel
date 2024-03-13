@@ -22,6 +22,7 @@ class XMLProcessor
 public:
     XMLProcessor();
     void setFilename(QFile &filename);
+    void openDocument();
     void closeDocument();
     std::map<int, std::shared_ptr<XMLNode>> getNodes(QQmlApplicationEngine *engine);
     std::map<int, std::shared_ptr<XMLConnector>> getConnectors(QQmlApplicationEngine *engine);
@@ -31,6 +32,7 @@ public:
 private:
     inline static QFile _XMLfilename;
     inline static QDomDocument _XMLdocument;
+    inline static QDomElement _nodes;
 };
 
 }
