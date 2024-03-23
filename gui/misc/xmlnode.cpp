@@ -51,12 +51,13 @@ QString XMLNode::getNodeUID()
 
 void XMLNode:: setNodeXPosition(const QString &nodeXPosition)
 {
-    //std::cout << "setNodeXPosition: " << nodeXPosition.toStdString() << std::endl;
+    std::cout << "XMLNODE.cpp setNodeXPosition: " << nodeXPosition.toStdString() << std::endl;
     _nodeXPosition = nodeXPosition;
 }
 
 QString XMLNode::getNodeXPosition()
 {
+    std::cout << " XMLNODE.cpp getNodeXPosition: " << _nodeXPosition.toStdString() << std::endl;
     return _nodeXPosition;
 }
 

@@ -4,7 +4,7 @@ import QtQuick.Layouts //2.15
 import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.Window
-import QtQml.XmlListModel
+
 
 
 Page {
@@ -17,6 +17,7 @@ Page {
     header: ToolBar {
         id: toolbar
         height: 48
+        z: 1
 
         //
         // Background gradient
@@ -48,6 +49,7 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
+                navigate(projectviewerpage)
                 Cpp_Misc_My_Document.openDocument(currentFile)
             }
         }
@@ -59,6 +61,10 @@ Page {
             nameFilters: ["Text files (*.xml)"]
             folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
+
+                projectviewerpage.active = !projectviewerpage.active
+
+                projectviewerpage.active = !projectviewerpage.active
                 Cpp_Misc_My_Document.openDocument(currentFile)
             }
         }
@@ -67,10 +73,7 @@ Page {
             id: saveDialog
             fileMode: FileDialog.SaveFile
             selectedNameFilter.index: 1
-            //filename: Cpp_Misc_My_Document.
-            //nameFilters: [Cpp_Misc_My_Document.getFilename]
             currentFile: "file:///"+Cpp_Misc_My_Document.getFilename()+".xml" //The name of the item that you want to save
-            folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
             onAccepted: {
                 Cpp_Misc_My_Document.saveDocument(currentFile)
             }
@@ -102,17 +105,37 @@ Page {
                     saveDialog.open()
                 }
             }
+            MenuItem {
+                text: qsTr("Close")
+                onTriggered: {
+                    Cpp_Misc_My_Document.closeDocument()
+                    nodeListModel.modelCleared = true
+
+                    console.log("Model is cleared. Deleting all nodes.");
+                    // Delete all nodes in the nodeList
+                    for (var i = 0; i < nodeList.length; ++i) {
+                        nodeList[i].destroy();
+                    }
+                    nodeList = []; // Clear the nodeList
+                }
+            }
         }
 
         Menu {
-            id: createnodemenu
-
+            id: projectmenu
+            MenuItem {
+                text: qsTr("Add Connector")
+                onTriggered: {
+                    drawingpane.createConnector()
+                }
+            }
             MenuItem {
                 text: qsTr("Create Node")
                 //shortcut: StandardKey.ZoomIn
                 onTriggered: createnodedialog.open()
             }
         }
+
 
         RowLayout {
             spacing: app.spacing
@@ -121,11 +144,6 @@ Page {
 
             Button {
                 id: filebutton
-                /*anchors {
-                    top: toolbar.bottom
-                    left:  parent.left
-                }*/
-
                 flat: true
                 icon.width: 24
                 icon.height: 24
@@ -139,7 +157,7 @@ Page {
             }
 
             Button {
-                id: createnodebutton
+                id: projectbutton
                 //anchors {
                 //    top: toolbar.bottom
                 //    left:  parent.left
@@ -153,7 +171,7 @@ Page {
                 //icon.source: "qrc:/icons/bug.svg"
                 text: qsTr("Create Use Case")
                 onClicked: {
-                    createnodemenu.open()
+                    projectmenu.open()
                 }
             }
 
@@ -210,43 +228,51 @@ Page {
         id: createnodedialog
     }
 
-    /////// NEED TO TEST THIS FUNCTIONALTIY WHEN DOCUMENT READER FUNCTIONAITY ADDED /////////
-    function createNode(title, uid, parentId, text, xpos, ypos) {
-        var component = Qt.createComponent("Node.qml");
-        if (component.status === Component.Ready) {
-            var sprite = component.createObject(projectviewer, {
-                "title": title,
-                "uid": uid.toString(),
-                "parentid": parentId.toString(),
-                "text": text,
-                "x": xpos,
-                "y": ypos
-            });
+    DrawingPane {
+        id: drawingpane
+        width: parent.width//Math.abs(endPoint.x - startPoint.x)
+        height: parent.height - 48//Math.abs(endPoint.y - startPoint.y)
+        anchors.left: parent.left//Math.abs(endPoint.x - startPoint.x)
+        anchors.bottom: parent.bottom//Math.abs(endPoint.y - startPoint.y)
 
-            if (sprite === null) {
-                console.error("Error creating object");
-            } else {
-                // Set properties for the new object (if needed)
-                // ...
-                Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos);
-                Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos);
+        property int mouseX: 0
+        property int mouseY: 0
+    }
+
+
+    // Issues:
+    //1.data now being loaded. Connectors not yet being drawn.
+    //2.when both nodes and connectors are being loaded, the connectors aren't being read in the xmlprocessor.
+
+
+    Repeater {
+        model: connectorListModel
+
+        delegate: Item {
+            property bool clearConnectorsCompleted: false
+
+            Component.onCompleted: {
+                // Iterate over the model data and access it here
+                console.log("model.data 2: ", model.connectorID)
+                drawingpane.deleteConnectors(model.connectorID);
+                drawingpane.createConnectorFromLoad(model.connectorID, model.connectorStartPosX, model.connectorStartPosY, model.connectorEndPosX, model.connectorEndPosY, model.nodeStartID, model.nodeEndID);
             }
-        } else {
-            console.error("Error loading component:", component.errorString());
         }
     }
+
 
     Repeater {
         model: nodeListModel
-
         delegate: Node {
+            property bool clearNodesCompleted: false
+
             Component.onCompleted: {
-                //console.log("Before assignment - title:", title, "uid:", uid, "parentid:", parentid, "text:", text, "xposition:", xposition, "yposition:", yposition);
-                createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition)
+                console.log("model.data 1: ", model.nodeUID)
+                drawingpane.deleteNodes(model.nodeUID);
+                drawingpane.createNode(model.nodeTitle, model.nodeUID, model.nodeParentID, model.nodeText, model.nodeXPosition, model.nodeYPosition);
             }
         }
     }
-
 
     NodeTreeView {
         id: nodetreeview
@@ -254,13 +280,6 @@ Page {
         height: parent.height - 100
         x: 0
         y: 100
-
-        /*anchors {
-            top: parent.top - 100
-            //top: createnodebutton.bottom
-            left: parent.left
-            bottom:  parent.middle
-        }*/
     }
 
     Rectangle {
@@ -281,6 +300,9 @@ Page {
 
     Rectangle {
         id: droparea
+
+        property bool isMouseOverDropArea: false // New property to track mouse over
+
         anchors {
             top: parent.top
             right:  parent.right
@@ -291,12 +313,17 @@ Page {
 
         DropArea {
             anchors.fill: parent
-            /*onEntered {
-                drag.source.caught: true
-                ld.active: !ld.active
-            }*/
-            onEntered: drag.source.caught = true
-            onExited: drag.source.caught = false;
+
+            onEntered: {
+                // Handle the logic when a node is entered into the drop area
+                droparea.isMouseOverDropArea = true;
+            }
+
+            onExited: {
+                // Handle the logic when a node is exited from the drop area
+                droparea.isMouseOverDropArea = false;
+            }
         }
+
     }
 }

@@ -4,12 +4,6 @@
 
 namespace Misc
 {
-/*Misc::MyDocument &Misc::MyDocument::getInstance()
-{
-    static MyDocument instance;
-
-    return instance;
-}*/
 
 MyDocument::MyDocument(QQmlApplicationEngine& engine):
     _engine(&engine)
@@ -25,43 +19,49 @@ void MyDocument::openDocument(const QString &filename)
     _XMLfilename.setFileName(filenameModified);
     _XMLprocessor.setFilename(_XMLfilename);
 
+    _XMLprocessor.openDocument();
+
+    _nodeLookup.clear();
     // Loads saved nodes using XMLProcessor and sends signals to NodeListModel, which sends the data to qml.
     getNodes();
+    getConnectors();
 
-    return;
+    //return;
 }
 
 void MyDocument::saveDocument(const QString &filename)
 {
     QString filenameModified = filename.mid(8);
     _XMLfilename.setFileName(filenameModified);
-
     _XMLprocessor.setFilename(_XMLfilename);
+    _XMLprocessor.writeNodes(_nodeLookup);
 
-    _XMLprocessor.writeNodes(_nodeLookup);  // MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+    auto connectorEntry = _connectorLookup.find(_connectorUid);
 
-    // don't think this is needed as we just need to open a file and write to it, so it's the same as opening a doc???? --IT NEEDS TO BE CALLED AFTER WRITING TO EXISTING FILE
-    /*QString filenameModified = filename.mid(8);
-    _XMLfilename.setFileName(filenameModified);
-    _XMLfilename.
-    std::cout << "Misc::MyDocument::save filename: " << filenameModified.toStdString() << std::endl;
-    if (_XMLfilename.open(QIODevice::ReadWrite))
-    {
-        std::cout << "File Opened" << std::endl;
-        //QTextStream stream(&file);
-        //stream << inputXml << Qt::endl;
-    }
-    else
-    {
-        qDebug("File not opened!");
-    }
-    return;*/
+    _connectorLookup.emplace(_connectorUid, connectorEntry->second);
+
+    _XMLprocessor.writeConnectors(_connectorLookup);
+    _XMLprocessor.closeDocument();
 }
 
 void MyDocument::saveDocument()
 {
-    //_XMLprocessor.writeNodes();  -- MAYBE PASS A VECTOR OF NODES AND WRITE THEM ALL?
+    _XMLprocessor.writeNodes(_nodeLookup);
+
+    auto connectorEntry = _connectorLookup.find(_connectorUid);
+
+    _connectorLookup.emplace(_connectorUid, connectorEntry->second);
+
+    _XMLprocessor.writeConnectors(_connectorLookup);
+    _XMLprocessor.closeDocument();
 }
+
+void MyDocument::closeDocument()
+{
+    _nodeLookup.clear();
+    emit clearNodes();
+}
+
 
 QString MyDocument::getFilename() {
     return _XMLfilename.fileName();
@@ -69,14 +69,16 @@ QString MyDocument::getFilename() {
 
 QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, const QString& parentNodeId)
 {
+    emit nodeListUpdated(_nodeLookup);
     _uid++;//  ::_uidCount++;
     auto nodePtr = std::shared_ptr<Misc::XMLNode>(new Misc::XMLNode());
 
-    QString uidQString = getUIDQString();
+    QString uidQString = getUIDQString(_uid);
 
     // Check if a parent node ID is provided
     if (!parentNodeId.isEmpty())
     {
+        std::cout << "MyDocument::addNode emit childNodeAdded: " << _uid << std::endl;
         // Add the new node as a child of the parent node
         auto parentNode = _nodeLookup.find(parentNodeId.toInt());
 
@@ -91,100 +93,84 @@ QString MyDocument::addNode(const QString &nodeTitle, const QString &nodeText, c
         std::cout << "emit TopLevelNodeAdded: " << _uid << std::endl;
         emit topLevelNodeAdded(_uid, nodeTitle.toStdString());
     }
-    _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
 
     nodePtr->setNodeTitle(nodeTitle);
     nodePtr->setNodeText(nodeText);
     nodePtr->setNodeParentID(parentNodeId);
     nodePtr->setNodeUID(uidQString);
 
+    _nodeLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLNode>>(_uid, nodePtr));
+
+    emit nodeListUpdated(_nodeLookup);
 
     return uidQString;
 }
 
-
-void MyDocument::setNewNodeXPos (const QString &uid, const QString &nodeXPosition)
+void MyDocument::setNewNodeXandYPos(const QString &uid, const QString &nodeXPosition, const QString &nodeYPosition)
 {
      auto nodeEntry = _nodeLookup.find(uid.toInt());
      nodeEntry->second->setNodeXPosition(nodeXPosition);
+     nodeEntry->second->setNodeYPosition(nodeYPosition);
+     std::cout << "MyDocument::setNewNodePos nodeXPosition:  " << nodeXPosition.toStdString() << std::endl;
+
+     //std::cout << "MyDocument::setNewNodePos _nodeXPosition:  " << nodeEntry->second->_nodeXPosition.toStdString() << std::endl;
+     //std::cout << "MyDocument::setNewNodePos getNodeXPosition():  " << nodeEntry->second->getNodeXPosition().toStdString() << std::endl;
+     emit nodeListUpdated(_nodeLookup);
 }
-
-void MyDocument::setNewNodeYPos (const QString &uid, const QString &nodeYPosition)
-{
-    auto nodeEntry = _nodeLookup.find(uid.toInt());
-    nodeEntry->second->setNodeYPosition(nodeYPosition);
-}
-
-/*************** NOT USED *******************/
-/*
-QList<QObject*> MyDocument::getNodesForQml() {
-    std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
-
-    _nodeLookup = _XMLprocessor.getNodes(_engine);
-
-    //QQmlComponent component(_engine, QUrl::fromLocalFile("Node.qml"));
-    //QObject *object = component.create();
-    //object->setProperty("width", 200);
-    //object->setProperty("height", 150);
-    //object->setProperty("color", "blue");
-
-    QList<QObject*> qmlNodes;
-    QObject* qmlNode = new QObject(this);
-    for (const auto& entry : _nodeLookup) {
-        //XMLNode* node = entry.second.get(); // Assuming _nodeLookup is a std::map<int, std::shared_ptr<XMLNode>>
-
-        // Ensure signals are connected properly for property changes
-        //connect(node, &XMLNode::nodeTitleChanged, this, &MyDocument::handleNodeTitleChange);
-        //connect(node, &XMLNode::nodeUIDChanged, this, &MyDocument::handleNodeUIDChange);
-        // ... connect other signals ...
-
-        //qmlNodes.append(node);
-
-
-        //qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
-        //qmlNode->setProperty("nodeText", entry.second->getNodeText());
-        //qmlNodes.append(qmlNode);
-        //QObject* qmlNode = new XMLNode();
-
-        std::cout << "title = " << entry.second->getNodeTitle().toStdString().c_str() << std::endl;
-        std::cout << "text  = " << entry.second->getNodeText().toStdString().c_str() << std::endl;
-        std::cout << "uid = " << entry.second->getNodeUID().toStdString().c_str() << std::endl;
-        std::cout << "parentid  = " << entry.second->getNodeParentID().toStdString().c_str() << std::endl;
-        std::cout << "xpos = " << entry.second->getNodeXPosition().toStdString().c_str() << std::endl;
-        std::cout << "ypos  = " << entry.second->getNodeYPosition().toStdString().c_str() << std::endl;
-
-        std::cout << std::endl;
-
-
-        qmlNode->setProperty("nodeTitle", entry.second->getNodeTitle());
-        qmlNode->setProperty("nodeText", entry.second->getNodeText());
-        qmlNode->setProperty("nodeUID", entry.second->getNodeUID());
-        qmlNode->setProperty("nodeParentID", entry.second->getNodeParentID());
-        qmlNode->setProperty("nodeXPosition", entry.second->getNodeXPosition());
-        qmlNode->setProperty("nodeYPosition", entry.second->getNodeYPosition());
-        qmlNodes.append(qmlNode);
-    }
-
-
-
-    //_engine->rootContext()->setContextProperty("axes", QVariant::fromValue(data.axes()));
-
-    return qmlNodes;
-}*/
 
 void MyDocument::getNodes() {
-    std::cout << "MyDocument::getNodesForQml() - called from projectviewer.qml repeater" << "std::endl() \n";
+    std::cout << "MyDocument::getNodes() - called when loading" << "std::endl() \n";
 
     _nodeLookup = _XMLprocessor.getNodes(_engine);
 
-    emit nodeListUpdated(_nodeLookup);
+    for (auto const& nodeEntry : _nodeLookup)
+    {
+        QString title = nodeEntry.second->getNodeTitle();
+        QString text = nodeEntry.second->getNodeText();
+        QString uid = nodeEntry.second->getNodeUID();
+        QString parentid = nodeEntry.second->getNodeParentID();
+        QString xpos = nodeEntry.second->getNodeXPosition();
+        QString ypos = nodeEntry.second->getNodeYPosition();
 
-    //QList<QObject*> nodes =
-    //return nodes;
+        addNode(title, text, parentid);
+        setNewNodeXandYPos(uid, xpos, ypos);
+    }
 }
-QString MyDocument::getUIDQString()
+
+void MyDocument::getConnectors() {
+    std::cout << "MyDocument::getConnectors() - called when loading" << std::endl;
+
+    _connectorLookup = _XMLprocessor.getConnectors(_engine);
+
+    for (auto const& connectorEntry : _connectorLookup)
+    {
+        QString connectorXPositionStart = connectorEntry.second->getConnectorXPositionStart();
+        QString connectorYPositionStart = connectorEntry.second->getConnectorYPositionStart();
+        QString connectorXPositionEnd = connectorEntry.second->getConnectorXPositionEnd();
+        QString connectorYPositionEnd = connectorEntry.second->getConnectorYPositionEnd();
+        QString connectorUID = connectorEntry.second->getConnectorUID();
+        QString nodeStartID = connectorEntry.second->getNodeStartID();
+        QString nodeEndID = connectorEntry.second->getNodeEndID();
+
+        auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
+
+        connectorPtr->setConnectorUID(connectorUID);
+        _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
+
+        updatedConnectorStartXPos(connectorUID.toInt(), connectorXPositionStart);
+        updatedConnectorStartYPos(connectorUID.toInt(), connectorYPositionStart);
+        updatedConnectorEndXPos(connectorUID.toInt(), connectorXPositionEnd);
+        updatedConnectorEndYPos(connectorUID.toInt(), connectorYPositionEnd);
+        setNewConnectorStartNode(connectorUID.toInt(), nodeStartID);
+        setNewConnectorEndNode(connectorUID.toInt(), nodeEndID);
+
+        emit connectorListUpdated(_connectorLookup);
+    }
+}
+
+QString MyDocument::getUIDQString(int uid_int)
 {
-   std::string uid = std::to_string(_uid);
+   std::string uid = std::to_string(uid_int);
    const int num = 3;
 
    if(uid.size() < num)
@@ -193,5 +179,79 @@ QString MyDocument::getUIDQString()
    }
    return QString::fromStdString(uid);
 }
+
+void MyDocument::addConnector(const QString& uid) {
+    auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
+    connectorPtr->setConnectorUID(uid);
+    _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
+
+    std::cout << "MyDocument::addConnector emit MyDocument::addConnector " << std::endl;
+
+    emit connectorListUpdated(_connectorLookup);
+}
+
+QString MyDocument::addConnector() {
+    //emit connectorListUpdated(_connectorLookup);
+    _connectorUid++;//  ::_uidCount++;
+    auto connectorPtr = std::shared_ptr< Misc::XMLConnector>(new Misc::XMLConnector());
+
+    QString uidQString = getUIDQString(_connectorUid);
+
+    connectorPtr->setConnectorUID(uidQString);
+    _connectorLookup.insert(std::pair<int, std::shared_ptr<Misc::XMLConnector>>(_connectorUid, connectorPtr));
+
+    emit connectorListUpdated(_connectorLookup);
+
+    return uidQString;
+}
+
+
+void MyDocument::updatedConnectorStartXPos(int uid, const QString &xpos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorXPositionStart(xpos);
+    std::cout << "MyDocument::updatedConnectorStartXPos xpos:  " << xpos.toStdString() << ", uid: " << uid << std::endl;
+}
+
+
+void MyDocument::updatedConnectorStartYPos(int uid, const QString &ypos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorYPositionStart(ypos);
+    std::cout << "MyDocument::updatedConnectorStartYPos xpos:  " << ypos.toStdString() << ", uid: " << uid << std::endl;
+}
+
+
+void MyDocument::updatedConnectorEndXPos(int uid, const QString &xpos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorXPositionEnd(xpos);
+    std::cout << "MyDocument::updatedConnectorEndXPos xpos:  " << xpos.toStdString() << ", uid: " << uid << std::endl;
+}
+
+
+void MyDocument::updatedConnectorEndYPos(int uid, const QString &ypos)
+{
+    // convert pos end and pos start attributes to startx, starty, endx, endy
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setConnectorYPositionEnd(ypos);
+    std::cout << "MyDocument::updatedConnectorEndYPos ypos:  " << ypos.toStdString() << ", uid: " << uid << std::endl;
+}
+
+void MyDocument::setNewConnectorStartNode(int uid, const QString &connectorStartNodeX)
+{
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setNodeStartID(connectorStartNodeX);
+}
+
+void MyDocument::setNewConnectorEndNode(int uid, const QString &connectorStartNodeY)
+{
+    auto connectorEntry = _connectorLookup.find(uid);
+    connectorEntry->second->setNodeEndID(connectorStartNodeY);
+}
+
 
 }

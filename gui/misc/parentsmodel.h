@@ -29,6 +29,8 @@ public:
 
     Q_INVOKABLE void addParentItem(const QString& nodeId, const QString& displayText);
 
+    //Q_INVOKABLE void deleteParentItem(const QString& nodeId);
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;

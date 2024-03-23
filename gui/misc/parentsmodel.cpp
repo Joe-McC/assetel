@@ -20,11 +20,36 @@ void ParentsModel::setParents(const QList<ParentItem>& parents)
 
 void ParentsModel::addParentItem(const QString& nodeId, const QString& displayText)
 {
+    // Check if the parent already exists
+    for (const ParentItem& parent : m_parents) {
+        if (parent.nodeId == nodeId) {
+            // Parent already exists, do not add it again
+            std::cout << "Parent with ID " << nodeId.toStdString() << " already exists." << std::endl;
+            return;
+        }
+    }
+    std::cout << "ParentsModel::addParentItem addParentItem: " << nodeId.toStdString() << std::endl;
     beginInsertRows(QModelIndex(), m_parents.size(), m_parents.size());
     m_parents.append({nodeId, displayText});
     endInsertRows();
     emit countChanged(); // Emit countChanged signal when a new item is added
 }
+
+/*void ParentsModel::deleteParentItem(const QString& nodeId)
+{
+    for (int i = 0; i < m_parents.size(); ++i)
+    {
+        if (m_parents[i].nodeId == nodeId)
+        {
+            beginRemoveRows(QModelIndex(), i, i);
+            m_parents.removeAt(i);
+            endRemoveRows();
+            emit countChanged(); // Emit countChanged signal when an item is deleted
+            break; // No need to continue searching once the item is found and removed
+        }
+    }
+}*/
+
 
 int ParentsModel::rowCount(const QModelIndex& parent) const
 {

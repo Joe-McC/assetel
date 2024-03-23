@@ -19,8 +19,8 @@ public:
         QString nodeText;
         QString nodeParentID;
         QString nodeUID;
-        int nodeXPosition;
-        int nodeYPosition;
+        QString nodeXPosition;
+        QString nodeYPosition;
     };
 
     enum Role {
@@ -38,26 +38,13 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    //void setNodeList(const QVector<NodeListItem>& nodeList);
-
-    /*
-    int rowCount(const QModelIndex& node = QModelIndex()) const override;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
-
-    QList<XMLNode*> items() const;
-    //void setItems(const QList<XMLNode> &items);*/
-
 
 public slots:
     void handleNodeListUpdated(std::map<int, std::shared_ptr<XMLNode> > updatedNodeList);
-
+    void handleClearNodes();
 
 private:
-    //QList<XMLNode*>* m_nodes;
-    //QList<XMLNode*>* m_nodes = new QList<XMLNode*>;
     std::vector<NodeListItem> _nodeList;
-
 };
 
 }

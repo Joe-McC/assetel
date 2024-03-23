@@ -246,28 +246,27 @@ Popup {
                             // Retrieve the instance of ParentsModel
                             var parentsModel = availableParentsModel
 
-                            // Create a new parent item
-                            //var newNodeId = uid
-                            //var newDisplayTitle = nodeDialogTitleInput.text
 
                             // Add the new parent item
-                            availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
+                            //availableParentsModel.addParentItem(uid, nodeDialogTitleInput.text)
 
                             // Set the current index to the newly added parent item
                             parentComboBox.currentIndex = availableParentsModel.rowCount() - 1
-                            // Close the dialog
-                            //createnodedialog.close()
+
                         }
                     }
 
-                    var xpos = 300;
+                    var xpos = 500;
                     var ypos = 300;
 
 //////////////////// USE IDS FROM MY Cpp_Misc_My_Document. Also, this should not happen here. Only add a new node based on what is in Cpp_Misc_My_Document (i.e. when loading an old doc or when a new node has been added_
-                    sprite = component.createObject(projectviewer, {"title": nodeDialogTitleInput.text.toString(), "uid": uid.toString(), "parentid": createnodedialog.selectedParentId.toString(),  "text": nodeDialogTextInput.text.toString(), x: xpos, y: ypos})
+                    //sprite = component.createObject(projectviewer, {"title": nodeDialogTitleInput.text.toString(), "uid": uid.toString(), "parentid": createnodedialog.selectedParentId.toString(),  "text": nodeDialogTextInput.text.toString(), x: xpos, y: ypos})
 
-                    Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
-                    Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
+                    //Cpp_Misc_My_Document.setNewNodeXPos(uid, xpos)
+                    //Cpp_Misc_My_Document.setNewNodeYPos(uid, ypos)
+                    Cpp_Misc_My_Document.setNewNodeXandYPos(uid, xpos, ypos)
+
+                    //parent.currentNodes.add({"name": sprite});
 
                     createnodedialog.close()
                     nodeDialogTitleInput.text = "" // Clear the title
